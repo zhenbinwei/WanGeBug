@@ -16,11 +16,6 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /**
-         *  android:fitsSystemWindows="true"
-         android:clipToPadding="false"
-         * */
-
         //测试
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP){
@@ -29,7 +24,6 @@ public class MainActivity extends BaseActivity
             //将主页面顶部延伸至status bar;虽默认为false,但经测试,DrawerLayout需显示设置
             drawer.setClipToPadding(false);
         }
-
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);

@@ -1,6 +1,7 @@
 package com.example.weizhenbin.wangebug.tools;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +15,8 @@ import java.lang.reflect.Method;
  */
 
 public class StatusTool {
+    private static int STATUS_BAR_HEIGHT;
+
     /**仅使用小米*/
     public static void setStatusBarDarkMode(boolean darkmode, Activity activity) {
         Class<? extends Window> clazz = activity.getWindow().getClass();
@@ -296,5 +299,20 @@ public class StatusTool {
          window.getDecorView().setSystemUiVisibility(vis);
 
      }
+
+    public static int getStatusBarHeight(Context context) {
+        if (STATUS_BAR_HEIGHT <= 0) {
+            try {
+                Class<?> c = Class.forName("com.android.internal.R$dimen");
+                Object obj = c.newInstance();
+                Field field = c.getField("status_bar_height");
+                int x = Integer.parseInt(field.get(obj).toString());
+                STATUS_BAR_HEIGHT = context.getResources().getDimensionPixelSize(x);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+        return STATUS_BAR_HEIGHT;
+    }
 
 }
