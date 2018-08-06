@@ -78,7 +78,7 @@ public class TitleBar extends RelativeLayout{
         }
         if(rightSrc >0){
             rlRight.setVisibility(VISIBLE);
-            addrightIcon(rightSrc);
+            addRightIcon(rightSrc);
         }else {
             rlRight.setVisibility(GONE);
         }
@@ -88,7 +88,7 @@ public class TitleBar extends RelativeLayout{
         ImageView imageView = getImageView(resId);
         addLeftView(imageView);
     }
-    private void addrightIcon(int resId) {
+    private void addRightIcon(int resId) {
         ImageView imageView = getImageView(resId);
         addRightView(imageView);
     }
@@ -114,6 +114,16 @@ public class TitleBar extends RelativeLayout{
         addCenterView(textView);
     }
 
+    public void setLeftOnClickListener(View.OnClickListener leftOnClickListener){
+        if(rlLeft!=null){
+            rlLeft.setOnClickListener(leftOnClickListener);
+        }
+    }
+    public void setRightOnClickListener(View.OnClickListener rightOnClickListener){
+          if(rlRight!=null){
+              rlRight.setOnClickListener(rightOnClickListener);
+          }
+    }
     public RelativeLayout getRlLeft() {
         return rlLeft;
     }
