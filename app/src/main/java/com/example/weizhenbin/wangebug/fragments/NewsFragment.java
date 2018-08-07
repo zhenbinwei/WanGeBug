@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
-import com.example.weizhenbin.wangebug.net.impl.RetrofitTools;
+import com.example.weizhenbin.wangebug.net.HttpHelper;
+import com.example.weizhenbin.wangebug.net.impl.HttpResult;
+import com.example.weizhenbin.wangebug.net.impl.RetrofitProcessor;
 import com.example.weizhenbin.wangebug.net.interfaces.IResult;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 
@@ -35,6 +37,7 @@ public class NewsFragment extends Fragment {
         View  view=inflater.inflate(R.layout.fm_news,null);
         tbNews=view.findViewById(R.id.tb_news);
         initEvent();
+        HttpHelper.init(new RetrofitProcessor());
         return view;
     }
 
@@ -45,17 +48,15 @@ public class NewsFragment extends Fragment {
                 if(getActivity() instanceof IOpenMenuHandler){
                     ((IOpenMenuHandler) getActivity()).openMenu();
                 }
-               // request();
-                RetrofitTools<Translation> retrofitTools=new RetrofitTools<Translation>();
-                retrofitTools.get(null, null, new IResult<Translation>() {
+                HttpHelper.getHttpHelper().get(null, null, new HttpResult<Translation>() {
                     @Override
-                    public void onSuccess(Translation translation) {
+                    public void onFail(Exception e) {
 
                     }
 
                     @Override
-                    public void onFail(Exception e) {
-
+                    public void onSuccess(Translation translation) {
+                        translation.show();
                     }
                 });
             }
@@ -67,7 +68,7 @@ public class NewsFragment extends Fragment {
         private content content;
         private static class content{
             private String from1;
-            private int to;
+            private String to;
             private String vendor;
             private String out;
             private int errNo;
@@ -83,69 +84,7 @@ public class NewsFragment extends Fragment {
         }
 
     }
-    public interface GetRequestInterface {
 
-        // 注解里传入 网络请求 的部分URL地址
-        // Retrofit把网络请求的URL分成了两部分：一部分放在Retrofit对象里，另一部分放在网络请求接口里
-        // 如果接口里的url是一个完整的网址，那么放在Retrofit对象里的URL可以忽略
-        // getCall()是接受网络请求数据的方法
 
-        @GET("ajax.php")
-        Observable<String> getCall(@QueryMap HashMap<String,String> hashMap);
-    }
-    // 使用Retrofit封装的方法
-    private void request() {
-
-        //步骤4:创建Retrofit对象
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://fy.iciba.com/") //http://fy.iciba.com/
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-
-        // 步骤5:创建 网络请求接口 的实例
-        GetRequestInterface request = retrofit.create(GetRequestInterface.class);
-        HashMap<String,String> hashMap=new HashMap<>();
-        //?a=fy&f=auto&t=auto&w=你好
-        hashMap.put("a","fy");
-        hashMap.put("f","auto");
-        hashMap.put("t","auto");
-        hashMap.put("w","你好");
-       // Observable<Translation> call = request.getCall(hashMap);
-/*
-        call.subscribeOn(Schedulers.io())//请求数据的事件发生在io线程
-                .observeOn(AndroidSchedulers.mainThread())//请求完成后在主线程更显UI
-                .subscribe(new Observer<Translation>() {//订阅
-                    @Override
-                    public void onCompleted() {
-                        //所有事件都完成，可以做些操作。。。
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace(); //请求过程中发生错误
-                    }
-
-                    @Override
-                    public void onNext(Translation book) {//这里的book就是我们请求接口返回的实体类
-                        book.show();
-                    }
-                });*/}
-        //步骤6:发送网络请求(异步)
-    /*    call.enqueue(new Callback<Translation>() {
-            @Override
-            public void onResponse(Call<Translation> call, Response<Translation> response) {
-
-                Translation translation = response.body();
-                translation.show();
-            }
-
-            @Override
-            public void onFailure(Call<Translation> call, Throwable t) {
-
-            }
-        });*//*
-    };
-    }*/
 
 }
