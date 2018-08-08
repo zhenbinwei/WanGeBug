@@ -8,5 +8,5 @@ package com.example.weizhenbin.wangebug.net.interfaces;
 public interface IResult {
        void onSuccess(String result);
 
-       void onFail(Exception e);
+       void onFail(Throwable  e);
 }

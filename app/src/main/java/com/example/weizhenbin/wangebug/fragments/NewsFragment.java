@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +13,7 @@ import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.net.HttpHelper;
 import com.example.weizhenbin.wangebug.net.impl.HttpResult;
-import com.example.weizhenbin.wangebug.net.impl.RetrofitProcessor;
-import com.example.weizhenbin.wangebug.net.interfaces.IResult;
 import com.example.weizhenbin.wangebug.views.TitleBar;
-
-import java.util.HashMap;
-
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.QueryMap;
-import rx.Observable;
 
 /**
  * Created by weizhenbin on 2018/8/6.
@@ -37,7 +27,6 @@ public class NewsFragment extends Fragment {
         View  view=inflater.inflate(R.layout.fm_news,null);
         tbNews=view.findViewById(R.id.tb_news);
         initEvent();
-        HttpHelper.init(new RetrofitProcessor());
         return view;
     }
 
@@ -48,15 +37,17 @@ public class NewsFragment extends Fragment {
                 if(getActivity() instanceof IOpenMenuHandler){
                     ((IOpenMenuHandler) getActivity()).openMenu();
                 }
-                HttpHelper.getHttpHelper().get(null, null, new HttpResult<Translation>() {
+                HttpHelper.getHttpHelper().get("http://www.wanandroid.com/article/list/1/json/", null, new HttpResult<String>() {
+
+
                     @Override
-                    public void onFail(Exception e) {
+                    public void onFail(Throwable e) {
 
                     }
 
                     @Override
-                    public void onSuccess(Translation translation) {
-                        translation.show();
+                    public void onSuccess(String translation) {
+                        Log.d("NewsFragment", translation);
                     }
                 });
             }
