@@ -1,4 +1,4 @@
-package com.example.weizhenbin.wangebug.fragments;
+package com.example.weizhenbin.wangebug.modules.recreation.uis;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

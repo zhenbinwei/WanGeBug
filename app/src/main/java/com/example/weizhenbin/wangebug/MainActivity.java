@@ -10,9 +10,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import com.example.weizhenbin.wangebug.base.BaseActivity;
-import com.example.weizhenbin.wangebug.fragments.CodeFragment;
-import com.example.weizhenbin.wangebug.fragments.NewsFragment;
-import com.example.weizhenbin.wangebug.fragments.RecreationFragment;
+import com.example.weizhenbin.wangebug.modules.code.uis.CodeFragment;
+import com.example.weizhenbin.wangebug.modules.news.uis.NewsFragment;
+import com.example.weizhenbin.wangebug.modules.recreation.uis.RecreationFragment;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 
 public class MainActivity extends BaseActivity
