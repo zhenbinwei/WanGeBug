@@ -4,13 +4,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
+import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListData;
+import com.example.weizhenbin.wangebug.modules.code.entity.WanAndroidBean;
+import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
+import com.example.weizhenbin.wangebug.net.retrofit.apiservice.CodeApi;
 import com.example.weizhenbin.wangebug.views.TitleBar;
+
+import rx.Observer;
 
 /**
  * Created by weizhenbin on 2018/8/6.
@@ -34,6 +41,26 @@ public class CodeFragment extends Fragment {
                 if(getActivity() instanceof IOpenMenuHandler){
                     ((IOpenMenuHandler) getActivity()).openMenu();
                 }
+                HttpHelper.getHttpHelper()
+                        .getApi(CodeApi.class)
+                        .getArticleList("1")
+                        .compose(HttpHelper.<WanAndroidBean<ArticleListData>>setThread())
+                        .subscribe(new Observer<WanAndroidBean<ArticleListData>>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(WanAndroidBean<ArticleListData> articleListDataWanAndroidBean) {
+                                Log.d("CodeFragment", "articleListDataWanAndroidBean.data:" + articleListDataWanAndroidBean.data);
+                            }
+                        });
             }
         });
     }
