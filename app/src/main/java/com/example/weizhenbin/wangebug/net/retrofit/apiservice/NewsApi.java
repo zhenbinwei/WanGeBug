@@ -5,4 +5,7 @@ package com.example.weizhenbin.wangebug.net.retrofit.apiservice;
  */
 
 public interface NewsApi {
+
+    String BASE_URL="";
+
 }

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListData;
-import com.example.weizhenbin.wangebug.modules.code.entity.WanAndroidBean;
+import com.example.weizhenbin.wangebug.net.retrofit.entity.WanAndroidBean;
 import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.CodeApi;
 import com.example.weizhenbin.wangebug.views.TitleBar;

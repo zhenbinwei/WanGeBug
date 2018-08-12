@@ -3,6 +3,8 @@ package com.example.weizhenbin.wangebug.net.retrofit;
 import android.text.TextUtils;
 
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.CodeApi;
+import com.example.weizhenbin.wangebug.net.retrofit.apiservice.NewsApi;
+import com.example.weizhenbin.wangebug.net.retrofit.apiservice.RecreationApi;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -49,8 +51,14 @@ public class HttpHelper {
 
     public <T>T getApi(Class<T> t){
 
-        if (TextUtils.isEmpty(baseUrl)&&t == CodeApi.class){
-            baseUrl=CodeApi.BASE_URL;
+        if (TextUtils.isEmpty(baseUrl)){
+            if(t==CodeApi.class){
+                baseUrl=CodeApi.BASE_URL;
+            }else if (t== NewsApi.class){
+                baseUrl=NewsApi.BASE_URL;
+            }else if (t== RecreationApi.class){
+                baseUrl=RecreationApi.BASE_URL;
+            }
         }
 
         Retrofit  retrofit = new Retrofit.Builder()

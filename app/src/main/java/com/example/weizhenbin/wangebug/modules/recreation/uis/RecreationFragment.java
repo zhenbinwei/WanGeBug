@@ -3,14 +3,31 @@ package com.example.weizhenbin.wangebug.modules.recreation.uis;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
+import com.example.weizhenbin.wangebug.modules.recreation.adapters.JokeViewPageAdapter;
+import com.example.weizhenbin.wangebug.modules.recreation.configs.JokeType;
+import com.example.weizhenbin.wangebug.modules.recreation.entity.TextJokeBean;
+import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
+import com.example.weizhenbin.wangebug.net.retrofit.apiservice.RecreationApi;
+import com.example.weizhenbin.wangebug.net.retrofit.entity.AliBean;
 import com.example.weizhenbin.wangebug.views.TitleBar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import rx.Observer;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * Created by weizhenbin on 2018/8/6.
@@ -18,13 +35,33 @@ import com.example.weizhenbin.wangebug.views.TitleBar;
 
 public class RecreationFragment extends Fragment {
     TitleBar tbRecreation;
+    ViewPager vpJoke;
+    TabLayout tlJokeType;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fm_recreation,null);
-        tbRecreation=view.findViewById(R.id.tb_recreation);
+        initViews(view);
         initEvent();
+        setData();
         return view;
+    }
+
+    private void setData() {
+
+        List<BaseFragment> fragments=new ArrayList<>();
+        fragments.add(JokeFragment.getFragment(JokeType.TEXT));
+        fragments.add(JokeFragment.getFragment(JokeType.PIC));
+        fragments.add(JokeFragment.getFragment(JokeType.PIC));
+        vpJoke.setAdapter(new JokeViewPageAdapter(getChildFragmentManager(),fragments));
+
+
+    }
+
+    private void initViews(View view) {
+        tbRecreation=view.findViewById(R.id.tb_recreation);
+        vpJoke=view.findViewById(R.id.vp_joke);
+        tlJokeType=view.findViewById(R.id.tl_joke_type);
     }
 
     private void initEvent() {
@@ -34,6 +71,28 @@ public class RecreationFragment extends Fragment {
                 if(getActivity() instanceof IOpenMenuHandler){
                     ((IOpenMenuHandler) getActivity()).openMenu();
                 }
+
+                HttpHelper.getHttpHelper()
+                        .getApi(RecreationApi.class)
+
+                        .getTextJoke("20","1","")
+                        .compose(HttpHelper.<AliBean<TextJokeBean>>setThread())
+                        .subscribe(new Observer<AliBean<TextJokeBean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(AliBean<TextJokeBean> textJokeBeanAliBean) {
+                        Log.d("RecreationFragment", textJokeBeanAliBean.toString());
+                    }
+                });
             }
         });
     }

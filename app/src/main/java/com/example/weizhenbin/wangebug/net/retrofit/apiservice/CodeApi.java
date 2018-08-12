@@ -1,7 +1,7 @@
 package com.example.weizhenbin.wangebug.net.retrofit.apiservice;
 
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListData;
-import com.example.weizhenbin.wangebug.modules.code.entity.WanAndroidBean;
+import com.example.weizhenbin.wangebug.net.retrofit.entity.WanAndroidBean;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

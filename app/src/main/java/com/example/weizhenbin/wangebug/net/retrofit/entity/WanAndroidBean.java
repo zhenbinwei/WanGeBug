@@ -1,4 +1,4 @@
-package com.example.weizhenbin.wangebug.modules.code.entity;
+package com.example.weizhenbin.wangebug.net.retrofit.entity;
 
 /**
  * Created by weizhenbin on 2018/8/11.
