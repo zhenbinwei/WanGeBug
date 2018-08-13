@@ -73,7 +73,7 @@ public class TextJokeBean  {
         this.contentlist = contentlist;
     }
 
-    public static class ContentlistBean {
+    public static class ContentlistBean  extends JokeContentlistBaseBean{
         /**
          * title : 朋友总带我去一个酒吧...
          * id : 5b6fcce76e36948791c66f3e
@@ -88,7 +88,7 @@ public class TextJokeBean  {
         private String id;
         private String ct;
         private String text;
-        private int type;
+
 
         public String getTitle() {
             return title;
@@ -122,13 +122,6 @@ public class TextJokeBean  {
             this.text = text;
         }
 
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
     }
 
     @Override

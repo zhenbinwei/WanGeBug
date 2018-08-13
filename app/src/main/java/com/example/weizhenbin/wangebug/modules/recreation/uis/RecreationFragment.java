@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +15,10 @@ import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.modules.recreation.adapters.JokeViewPageAdapter;
 import com.example.weizhenbin.wangebug.modules.recreation.configs.JokeType;
-import com.example.weizhenbin.wangebug.modules.recreation.entity.TextJokeBean;
-import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
-import com.example.weizhenbin.wangebug.net.retrofit.apiservice.RecreationApi;
-import com.example.weizhenbin.wangebug.net.retrofit.entity.AliBean;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.Observer;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
  * Created by weizhenbin on 2018/8/6.
@@ -37,6 +28,7 @@ public class RecreationFragment extends Fragment {
     TitleBar tbRecreation;
     ViewPager vpJoke;
     TabLayout tlJokeType;
+    JokeViewPageAdapter pageAdapter=null;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,10 +45,14 @@ public class RecreationFragment extends Fragment {
         fragments.add(JokeFragment.getFragment(JokeType.TEXT));
         fragments.add(JokeFragment.getFragment(JokeType.PIC));
         fragments.add(JokeFragment.getFragment(JokeType.PIC));
-        vpJoke.setAdapter(new JokeViewPageAdapter(getChildFragmentManager(),fragments));
+        if(pageAdapter==null){
+            pageAdapter=  new JokeViewPageAdapter(getChildFragmentManager(),fragments);
+        }
+        vpJoke.setAdapter(pageAdapter);
 
 
     }
+
 
     private void initViews(View view) {
         tbRecreation=view.findViewById(R.id.tb_recreation);
@@ -72,7 +68,7 @@ public class RecreationFragment extends Fragment {
                     ((IOpenMenuHandler) getActivity()).openMenu();
                 }
 
-                HttpHelper.getHttpHelper()
+              /*  HttpHelper.getHttpHelper()
                         .getApi(RecreationApi.class)
 
                         .getTextJoke("20","1","")
@@ -92,7 +88,7 @@ public class RecreationFragment extends Fragment {
                     public void onNext(AliBean<TextJokeBean> textJokeBeanAliBean) {
                         Log.d("RecreationFragment", textJokeBeanAliBean.toString());
                     }
-                });
+                });*/
             }
         });
     }

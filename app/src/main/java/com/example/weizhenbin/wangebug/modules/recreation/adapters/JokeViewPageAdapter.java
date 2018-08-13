@@ -1,10 +1,10 @@
 package com.example.weizhenbin.wangebug.modules.recreation.adapters;
 
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 
@@ -39,4 +39,10 @@ public class JokeViewPageAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return fragments.get(position).getPageTitle();
     }
+
+    @Override
+    public Parcelable saveState() {
+        return null;
+    }
+
 }
