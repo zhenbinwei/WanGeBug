@@ -7,6 +7,12 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  */
 
 public class JokeContentlistBaseBean implements MultiItemEntity {
+
+    public final static int TEXT=1;
+    public final static int PIC=2;
+    public final static int GIF=3;
+
+
     private int type;
 
 
@@ -20,6 +26,7 @@ public class JokeContentlistBaseBean implements MultiItemEntity {
 
     @Override
     public int getItemType() {
+
         return type;
     }
 }
