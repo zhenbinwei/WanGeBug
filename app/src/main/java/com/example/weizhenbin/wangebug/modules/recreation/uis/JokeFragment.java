@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.modules.recreation.adapters.JokeListAdapter;
@@ -53,8 +55,10 @@ public class JokeFragment extends BaseFragment {
         rvDataList=view.findViewById(R.id.rv_data_list);
         srlRefresh.setRefreshing(true);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        rvDataList.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         jokeListAdapter=new JokeListAdapter(jokeContentlistBaseBeen);
         rvDataList.setAdapter(jokeListAdapter);
+        jokeListAdapter.disableLoadMoreIfNotFullPage();
     }
 
 
@@ -88,6 +92,12 @@ public class JokeFragment extends BaseFragment {
                 getData();
             }
         });
+        jokeListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getData();
+            }
+        },rvDataList);
     }
 
 
