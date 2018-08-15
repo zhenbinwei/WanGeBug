@@ -28,7 +28,7 @@ import java.util.List;
  * Created by weizhenbin on 18/8/12.
  */
 
-public class JokeFragment extends BaseFragment {
+public class JokeTextFragment extends BaseFragment {
 
    private View view;
    private JokeType jokeType;
@@ -56,8 +56,8 @@ public class JokeFragment extends BaseFragment {
         srlRefresh.setRefreshing(true);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         rvDataList.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        jokeListAdapter=new JokeListAdapter(jokeContentlistBaseBeen);
-        rvDataList.setAdapter(jokeListAdapter);
+        jokeListAdapter=new JokeListAdapter(getContext(),jokeContentlistBaseBeen);
+        jokeListAdapter.bindToRecyclerView(rvDataList);
         jokeListAdapter.disableLoadMoreIfNotFullPage();
     }
 
@@ -75,9 +75,18 @@ public class JokeFragment extends BaseFragment {
                 srlRefresh.setRefreshing(false);
                  if (textJokeBeanAliBean!=null&&textJokeBeanAliBean.showapi_res_code==0){
                      if (textJokeBeanAliBean.showapi_res_body!=null){
+                         if (page==1){
+                             jokeContentlistBaseBeen.clear();
+                         }
                          jokeContentlistBaseBeen.addAll(textJokeBeanAliBean.showapi_res_body.getContentlist());
                      }
-                    jokeListAdapter.notifyDataSetChanged();
+
+                     if(page==1){
+                         jokeListAdapter.setNewData(jokeContentlistBaseBeen);
+                     }else {
+                         jokeListAdapter.notifyDataSetChanged();
+                     }
+                         jokeListAdapter.loadMoreComplete();
                      page++;
 
                  }
@@ -89,6 +98,7 @@ public class JokeFragment extends BaseFragment {
         srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                page=1;
                 getData();
             }
         });
@@ -105,11 +115,11 @@ public class JokeFragment extends BaseFragment {
         this.jokeType = jokeType;
     }
 
-    public static JokeFragment getFragment(JokeType jokeType){
-        JokeFragment jokeFragment=new JokeFragment();
-        jokeFragment.setJokeType(jokeType);
+    public static JokeTextFragment getFragment(JokeType jokeType){
+        JokeTextFragment jokeTextFragment =new JokeTextFragment();
+        jokeTextFragment.setJokeType(jokeType);
 
-        return jokeFragment;
+        return jokeTextFragment;
     }
 
     @Override

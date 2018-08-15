@@ -51,7 +51,6 @@ public class HttpHelper {
 
     public <T>T getApi(Class<T> t){
 
-        if (TextUtils.isEmpty(baseUrl)){
             if(t==CodeApi.class){
                 baseUrl=CodeApi.BASE_URL;
             }else if (t== NewsApi.class){
@@ -59,8 +58,9 @@ public class HttpHelper {
             }else if (t== RecreationApi.class){
                 baseUrl=RecreationApi.BASE_URL;
             }
+        if (TextUtils.isEmpty(baseUrl)){
+            throw new NullPointerException("baseUrl == null");
         }
-
         Retrofit  retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl) //http://fy.iciba.com/
                 .addConverterFactory(ScalarsConverterFactory.create())

@@ -42,13 +42,11 @@ public class RecreationFragment extends Fragment {
     private void setData() {
 
         List<BaseFragment> fragments=new ArrayList<>();
-        fragments.add(JokeFragment.getFragment(JokeType.TEXT));
-        fragments.add(JokeFragment.getFragment(JokeType.PIC));
-        fragments.add(JokeFragment.getFragment(JokeType.PIC));
-        if(pageAdapter==null){
+        fragments.add(JokeTextFragment.getFragment(JokeType.TEXT));
+       // fragments.add(JokePicFragment.getFragment(JokeType.PIC));
+       // fragments.add(JokeTextFragment.getFragment(JokeType.PIC));
             pageAdapter=  new JokeViewPageAdapter(getChildFragmentManager(),fragments);
-        }
-        vpJoke.setAdapter(pageAdapter);
+           vpJoke.setAdapter(pageAdapter);
 
 
     }

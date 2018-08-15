@@ -1,5 +1,6 @@
 package com.example.weizhenbin.wangebug.modules.recreation.controllers;
 
+import com.example.weizhenbin.wangebug.modules.recreation.entity.PicJokeBean;
 import com.example.weizhenbin.wangebug.modules.recreation.entity.TextJokeBean;
 import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.RecreationApi;
@@ -48,7 +49,37 @@ public class JokeController {
                 });
     }
 
+    /**获取文本笑话
+     * */
+    public static void getPicJoke(int page,final DataResult<AliBean<PicJokeBean>> dataResult){
+        if (dataResult!=null){
+            dataResult.onStart();
+        }
+        HttpHelper.getHttpHelper()
+                .getApi(RecreationApi.class)
+                .getPicJoke("20",""+page,"")
+                .compose(HttpHelper.<AliBean<PicJokeBean>>setThread())
+                .subscribe(new Observer<AliBean<PicJokeBean>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (dataResult!=null){
+                            dataResult.onError(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(AliBean<PicJokeBean> textJokeBeanAliBean) {
+                        if (dataResult!=null){
+                            dataResult.onSuccess(textJokeBeanAliBean);
+                        }
+                    }
+                });
+    }
 
 
 

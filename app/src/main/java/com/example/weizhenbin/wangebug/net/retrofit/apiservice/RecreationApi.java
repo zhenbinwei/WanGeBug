@@ -1,5 +1,6 @@
 package com.example.weizhenbin.wangebug.net.retrofit.apiservice;
 
+import com.example.weizhenbin.wangebug.modules.recreation.entity.PicJokeBean;
 import com.example.weizhenbin.wangebug.modules.recreation.entity.TextJokeBean;
 import com.example.weizhenbin.wangebug.net.retrofit.entity.AliBean;
 
@@ -27,9 +28,9 @@ public interface RecreationApi {
     @GET("textJoke")
     Observable<AliBean<TextJokeBean>> getTextJoke(@Query("maxResult") String maxResult, @Query("page") String page, @Query("time") String time);
 
-
+    @Headers("Authorization: APPCODE "+AppCode)
     @GET("picJoke")
-    Observable<String> getPicJoke(@Query("maxResult") String maxResult,@Query("page") String page,@Query("time") String time);
+    Observable<AliBean<PicJokeBean>> getPicJoke(@Query("maxResult") String maxResult, @Query("page") String page, @Query("time") String time);
 
 
     @GET("textJoke")
