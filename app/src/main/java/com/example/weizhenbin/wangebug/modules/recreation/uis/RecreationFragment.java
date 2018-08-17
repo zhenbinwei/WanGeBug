@@ -14,7 +14,6 @@ import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.modules.recreation.adapters.JokeViewPageAdapter;
-import com.example.weizhenbin.wangebug.modules.recreation.configs.JokeType;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 
 import java.util.ArrayList;
@@ -42,11 +41,12 @@ public class RecreationFragment extends Fragment {
     private void setData() {
 
         List<BaseFragment> fragments=new ArrayList<>();
-        fragments.add(JokeTextFragment.getFragment(JokeType.TEXT));
+        fragments.add(new YiYuanPicFragment());
+       // fragments.add(JokeTextFragment.getFragment(JokeType.TEXT));
        // fragments.add(JokePicFragment.getFragment(JokeType.PIC));
        // fragments.add(JokeTextFragment.getFragment(JokeType.PIC));
-            pageAdapter=  new JokeViewPageAdapter(getChildFragmentManager(),fragments);
-           vpJoke.setAdapter(pageAdapter);
+        pageAdapter=  new JokeViewPageAdapter(getChildFragmentManager(),fragments);
+        vpJoke.setAdapter(pageAdapter);
 
 
     }
@@ -65,28 +65,6 @@ public class RecreationFragment extends Fragment {
                 if(getActivity() instanceof IOpenMenuHandler){
                     ((IOpenMenuHandler) getActivity()).openMenu();
                 }
-
-              /*  HttpHelper.getHttpHelper()
-                        .getApi(RecreationApi.class)
-
-                        .getTextJoke("20","1","")
-                        .compose(HttpHelper.<AliBean<TextJokeBean>>setThread())
-                        .subscribe(new Observer<AliBean<TextJokeBean>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(AliBean<TextJokeBean> textJokeBeanAliBean) {
-                        Log.d("RecreationFragment", textJokeBeanAliBean.toString());
-                    }
-                });*/
             }
         });
     }

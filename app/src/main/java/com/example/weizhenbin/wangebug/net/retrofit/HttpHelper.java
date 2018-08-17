@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.CodeApi;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.NewsApi;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.RecreationApi;
+import com.example.weizhenbin.wangebug.net.retrofit.apiservice.YiYuanApi;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -57,6 +58,8 @@ public class HttpHelper {
                 baseUrl=NewsApi.BASE_URL;
             }else if (t== RecreationApi.class){
                 baseUrl=RecreationApi.BASE_URL;
+            }else if (t== YiYuanApi.class){
+                baseUrl=YiYuanApi.BASE_URL;
             }
         if (TextUtils.isEmpty(baseUrl)){
             throw new NullPointerException("baseUrl == null");
