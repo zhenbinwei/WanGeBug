@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.modules.recreation.adapters.YiYuanDataListAdapter;
@@ -43,14 +44,37 @@ public class YiYuanPicFragment extends BaseFragment {
         View view=inflater.inflate(R.layout.fm_yiyuan_pic,null);
         initViews(view);
         initData();
+        initEvent();
+        getData();
         return view;
     }
 
     private void initData() {
+        srlRefresh.setRefreshing(true);
         listAdapter=new YiYuanDataListAdapter(getContext(),R.layout.yiyuan_pic_item_layout,contentlistBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        getData();
+        listAdapter.bindToRecyclerView(rvDataList);
+        listAdapter.disableLoadMoreIfNotFullPage();
+
+    }
+
+
+
+    protected void initEvent() {
+        srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                page=1;
+                getData();
+            }
+        });
+        listAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getData();
+            }
+        },rvDataList);
     }
 
     private void getData(){
@@ -75,10 +99,29 @@ public class YiYuanPicFragment extends BaseFragment {
                     @Override
                     public void onNext(YiYuanPicBean s) {
                         Log.d("NewsFragment", s.getShowapi_res_body().toString());
-
+                        srlRefresh.setRefreshing(false);
 
                         contentlistBeen.addAll(s.getShowapi_res_body().getPagebean().getContentlist());
                         listAdapter.notifyDataSetChanged();
+
+
+                        if (s!=null&&s.getShowapi_res_code()==0){
+                            if (s.getShowapi_res_body()!=null&&s.getShowapi_res_body().getPagebean()!=null){
+                                if (page==1){
+                                    contentlistBeen.clear();
+                                }
+                                contentlistBeen.addAll(s.getShowapi_res_body().getPagebean().getContentlist());
+                            }
+
+                            if(page==1){
+                                listAdapter.setNewData(contentlistBeen);
+                            }else {
+                                listAdapter.notifyDataSetChanged();
+                            }
+                            listAdapter.loadMoreComplete();
+                            page++;
+
+                        }
 
                     }
                 });

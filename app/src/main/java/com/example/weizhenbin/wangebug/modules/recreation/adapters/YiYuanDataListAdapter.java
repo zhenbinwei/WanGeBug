@@ -28,5 +28,10 @@ public class YiYuanDataListAdapter  extends BaseQuickAdapter<YiYuanPicBean.Showa
     protected void convert(BaseViewHolder helper, YiYuanPicBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean item) {
         ImageView ivPic= helper.getView(R.id.iv_pic);
         ImageLoader.getImageLoader().imageLoader(context,ivPic,item.getImage0());
+
+        String text=item.getText().replace("\n","").trim();
+
+        helper.setText(R.id.tv_title,text);
+
     }
 }
