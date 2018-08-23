@@ -2,6 +2,7 @@ package com.example.weizhenbin.wangebug.modules.news.controllers;
 
 import com.example.weizhenbin.wangebug.base.DataResult;
 import com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean;
+import com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsChannelBean;
 import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.NewsApi;
 
@@ -50,7 +51,33 @@ public class NewController {
                 });
     }
 
+    public static void getNewsChannelData(final DataResult<YiYuanNewsChannelBean> dataResult){
+        if (dataResult!=null){
+            dataResult.onStart();
+        }
+        HttpHelper.getHttpHelper().getApi(NewsApi.class).getNewsChannel().
+                compose(HttpHelper.<YiYuanNewsChannelBean>setThread()).
+                subscribe(new Observer<YiYuanNewsChannelBean>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (dataResult!=null){
+                            dataResult.onError(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(YiYuanNewsChannelBean s) {
+                        if (dataResult!=null){
+                            dataResult.onSuccess(s);
+                        }
+                    }
+                });
+    }
 
 
 }

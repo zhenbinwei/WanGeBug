@@ -40,12 +40,13 @@ public class YiYuanPicFragment extends BaseFragment {
         initViews(view);
         initData();
         initEvent();
-        getData();
+        if (contentlistBeen.isEmpty()) {
+            getData();
+        }
         return view;
     }
 
     private void initData() {
-        srlRefresh.setRefreshing(true);
         listAdapter=new YiYuanDataListAdapter(getContext(),R.layout.yiyuan_pic_item_layout,contentlistBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
@@ -73,6 +74,14 @@ public class YiYuanPicFragment extends BaseFragment {
 
     private void getData(){
         JokeController.getYiYuanPicData(page,new DataResultAdapter<YiYuanPicBean>(){
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (page==1){
+                    srlRefresh.setRefreshing(true);
+                }
+            }
+
             @Override
             public void onSuccess(YiYuanPicBean yiYuanPicBean) {
                 super.onSuccess(yiYuanPicBean);

@@ -28,27 +28,27 @@ public class RecreationFragment extends Fragment {
     ViewPager vpJoke;
     TabLayout tlJokeType;
     ViewPageAdapter pageAdapter=null;
+    List<BaseFragment> fragments=new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fm_recreation,null);
         initViews(view);
         initEvent();
+        if (fragments.isEmpty()) {
+            addFragments();
+        }
         setData();
         return view;
     }
 
-    private void setData() {
-
-        List<BaseFragment> fragments=new ArrayList<>();
+    private void addFragments() {
         fragments.add(new YiYuanPicFragment());
-       // fragments.add(JokeTextFragment.getFragment(JokeType.TEXT));
-       // fragments.add(JokePicFragment.getFragment(JokeType.PIC));
-       // fragments.add(JokeTextFragment.getFragment(JokeType.PIC));
+    }
+
+    private void setData() {
         pageAdapter=  new ViewPageAdapter(getChildFragmentManager(),fragments);
         vpJoke.setAdapter(pageAdapter);
-
-
     }
 
 

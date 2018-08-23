@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,9 @@ public class NewsListFragment extends BaseFragment {
 
     List<YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> contentlistBeen=new ArrayList<>();
 
+    private String channelId;
+    private String channelName;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,13 +47,29 @@ public class NewsListFragment extends BaseFragment {
         initViews(view);
         initData();
         initEvent();
-        getData();
+        if (contentlistBeen.isEmpty()) {
+            getData();
+        }
         return view;
+    }
+
+    private void setChannelId(String channelId) {
+        this.channelId = channelId;
+    }
+
+    private void setChannelName(String channelName) {
+        this.channelName = channelName;
+    }
+
+    public static NewsListFragment getFragment(String channelId, String channelName){
+        NewsListFragment newsListFragment=new NewsListFragment();
+        newsListFragment.setChannelId(channelId);
+        newsListFragment.setChannelName(channelName);
+        return newsListFragment;
     }
 
 
     private void initData() {
-        srlRefresh.setRefreshing(true);
         listAdapter=new NewsListAdapter(getContext(),contentlistBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
@@ -76,7 +96,15 @@ public class NewsListFragment extends BaseFragment {
         },rvDataList);
     }
     private void getData(){
-        NewController.getNewsListData(page,"",new DataResultAdapter<YiYuanNewsBean>(){
+        NewController.getNewsListData(page,channelId,new DataResultAdapter<YiYuanNewsBean>(){
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (page==1) {
+                    srlRefresh.setRefreshing(true);
+                }
+            }
+
             @Override
             public void onSuccess(YiYuanNewsBean yiYuanNewsBean) {
                 super.onSuccess(yiYuanNewsBean);
@@ -107,6 +135,9 @@ public class NewsListFragment extends BaseFragment {
 
     @Override
     public String getPageTitle() {
-        return "测试";
+        if (TextUtils.isEmpty(channelName)){
+            return "全部";
+        }
+        return channelName;
     }
 }

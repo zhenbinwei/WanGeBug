@@ -1,6 +1,7 @@
 package com.example.weizhenbin.wangebug.net.retrofit.apiservice;
 
 import com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean;
+import com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsChannelBean;
 
 import java.util.HashMap;
 
@@ -23,4 +24,8 @@ public interface NewsApi {
     @GET("/newsList")
     Observable<YiYuanNewsBean> getNewsList(@QueryMap HashMap<String,String> hashMap);
 
+
+    @Headers("Authorization: APPCODE "+AppCode)
+    @GET("/channelList")
+    Observable<YiYuanNewsChannelBean> getNewsChannel();
 }
