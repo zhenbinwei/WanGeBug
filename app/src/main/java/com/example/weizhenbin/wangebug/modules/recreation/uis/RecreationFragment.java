@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
-import com.example.weizhenbin.wangebug.modules.recreation.adapters.JokeViewPageAdapter;
+import com.example.weizhenbin.wangebug.base.ViewPageAdapter;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class RecreationFragment extends Fragment {
     TitleBar tbRecreation;
     ViewPager vpJoke;
     TabLayout tlJokeType;
-    JokeViewPageAdapter pageAdapter=null;
+    ViewPageAdapter pageAdapter=null;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class RecreationFragment extends Fragment {
        // fragments.add(JokeTextFragment.getFragment(JokeType.TEXT));
        // fragments.add(JokePicFragment.getFragment(JokeType.PIC));
        // fragments.add(JokeTextFragment.getFragment(JokeType.PIC));
-        pageAdapter=  new JokeViewPageAdapter(getChildFragmentManager(),fragments);
+        pageAdapter=  new ViewPageAdapter(getChildFragmentManager(),fragments);
         vpJoke.setAdapter(pageAdapter);
 
 

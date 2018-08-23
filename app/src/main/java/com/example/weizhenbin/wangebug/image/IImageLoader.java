@@ -17,4 +17,7 @@ public interface IImageLoader {
 
     void imageLoader(Context context, ImageView imageView,String url,ImageConfig imageConfig,IImageLoadListener iImageLoadListener);
 
+
+    void loadBitmap(Context context,String url,IImageLoadListener iImageLoadListener);
+
 }

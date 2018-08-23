@@ -1,4 +1,4 @@
-package com.example.weizhenbin.wangebug.modules.recreation.adapters;
+package com.example.weizhenbin.wangebug.base;
 
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -6,20 +6,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.weizhenbin.wangebug.base.BaseFragment;
-
 import java.util.List;
 
 /**
  * Created by weizhenbin on 18/8/12.
  */
 
-public class JokeViewPageAdapter extends FragmentStatePagerAdapter {
+public class ViewPageAdapter extends FragmentStatePagerAdapter {
 
 
     private List<BaseFragment> fragments;
 
-    public JokeViewPageAdapter(FragmentManager fm,List<BaseFragment> fragments) {
+    public ViewPageAdapter(FragmentManager fm, List<BaseFragment> fragments) {
         super(fm);
         this.fragments=fragments;
     }

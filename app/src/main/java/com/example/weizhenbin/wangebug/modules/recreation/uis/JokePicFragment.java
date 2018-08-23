@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
+import com.example.weizhenbin.wangebug.base.DataResultAdapter;
 import com.example.weizhenbin.wangebug.modules.recreation.adapters.JokeListAdapter;
 import com.example.weizhenbin.wangebug.modules.recreation.configs.JokeType;
 import com.example.weizhenbin.wangebug.modules.recreation.controllers.JokeController;
@@ -63,7 +64,7 @@ public class JokePicFragment extends BaseFragment {
 
 
     protected void getData(){
-        JokeController.getPicJoke(page, new JokeController.DataResultAdapter<AliBean<PicJokeBean>>() {
+        JokeController.getPicJoke(page, new DataResultAdapter<AliBean<PicJokeBean>>() {
 
             @Override
             public void onError(Throwable throwable) {

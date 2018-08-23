@@ -62,6 +62,12 @@ public class ImageLoader implements IImageLoader {
         realImageLoader.imageLoader(context,imageView,url,imageConfig,iImageLoadListener);
     }
 
+    @Override
+    public void loadBitmap(Context context, String url, IImageLoadListener iImageLoadListener) {
+        checkNull();
+        realImageLoader.loadBitmap(context,url,iImageLoadListener);
+    }
+
     private void checkNull(){
         if (realImageLoader==null){
             throw new NullPointerException("没有调用init");

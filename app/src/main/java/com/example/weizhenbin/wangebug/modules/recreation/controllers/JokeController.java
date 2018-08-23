@@ -1,10 +1,15 @@
 package com.example.weizhenbin.wangebug.modules.recreation.controllers;
 
+import com.example.weizhenbin.wangebug.base.DataResult;
 import com.example.weizhenbin.wangebug.modules.recreation.entity.PicJokeBean;
 import com.example.weizhenbin.wangebug.modules.recreation.entity.TextJokeBean;
+import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanPicBean;
 import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.RecreationApi;
+import com.example.weizhenbin.wangebug.net.retrofit.apiservice.YiYuanApi;
 import com.example.weizhenbin.wangebug.net.retrofit.entity.AliBean;
+
+import java.util.HashMap;
 
 import rx.Observer;
 
@@ -81,40 +86,39 @@ public class JokeController {
                 });
     }
 
+    public static void getYiYuanPicData(int page,final DataResult<YiYuanPicBean> dataResult){
+        if (dataResult!=null){
+            dataResult.onStart();
+        }
+        HashMap<String,String> hashMap=new HashMap();
+        hashMap.put("showapi_appid", YiYuanApi.clienId);
+        hashMap.put("showapi_sign",YiYuanApi.sign);
+        hashMap.put("type","10");
+        hashMap.put("page",page+"");
+        HttpHelper.getHttpHelper().getApi(YiYuanApi.class).getData(hashMap).
+                compose(HttpHelper.<YiYuanPicBean>setThread()).
+                subscribe(new Observer<YiYuanPicBean>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        if (dataResult!=null){
+                            dataResult.onError(e);
+                        }
+                    }
 
-
-
-
-
-    public interface DataResult<T>{
-
-        void onStart();
-
-        void onError(Throwable throwable);
-
-        void onSuccess(T t);
-
+                    @Override
+                    public void onNext(YiYuanPicBean s) {
+                        if (dataResult!=null){
+                            dataResult.onSuccess(s);
+                        }
+                    }
+                });
     }
 
-    public static class DataResultAdapter<T> implements JokeController.DataResult<T>{
 
-
-        @Override
-        public void onStart() {
-
-        }
-
-        @Override
-        public void onError(Throwable throwable) {
-
-        }
-
-        @Override
-        public void onSuccess(T t) {
-
-        }
-    }
 
 }
