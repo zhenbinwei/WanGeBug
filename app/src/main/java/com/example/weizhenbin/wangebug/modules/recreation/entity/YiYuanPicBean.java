@@ -1,5 +1,7 @@
 package com.example.weizhenbin.wangebug.modules.recreation.entity;
 
+import com.example.weizhenbin.wangebug.base.YiYuanBaseBean;
+
 import java.util.List;
 
 /**

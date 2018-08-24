@@ -1,7 +1,7 @@
 package com.example.weizhenbin.wangebug.modules.news.entity;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanBaseBean;
+import com.example.weizhenbin.wangebug.base.YiYuanBaseBean;
 
 import java.util.List;
 

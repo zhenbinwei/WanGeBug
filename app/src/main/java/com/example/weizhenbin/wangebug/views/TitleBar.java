@@ -103,9 +103,15 @@ public class TitleBar extends RelativeLayout{
         return imageView;
     }
 
+    public void setTitle(String title){
+        addTitle(title);
+    }
+
     private void addTitle(String title) {
         TextView textView=new TextView(getContext());
         textView.setText(title);
+        textView.setMaxLines(1);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextColor(titleColor);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,titleSize);
         LayoutParams layoutParams=new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -1,7 +1,7 @@
 package com.example.weizhenbin.wangebug.net.retrofit.apiservice;
 
-import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListData;
-import com.example.weizhenbin.wangebug.net.retrofit.entity.WanAndroidBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -19,14 +19,14 @@ public interface CodeApi {
      * 首页文章列表
      * */
     @GET("article/list/{page}/json")
-    Observable<WanAndroidBean<ArticleListData>> getArticleList(@Path("page") String page);
+    Observable<ArticleListDataBean> getArticleList(@Path("page") String page);
 
 
     /**
      *首页banner
      * */
     @GET("banner/json")
-    Observable<String> getBanner();
+    Observable<BannerDataBean> getBanner();
 
 
     /**

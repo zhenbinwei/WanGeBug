@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.base.WebActivity;
 import com.example.weizhenbin.wangebug.image.ImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean;
@@ -35,12 +37,18 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public NewsListAdapter(Context context,List<YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> data) {
+    public NewsListAdapter(final Context context, final List<YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> data) {
         super(data);
         this.context=context;
         addItemType(SINGLE_PIC, R.layout.news_single_pic_item);
         addItemType(MULTI_PIC, R.layout.news_multi_pic_item);
         imageConfig=new ImageConfig.Builder().setWidth(480).setHeight(480).build();
+        setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                WebActivity.startActivity(context,data.get(position).getLink());
+            }
+        });
     }
 
     @Override
@@ -63,6 +71,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                      squareImageView.setVisibility(View.VISIBLE);
                      ImageLoader.getImageLoader().imageLoader(context, squareImageView, url,imageConfig);
                  }
+                 helper.addOnClickListener(R.id.ll_item);
                  break;
              case MULTI_PIC:
                  helper.setText(R.id.tv_title,item.getTitle());
@@ -98,9 +107,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                  }else {
                      linearLayout.setVisibility(View.GONE);
                  }
-
-
-
+                 helper.addOnClickListener(R.id.ll_item);
                  break;
          }
     }

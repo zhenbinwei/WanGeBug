@@ -14,10 +14,8 @@ import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.base.DataResultAdapter;
 import com.example.weizhenbin.wangebug.base.ViewPageAdapter;
-import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.modules.news.controllers.NewController;
 import com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsChannelBean;
-import com.example.weizhenbin.wangebug.views.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,6 @@ import java.util.List;
  */
 
 public class NewsFragment extends Fragment {
-    TitleBar tbNews;
     ViewPager vpNews;
     TabLayout tlNewsType;
     ViewPageAdapter pageAdapter=null;
@@ -76,20 +73,11 @@ public class NewsFragment extends Fragment {
         vpNews.setAdapter(pageAdapter);
     }
     private void initViews(View view) {
-        tbNews=view.findViewById(R.id.tb_news);
         vpNews=view.findViewById(R.id.vp_news);
         tlNewsType=view.findViewById(R.id.tl_news_type);
     }
 
     private void initEvent() {
-        tbNews.setLeftOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(getActivity() instanceof IOpenMenuHandler){
-                    ((IOpenMenuHandler) getActivity()).openMenu();
-                }
-            }
-        });
     }
 
 }

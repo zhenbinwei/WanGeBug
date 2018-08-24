@@ -12,9 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
-import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.base.ViewPageAdapter;
-import com.example.weizhenbin.wangebug.views.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,6 @@ import java.util.List;
  */
 
 public class RecreationFragment extends Fragment {
-    TitleBar tbRecreation;
     ViewPager vpJoke;
     TabLayout tlJokeType;
     ViewPageAdapter pageAdapter=null;
@@ -53,19 +50,10 @@ public class RecreationFragment extends Fragment {
 
 
     private void initViews(View view) {
-        tbRecreation=view.findViewById(R.id.tb_recreation);
         vpJoke=view.findViewById(R.id.vp_joke);
         tlJokeType=view.findViewById(R.id.tl_joke_type);
     }
 
     private void initEvent() {
-        tbRecreation.setLeftOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(getActivity() instanceof IOpenMenuHandler){
-                    ((IOpenMenuHandler) getActivity()).openMenu();
-                }
-            }
-        });
     }
 }

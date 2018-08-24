@@ -1,6 +1,6 @@
 package com.example.weizhenbin.wangebug.modules.news.entity;
 
-import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanBaseBean;
+import com.example.weizhenbin.wangebug.base.YiYuanBaseBean;
 
 import java.util.List;
 

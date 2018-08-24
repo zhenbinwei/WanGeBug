@@ -1,4 +1,4 @@
-package com.example.weizhenbin.wangebug.modules.recreation.entity;
+package com.example.weizhenbin.wangebug.base;
 
 /**
  * Created by weizhenbin on 2018/8/17.
