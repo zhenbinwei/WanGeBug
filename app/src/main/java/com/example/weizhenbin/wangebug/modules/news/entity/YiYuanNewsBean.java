@@ -98,6 +98,7 @@ public class YiYuanNewsBean  extends YiYuanBaseBean{
 
                 public static final int SINGLE_PIC=1;
                 public static final int MULTI_PIC=2;
+                public static final int NO_PIC=0;
 
                 private String id;
                 private String channelId;
@@ -202,13 +203,15 @@ public class YiYuanNewsBean  extends YiYuanBaseBean{
                 @Override
                 public int getItemType() {
                     if (imageurls!=null){
-                        if (imageurls.size()<=1){
-                            return SINGLE_PIC;
+                        if (imageurls.size()<1){
+                            return NO_PIC;
+                        }else if (imageurls.size()<2){
+                            return  SINGLE_PIC;
                         }else {
                             return  MULTI_PIC;
                         }
                     }else {
-                        return SINGLE_PIC;
+                        return NO_PIC;
                     }
                 }
 

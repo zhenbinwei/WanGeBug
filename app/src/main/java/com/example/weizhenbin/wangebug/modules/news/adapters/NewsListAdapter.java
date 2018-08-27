@@ -16,11 +16,12 @@ import com.example.weizhenbin.wangebug.image.ImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean;
 import com.example.weizhenbin.wangebug.tools.PhoneTool;
-import com.example.weizhenbin.wangebug.views.SquareImageView;
+import com.example.weizhenbin.wangebug.views.RatioImageView;
 
 import java.util.List;
 
 import static com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean.MULTI_PIC;
+import static com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean.NO_PIC;
 import static com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean.SINGLE_PIC;
 
 /**
@@ -42,6 +43,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
         this.context=context;
         addItemType(SINGLE_PIC, R.layout.news_single_pic_item);
         addItemType(MULTI_PIC, R.layout.news_multi_pic_item);
+        addItemType(NO_PIC, R.layout.news_not_pic_item);
         imageConfig=new ImageConfig.Builder().setWidth(480).setHeight(480).build();
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
@@ -58,7 +60,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                  helper.setText(R.id.tv_title,item.getTitle());
                  helper.setText(R.id.tv_channelName,item.getChannelName());
                  helper.setText(R.id.tv_pub_time,item.getPubDate());
-                 SquareImageView squareImageView=helper.getView(R.id.iv_pic);
+                 RatioImageView ratioImageView =helper.getView(R.id.iv_pic);
                  String url;
                  if (item.getImageurls()!=null&&item.getImageurls().size()>0){
                      url=item.getImageurls().get(0).getUrl();
@@ -66,10 +68,10 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                      url=null;
                  }
                  if (TextUtils.isEmpty(url)){
-                     squareImageView.setVisibility(View.GONE);
+                     ratioImageView.setVisibility(View.GONE);
                  }else {
-                     squareImageView.setVisibility(View.VISIBLE);
-                     ImageLoader.getImageLoader().imageLoader(context, squareImageView, url,imageConfig);
+                     ratioImageView.setVisibility(View.VISIBLE);
+                     ImageLoader.getImageLoader().imageLoader(context, ratioImageView, url,imageConfig);
                  }
                  helper.addOnClickListener(R.id.ll_item);
                  break;
@@ -79,14 +81,14 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                  helper.setText(R.id.tv_pub_time,item.getPubDate());
                  LinearLayout linearLayout=helper.getView(R.id.ll_images);
                  linearLayout.removeAllViews();
-
                  if (item.getImageurls()!=null){
                      linearLayout.setVisibility(View.VISIBLE);
                      int size=item.getImageurls().size();
                      for (int i = 0; i < size; i++) {
                         if (i<3){
                             String url2=item.getImageurls().get(i).getUrl();
-                            SquareImageView imageView=new SquareImageView(context);
+                            RatioImageView imageView=new RatioImageView(context);
+                            imageView.setRatio(0.7f);
                             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                             LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
                             layoutParams.weight=1;
@@ -107,6 +109,12 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                  }else {
                      linearLayout.setVisibility(View.GONE);
                  }
+                 helper.addOnClickListener(R.id.ll_item);
+                 break;
+             case NO_PIC:
+                 helper.setText(R.id.tv_title,item.getTitle());
+                 helper.setText(R.id.tv_channelName,item.getChannelName());
+                 helper.setText(R.id.tv_pub_time,item.getPubDate());
                  helper.addOnClickListener(R.id.ll_item);
                  break;
          }

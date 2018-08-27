@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.weizhenbin.wangebug.views.RatioFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    app:frameRatio="0.55"
+    android:layout_height="wrap_content">
+<com.example.weizhenbin.wangebug.views.autoscrolllayout.AutoScrollerLayout
+    android:id="@+id/asl_banner"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+</com.example.weizhenbin.wangebug.views.RatioFrameLayout>

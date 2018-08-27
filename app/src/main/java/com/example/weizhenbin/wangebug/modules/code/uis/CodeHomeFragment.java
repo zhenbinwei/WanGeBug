@@ -16,9 +16,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.base.DataResultAdapter;
+import com.example.weizhenbin.wangebug.modules.code.adapters.CodeHomeBannerAdapter;
 import com.example.weizhenbin.wangebug.modules.code.adapters.CodeHomeListAdapter;
 import com.example.weizhenbin.wangebug.modules.code.controllers.CodeController;
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
+import com.example.weizhenbin.wangebug.views.autoscrolllayout.AutoScrollerLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +35,20 @@ public class CodeHomeFragment extends BaseFragment {
     SwipeRefreshLayout srlRefresh;
     RecyclerView rvDataList;
     CodeHomeListAdapter listAdapter;
-    int page=1;
-
+    int page=0;
+    View bannerHeader;
+    AutoScrollerLayout autoScrollerLayout;
     List<ArticleListDataBean.DataBean.DatasBean> datasBeen=new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fm_code_home,null);
         initViews(view);
-        CodeController.getArticleListData(1,null);
         initData();
         initEvent();
         if (datasBeen.isEmpty()) {
             getData();
+            getBannerData();
         }
         return view;
     }
@@ -54,7 +58,7 @@ public class CodeHomeFragment extends BaseFragment {
             @Override
             public void onStart() {
                 super.onStart();
-                if (page==1){
+                if (page==0){
                     srlRefresh.setRefreshing(true);
                 }
             }
@@ -65,12 +69,12 @@ public class CodeHomeFragment extends BaseFragment {
                 srlRefresh.setRefreshing(false);
                 if (articleListDataBean!=null&&articleListDataBean.getErrorCode()==0){
                     if (articleListDataBean.getData()!=null&&articleListDataBean.getData().getDatas()!=null){
-                        if (page==1){
+                        if (page==0){
                             datasBeen.clear();
                         }
                         datasBeen.addAll(articleListDataBean.getData().getDatas());
                     }
-                    if(page==1){
+                    if(page==0){
                         listAdapter.setNewData(datasBeen);
                     }else {
                         listAdapter.notifyDataSetChanged();
@@ -82,11 +86,33 @@ public class CodeHomeFragment extends BaseFragment {
         });
     }
 
+    private void getBannerData(){
+        CodeController.getBannerData(new DataResultAdapter<BannerDataBean>(){
+
+            @Override
+            public void onSuccess(BannerDataBean bannerDataBean) {
+                super.onSuccess(bannerDataBean);
+                if (bannerDataBean!=null&&bannerDataBean.getErrorCode()==0){
+                    if (bannerDataBean.getData()!=null&&!bannerDataBean.getData().isEmpty()){
+                        autoScrollerLayout.setPagerAdapter(new CodeHomeBannerAdapter(bannerDataBean.getData()));
+                    }else {
+                        listAdapter.removeHeaderView(bannerHeader);
+                    }
+                }
+            }
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                listAdapter.removeHeaderView(bannerHeader);
+            }
+        });
+    }
+
     private void initEvent() {
         srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page=1;
+                page=0;
                 getData();
             }
         });
@@ -99,7 +125,7 @@ public class CodeHomeFragment extends BaseFragment {
     }
 
     private void initData() {
-        listAdapter=new CodeHomeListAdapter(getContext(),R.layout.code_home_data_item,datasBeen);
+        listAdapter=new CodeHomeListAdapter(getContext(),datasBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         DividerItemDecoration itemDecoration=new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
@@ -108,11 +134,14 @@ public class CodeHomeFragment extends BaseFragment {
         rvDataList.addItemDecoration(itemDecoration);
         listAdapter.bindToRecyclerView(rvDataList);
         listAdapter.disableLoadMoreIfNotFullPage();
+        listAdapter.addHeaderView(bannerHeader);
     }
 
     private void initViews(View view) {
         srlRefresh=view.findViewById(R.id.srl_refresh);
         rvDataList=view.findViewById(R.id.rv_data_list);
+        bannerHeader=LayoutInflater.from(getContext()).inflate(R.layout.code_home_banner_header,null);
+        autoScrollerLayout=bannerHeader.findViewById(R.id.asl_banner);
     }
 
 

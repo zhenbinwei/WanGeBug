@@ -1,5 +1,8 @@
 package com.example.weizhenbin.wangebug.modules.code.entity;
 
+import android.text.TextUtils;
+
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.example.weizhenbin.wangebug.base.WanAndroidBaseBean;
 
 import java.util.List;
@@ -104,7 +107,7 @@ public class ArticleListDataBean extends WanAndroidBaseBean{
             this.datas = datas;
         }
 
-        public static class DatasBean {
+        public static class DatasBean implements MultiItemEntity{
             /**
              * apkLink :
              * author : tonnyl
@@ -154,6 +157,9 @@ public class ArticleListDataBean extends WanAndroidBaseBean{
             private int visible;
             private int zan;
             private List<?> tags;
+
+            public final static int HAS_PIC=1;
+            public final static int NO_PIC=0;
 
             public String getApkLink() {
                 return apkLink;
@@ -337,6 +343,16 @@ public class ArticleListDataBean extends WanAndroidBaseBean{
 
             public void setTags(List<?> tags) {
                 this.tags = tags;
+            }
+
+            @Override
+            public int getItemType() {
+
+                if (TextUtils.isEmpty(envelopePic)){
+                    return NO_PIC;
+                }else {
+                    return HAS_PIC;
+                }
             }
         }
     }

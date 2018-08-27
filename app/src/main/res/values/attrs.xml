@@ -7,4 +7,11 @@
         <attr name="leftSrc" format="reference"/>
         <attr name="rightSrc" format="reference"/>
     </declare-styleable>
+    <declare-styleable name="RatioImageView">
+        <attr name="imageRatio" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="RatioFrameLayout">
+        <attr name="frameRatio" format="float"/>
+    </declare-styleable>
 </resources>

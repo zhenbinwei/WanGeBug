@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.views.TitleBar;
@@ -32,8 +33,13 @@ public class WebActivity extends BaseActivity {
             }
         });
         wbLayout.setUrl(url);
+        titleBar.setLeftOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
-
 
     public static void startActivity(Context context,String url){
         if (TextUtils.isEmpty(url)){

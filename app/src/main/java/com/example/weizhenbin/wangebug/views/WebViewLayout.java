@@ -3,7 +3,6 @@ package com.example.weizhenbin.wangebug.views;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -38,7 +37,6 @@ public class WebViewLayout extends LinearLayout {
     private class MyWebCromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            Log.d("MyWebCromeClient", "newProgress:" + newProgress);
             if (newProgress == 100) {
                 //加载完毕进度条消失
                 webIndicator.end();
