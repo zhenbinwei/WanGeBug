@@ -2,9 +2,12 @@ package com.example.weizhenbin.wangebug.net.retrofit.apiservice;
 
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.ProjectListDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.ProjectTreeDataBean;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -64,13 +67,14 @@ public interface CodeApi {
      *项目分类
      * */
     @GET("project/tree/json")
-    Observable<String> getProjectTree();
+    Observable<ProjectTreeDataBean> getProjectTree();
 
     /**
      * 项目列表数据
+     *
      * */
-    @GET("project/list/{page}/json?cid={cid}")
-    Observable<String> getProjectList(@Path("page") String page,@Path("cid") String cid);
+    @GET("project/list/{page}/json?")
+    Observable<ProjectListDataBean> getProjectList(@Path("page") String page, @Query("cid") String cid);
 
 
 }

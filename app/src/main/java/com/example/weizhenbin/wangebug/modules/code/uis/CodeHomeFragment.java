@@ -48,8 +48,8 @@ public class CodeHomeFragment extends BaseFragment {
         initEvent();
         if (datasBeen.isEmpty()) {
             getData();
-            getBannerData();
         }
+        getBannerData();
         return view;
     }
 
@@ -73,14 +73,20 @@ public class CodeHomeFragment extends BaseFragment {
                             datasBeen.clear();
                         }
                         datasBeen.addAll(articleListDataBean.getData().getDatas());
-                    }
-                    if(page==0){
-                        listAdapter.setNewData(datasBeen);
+                        if(page==0){
+                            listAdapter.setNewData(datasBeen);
+                        }else {
+                            listAdapter.notifyDataSetChanged();
+                        }
+                        if (articleListDataBean.getData().isOver()){
+                            listAdapter.loadMoreEnd();
+                        }else {
+                            listAdapter.loadMoreComplete();
+                            page++;
+                        }
                     }else {
-                        listAdapter.notifyDataSetChanged();
+                        listAdapter.loadMoreEnd();
                     }
-                    listAdapter.loadMoreComplete();
-                    page++;
                 }
             }
         });

@@ -39,12 +39,7 @@ public class AutoScrollerLayout extends RelativeLayout {
     }
 
     private void initEvent() {
-        asvpViewpage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        asvpViewpage.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 if (pageAadpter!=null){
@@ -53,11 +48,6 @@ public class AutoScrollerLayout extends RelativeLayout {
                         selectIndex(newPosition);
                     }
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }

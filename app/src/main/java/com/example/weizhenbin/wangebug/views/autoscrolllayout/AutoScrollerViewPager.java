@@ -48,7 +48,7 @@ public class AutoScrollerViewPager extends ViewPager {
         private int pageCount;
         private int currentIndex=0;
         private ViewPageHanlder(AutoScrollerViewPager autoScrollerViewPager) {
-            this.weakReference = new WeakReference<AutoScrollerViewPager>(autoScrollerViewPager);
+            this.weakReference = new WeakReference<>(autoScrollerViewPager);
             pagerAdapter= weakReference.get().getAdapter();
         }
 

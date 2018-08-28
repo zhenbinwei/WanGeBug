@@ -65,10 +65,6 @@ public class NewsFragment extends Fragment {
     }
 
     private void setData() {
-        //fragments.add(NewsListFragment.getFragment("","全部"));
-        // fragments.add(JokeTextFragment.getFragment(JokeType.TEXT));
-        // fragments.add(JokePicFragment.getFragment(JokeType.PIC));
-        // fragments.add(JokeTextFragment.getFragment(JokeType.PIC));
         pageAdapter=  new ViewPageAdapter(getChildFragmentManager(),fragments);
         vpNews.setAdapter(pageAdapter);
     }

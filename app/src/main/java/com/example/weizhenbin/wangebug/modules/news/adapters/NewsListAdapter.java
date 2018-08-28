@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.WebActivity;
-import com.example.weizhenbin.wangebug.image.ImageConfig;
+import com.example.weizhenbin.wangebug.image.DefImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean;
 import com.example.weizhenbin.wangebug.tools.PhoneTool;
@@ -31,7 +31,6 @@ import static com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean
 public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean, BaseViewHolder> {
 
     private Context context;
-    private ImageConfig imageConfig;
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -44,7 +43,6 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
         addItemType(SINGLE_PIC, R.layout.news_single_pic_item);
         addItemType(MULTI_PIC, R.layout.news_multi_pic_item);
         addItemType(NO_PIC, R.layout.news_not_pic_item);
-        imageConfig=new ImageConfig.Builder().setWidth(480).setHeight(480).build();
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -71,7 +69,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                      ratioImageView.setVisibility(View.GONE);
                  }else {
                      ratioImageView.setVisibility(View.VISIBLE);
-                     ImageLoader.getImageLoader().imageLoader(context, ratioImageView, url,imageConfig);
+                     ImageLoader.getImageLoader().imageLoader(context, ratioImageView, url, DefImageConfig.smallImage());
                  }
                  helper.addOnClickListener(R.id.ll_item);
                  break;
@@ -101,7 +99,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                                     layoutParams.rightMargin = PhoneTool.dip2px(context, 8);
                                 }
                             }
-                            ImageLoader.getImageLoader().imageLoader(context, imageView, url2,imageConfig);
+                            ImageLoader.getImageLoader().imageLoader(context, imageView, url2,DefImageConfig.smallImage());
                             linearLayout.addView(imageView,layoutParams);
                         }
                      }

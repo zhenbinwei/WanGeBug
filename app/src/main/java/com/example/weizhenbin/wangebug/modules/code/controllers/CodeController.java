@@ -3,6 +3,8 @@ package com.example.weizhenbin.wangebug.modules.code.controllers;
 import com.example.weizhenbin.wangebug.base.DataResult;
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.ProjectListDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.ProjectTreeDataBean;
 import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.CodeApi;
 
@@ -63,6 +65,63 @@ public class CodeController {
 
                     @Override
                     public void onNext(BannerDataBean s) {
+                        if (dataResult!=null){
+                            dataResult.onSuccess(s);
+                        }
+                    }
+                });
+    }
+
+
+    public static void getProjectTreeData(final DataResult<ProjectTreeDataBean> dataResult){
+        if (dataResult!=null){
+            dataResult.onStart();
+        }
+        HttpHelper.getHttpHelper().getApi(CodeApi.class).getProjectTree().
+                compose(HttpHelper.<ProjectTreeDataBean>setThread()).
+                subscribe(new Observer<ProjectTreeDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (dataResult!=null){
+                            dataResult.onError(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(ProjectTreeDataBean s) {
+                        if (dataResult!=null){
+                            dataResult.onSuccess(s);
+                        }
+                    }
+                });
+    }
+
+    public static void getProjectListData(int page,String cid,final DataResult<ProjectListDataBean> dataResult){
+        if (dataResult!=null){
+            dataResult.onStart();
+        }
+        HttpHelper.getHttpHelper().getApi(CodeApi.class).getProjectList(page+"",cid).
+                compose(HttpHelper.<ProjectListDataBean>setThread()).
+                subscribe(new Observer<ProjectListDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (dataResult!=null){
+                            dataResult.onError(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(ProjectListDataBean s) {
                         if (dataResult!=null){
                             dataResult.onSuccess(s);
                         }

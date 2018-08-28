@@ -9,5 +9,7 @@ public class DefImageConfig {
     public static ImageConfig smallImage(){
         return new ImageConfig.Builder().setHeight(480).setHeight(480).setGif(false).build();
     }
-
+    public static ImageConfig smallImageLong(){
+        return new ImageConfig.Builder().setHeight(640).setHeight(480).setGif(false).build();
+    }
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.weizhenbin.wangebug.base.WebActivity;
 import com.example.weizhenbin.wangebug.image.DefImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
@@ -33,12 +34,18 @@ public class CodeHomeBannerAdapter extends AutoScrollerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull final ViewGroup container, int position) {
         ImageView imageView=new ImageView(container.getContext());
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         if (getReadCount()>0) {
-            int newPosition = position % getReadCount();
+            final int newPosition = position % getReadCount();
             ImageLoader.getImageLoader().imageLoader(container.getContext(),imageView,data.get(newPosition).getImagePath(), DefImageConfig.smallImage());
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WebActivity.startActivity(container.getContext(),data.get(newPosition).getUrl());
+                }
+            });
         }
         container.addView(imageView);
         return imageView;

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    android:id="@+id/ll_item"
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/colorGray2"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:text="好的好好的\n"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:maxLines="4"
+            android:textSize="12sp"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/colorGray5"
+            android:ellipsize="end"
+            android:text="好的好好的\n好的好好的\n好的好好的\n好的好好的\n"
+            android:layout_weight="1"/>
+        <RelativeLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_chapterName"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textSize="12sp"
+                android:text="项目类型"
+                android:textColor="@color/colorGray5"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_niceDate"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="12sp"
+                android:textColor="@color/colorGray5"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+    <com.example.weizhenbin.wangebug.views.RatioImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="100dp"
+        android:layout_marginLeft="8dp"
+        app:imageRatio="1.6"
+        android:layout_height="wrap_content" />
+</LinearLayout>
