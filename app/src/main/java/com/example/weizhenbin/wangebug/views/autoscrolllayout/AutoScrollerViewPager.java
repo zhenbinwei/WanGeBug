@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
@@ -56,7 +55,6 @@ public class AutoScrollerViewPager extends ViewPager {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what==SCROLLER_KEY){
-                Log.d("ViewPageHanlder", "pagerAdapter:" + pagerAdapter);
                 if (pagerAdapter==null) {
                     pagerAdapter=weakReference.get().getAdapter();
                     if (pagerAdapter!=null) {
@@ -69,7 +67,6 @@ public class AutoScrollerViewPager extends ViewPager {
                 }
                 weakReference.get().setCurrentItem(currentIndex);
                 sendEmptyMessageDelayed(SCROLLER_KEY,weakReference.get().timeIntervalMs);
-                Log.d("ViewPageHanlder", "自动滚动:"+currentIndex+"pageCount:"+pageCount);
             }
         }
     }

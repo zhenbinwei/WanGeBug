@@ -94,6 +94,9 @@ public class YiYuanNewsBean  extends YiYuanBaseBean{
                 this.contentlist = contentlist;
             }
 
+            public boolean isLastPage(){
+                return currentPage>=allPages;
+            }
             public static class ContentlistBean implements MultiItemEntity{
 
                 public static final int SINGLE_PIC=1;

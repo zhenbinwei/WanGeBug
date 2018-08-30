@@ -5,6 +5,7 @@ import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.ProjectListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.ProjectTreeDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.SystemTreeDataBean;
 import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.CodeApi;
 
@@ -16,11 +17,11 @@ import rx.Observer;
 
 public class CodeController {
 
-    public static void getArticleListData(int page,final DataResult<ArticleListDataBean> dataResult){
+    public static void getArticleListData(int page,String cid ,final DataResult<ArticleListDataBean> dataResult){
         if (dataResult!=null){
             dataResult.onStart();
         }
-        HttpHelper.getHttpHelper().getApi(CodeApi.class).getArticleList(page+"").
+        HttpHelper.getHttpHelper().getApi(CodeApi.class).getArticleList(page+"",cid).
                 compose(HttpHelper.<ArticleListDataBean>setThread()).
                 subscribe(new Observer<ArticleListDataBean>() {
                     @Override
@@ -43,7 +44,9 @@ public class CodeController {
                     }
                 });
     }
-
+    public static void getArticleListData(int page,final DataResult<ArticleListDataBean> dataResult){
+        getArticleListData( page,null ,dataResult);
+    }
     public static void getBannerData(final DataResult<BannerDataBean> dataResult){
         if (dataResult!=null){
             dataResult.onStart();
@@ -122,6 +125,35 @@ public class CodeController {
 
                     @Override
                     public void onNext(ProjectListDataBean s) {
+                        if (dataResult!=null){
+                            dataResult.onSuccess(s);
+                        }
+                    }
+                });
+    }
+
+
+    public static void getSystemTreeData(final DataResult<SystemTreeDataBean> dataResult){
+        if (dataResult!=null){
+            dataResult.onStart();
+        }
+        HttpHelper.getHttpHelper().getApi(CodeApi.class).getSystemTree().
+                compose(HttpHelper.<SystemTreeDataBean>setThread()).
+                subscribe(new Observer<SystemTreeDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (dataResult!=null){
+                            dataResult.onError(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(SystemTreeDataBean s) {
                         if (dataResult!=null){
                             dataResult.onSuccess(s);
                         }

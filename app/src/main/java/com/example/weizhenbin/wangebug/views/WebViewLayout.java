@@ -1,10 +1,13 @@
 package com.example.weizhenbin.wangebug.views;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -55,10 +58,13 @@ public class WebViewLayout extends LinearLayout {
     }
 
     private class MyWebViewClient extends WebViewClient{
-
+        @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            super.onReceivedError(view, request, error);
+        }
     }
     public void setUrl(String url){
-        webView.loadUrl(url);
+            webView.loadUrl(url);
     }
 
 
@@ -73,22 +79,35 @@ public class WebViewLayout extends LinearLayout {
         }
     }
 
+
+    public boolean back(){
+        if (webView.canGoBack()){
+             webView.goBack();
+            return true;
+        }
+        return false;
+    }
+
     private void initWebView(){
         if(webView==null){
             webView=new WebView(getContext());
             //支持javascript
-            webView.getSettings().setJavaScriptEnabled(true);
+            WebSettings webSettings=webView.getSettings();
+          //  webSettings.setJavaScriptEnabled(true);
             // 设置可以支持缩放
-            webView.getSettings().setSupportZoom(true);
+            webSettings.setSupportZoom(true);
             // 设置出现缩放工具
-            webView.getSettings().setBuiltInZoomControls(false);
+            webSettings.setBuiltInZoomControls(false);
             //扩大比例的缩放
-            webView.getSettings().setUseWideViewPort(true);
+            webSettings.setUseWideViewPort(true);
             //自适应屏幕
-            webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-            webView.getSettings().setLoadWithOverviewMode(true);
+            webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+            webSettings.setLoadWithOverviewMode(true);
             webView.setWebChromeClient(new MyWebCromeClient());
             webView.setWebViewClient(new MyWebViewClient());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                webSettings.setMixedContentMode(webSettings.getMixedContentMode());
+            }
         }
     }
 

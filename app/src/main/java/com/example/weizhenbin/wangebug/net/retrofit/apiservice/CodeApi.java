@@ -4,6 +4,7 @@ import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.ProjectListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.ProjectTreeDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.SystemTreeDataBean;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -49,13 +50,13 @@ public interface CodeApi {
      *体系数据
      * */
     @GET("tree/json")
-    Observable<String> getTree();
+    Observable<SystemTreeDataBean> getSystemTree();
 
     /**
      * 知识体系下的文章
      * */
-    @GET("article/list/{page}/json?cid={cid}")
-    Observable<String> getArticleList(@Path("page") String page,@Path("cid") String cid);
+    @GET("article/list/{page}/json")
+    Observable<ArticleListDataBean> getArticleList(@Path("page") String page,@Query("cid") String cid);
 
     /**
      *导航数据

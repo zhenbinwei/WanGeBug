@@ -2,13 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent">
+    <com.example.weizhenbin.wangebug.views.TitleBar
+        android:id="@+id/tb_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftSrc="@drawable/back"
+        app:titleSize="16sp"
+        app:titleColor="#fff"
+        android:background="@color/colorPrimary"/>
     <android.support.v4.view.ViewPager
-        android:id="@+id/vp_joke"
+        android:id="@+id/vp_system_tree"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.design.widget.TabLayout
-            android:id="@+id/tl_joke_type"
+            android:id="@+id/tl_system_tree_type"
             android:layout_width="match_parent"
             app:tabMode="scrollable"
             android:layout_height="48dp"

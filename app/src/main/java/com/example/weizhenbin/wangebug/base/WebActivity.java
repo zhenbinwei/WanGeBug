@@ -2,9 +2,11 @@ package com.example.weizhenbin.wangebug.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.example.weizhenbin.wangebug.R;
@@ -22,6 +24,9 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
+        getWindow().setFlags(android.view.WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                                android.view.WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         setContentView(R.layout.activity_web);
         url=getIntent().getStringExtra("Url");
         wbLayout=findViewById(R.id.wb_layout);
@@ -50,4 +55,12 @@ public class WebActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (event.getAction()==KeyEvent.KEYCODE_BACK){
+            return wbLayout.back();
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 }

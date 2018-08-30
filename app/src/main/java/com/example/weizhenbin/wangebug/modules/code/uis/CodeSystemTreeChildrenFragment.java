@@ -16,45 +16,41 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.base.DataResultAdapter;
-import com.example.weizhenbin.wangebug.modules.code.adapters.CodeHomeBannerAdapter;
 import com.example.weizhenbin.wangebug.modules.code.adapters.CodeArticleListAdapter;
 import com.example.weizhenbin.wangebug.modules.code.controllers.CodeController;
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
-import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
-import com.example.weizhenbin.wangebug.views.autoscrolllayout.AutoScrollerLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by weizhenbin on 2018/8/24.
+ * Created by weizhenbin on 2018/8/30.
  */
 
-public class CodeHomeFragment extends BaseFragment {
+public class CodeSystemTreeChildrenFragment extends BaseFragment {
 
     SwipeRefreshLayout srlRefresh;
     RecyclerView rvDataList;
     CodeArticleListAdapter listAdapter;
     int page=0;
-    View bannerHeader;
-    AutoScrollerLayout autoScrollerLayout;
     List<ArticleListDataBean.DataBean.DatasBean> datasBeen=new ArrayList<>();
+    int cid;
+    String name;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fm_code_home,null);
+        View view=inflater.inflate(R.layout.fm_system_tree_children,null);
         initViews(view);
         initData();
         initEvent();
         if (datasBeen.isEmpty()) {
             getData();
         }
-        getBannerData();
         return view;
     }
 
     private void getData() {
-        CodeController.getArticleListData(page,new DataResultAdapter<ArticleListDataBean>(){
+        CodeController.getArticleListData(page,cid+"",new DataResultAdapter<ArticleListDataBean>(){
             @Override
             public void onStart() {
                 super.onStart();
@@ -92,26 +88,12 @@ public class CodeHomeFragment extends BaseFragment {
         });
     }
 
-    private void getBannerData(){
-        CodeController.getBannerData(new DataResultAdapter<BannerDataBean>(){
+    private void setCid(int cid) {
+        this.cid = cid;
+    }
 
-            @Override
-            public void onSuccess(BannerDataBean bannerDataBean) {
-                super.onSuccess(bannerDataBean);
-                if (bannerDataBean!=null&&bannerDataBean.getErrorCode()==0){
-                    if (bannerDataBean.getData()!=null&&!bannerDataBean.getData().isEmpty()){
-                        autoScrollerLayout.setPagerAdapter(new CodeHomeBannerAdapter(bannerDataBean.getData()));
-                    }else {
-                        listAdapter.removeHeaderView(bannerHeader);
-                    }
-                }
-            }
-            @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
-                listAdapter.removeHeaderView(bannerHeader);
-            }
-        });
+    private void setName(String name) {
+        this.name = name;
     }
 
     private void initEvent() {
@@ -140,25 +122,23 @@ public class CodeHomeFragment extends BaseFragment {
         rvDataList.addItemDecoration(itemDecoration);
         listAdapter.bindToRecyclerView(rvDataList);
         listAdapter.disableLoadMoreIfNotFullPage();
-        listAdapter.addHeaderView(bannerHeader);
     }
 
     private void initViews(View view) {
         srlRefresh=view.findViewById(R.id.srl_refresh);
         rvDataList=view.findViewById(R.id.rv_data_list);
-        bannerHeader=LayoutInflater.from(getContext()).inflate(R.layout.code_home_banner_header,null);
-        autoScrollerLayout=bannerHeader.findViewById(R.id.asl_banner);
     }
-
-
     @Override
     public String getPageTitle() {
-        return "首页";
+        return name;
     }
 
-    public static CodeHomeFragment getFragment(){
-        return new CodeHomeFragment();
-    }
 
+    public static  CodeSystemTreeChildrenFragment getFragment(int cid,String name){
+        CodeSystemTreeChildrenFragment fragment=new CodeSystemTreeChildrenFragment();
+        fragment.setName(name);
+        fragment.setCid(cid);
+        return fragment;
+    }
 
 }

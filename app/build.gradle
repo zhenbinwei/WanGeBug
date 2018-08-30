@@ -39,4 +39,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.3.1'
     compile 'com.github.bumptech.glide:okhttp3-integration:4.3.1'
     compile 'com.github.chrisbanes:PhotoView:2.1.4'
+    compile 'com.hyman:flowlayout-lib:1.1.2'
+    compile files('libs/tbs_sdk_thirdapp_v3.6.0.1325_43613_sharewithdownload_withoutGame_obfs_20180807_151115.jar')
 }

@@ -1,6 +1,8 @@
 package com.example.weizhenbin.wangebug.modules.code.adapters;
 
 import android.content.Context;
+import android.os.Build;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
 
 import java.util.List;
 
+import static android.text.Html.FROM_HTML_MODE_COMPACT;
 import static com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean.DataBean.DatasBean.HAS_PIC;
 import static com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean.DataBean.DatasBean.NO_PIC;
 
@@ -23,7 +26,7 @@ import static com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDat
  * Created by weizhenbin on 18/8/26.
  */
 
-public class CodeHomeListAdapter extends BaseMultiItemQuickAdapter<ArticleListDataBean.DataBean.DatasBean,BaseViewHolder> {
+public class CodeArticleListAdapter extends BaseMultiItemQuickAdapter<ArticleListDataBean.DataBean.DatasBean,BaseViewHolder> {
     private Context context;
 
     /**
@@ -32,11 +35,11 @@ public class CodeHomeListAdapter extends BaseMultiItemQuickAdapter<ArticleListDa
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public CodeHomeListAdapter(final Context context, final List<ArticleListDataBean.DataBean.DatasBean> data) {
+    public CodeArticleListAdapter(final Context context, final List<ArticleListDataBean.DataBean.DatasBean> data) {
         super(data);
         this.context=context;
-        addItemType(HAS_PIC, R.layout.code_home_data_pic_item);
-        addItemType(NO_PIC, R.layout.code_home_data_item);
+        addItemType(HAS_PIC, R.layout.code_article_list_pic_item);
+        addItemType(NO_PIC, R.layout.code_article_list_item);
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -50,7 +53,11 @@ public class CodeHomeListAdapter extends BaseMultiItemQuickAdapter<ArticleListDa
         switch (item.getItemType()){
             case HAS_PIC:
                 helper.setText(R.id.tv_author,item.getAuthor());
-                helper.setText(R.id.tv_title,item.getTitle());
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                    helper.setText(R.id.tv_title, Html.fromHtml(item.getTitle(),FROM_HTML_MODE_COMPACT));
+                }else {
+                    helper.setText(R.id.tv_title,Html.fromHtml(item.getTitle()));
+                }
                 helper.setText(R.id.tv_chapterName,item.getChapterName());
                 helper.setText(R.id.tv_niceDate,item.getNiceDate());
                 ImageView imageView=helper.getView(R.id.iv_envelopePic);
@@ -64,7 +71,11 @@ public class CodeHomeListAdapter extends BaseMultiItemQuickAdapter<ArticleListDa
                 break;
             case NO_PIC:
                 helper.setText(R.id.tv_author,item.getAuthor());
-                helper.setText(R.id.tv_title,item.getTitle());
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                    helper.setText(R.id.tv_title, Html.fromHtml(item.getTitle(),FROM_HTML_MODE_COMPACT));
+                }else {
+                    helper.setText(R.id.tv_title,Html.fromHtml(item.getTitle()));
+                }
                 helper.setText(R.id.tv_chapterName,item.getChapterName());
                 helper.setText(R.id.tv_niceDate,item.getNiceDate());
                 helper.addOnClickListener(R.id.ll_item);

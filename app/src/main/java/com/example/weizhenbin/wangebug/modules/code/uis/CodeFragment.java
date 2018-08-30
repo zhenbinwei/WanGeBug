@@ -45,6 +45,7 @@ public class CodeFragment extends Fragment {
     private void setModes() {
         viewPageAdapter=new ViewPageAdapter(getChildFragmentManager(),modeFragments);
         vpCodeMode.setAdapter(viewPageAdapter);
+        vpCodeMode.setOffscreenPageLimit(2);
     }
 
     private void addModes() {

@@ -18,7 +18,7 @@
        android:layout_height="wrap_content"
        app:title="@string/code_string"
        app:leftSrc="@drawable/menu"
-       app:titleSize="18dp"
+       app:titleSize="16sp"
        app:titleColor="#fff"
        android:background="@color/colorPrimary"/>
    <FrameLayout

@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.tools.PhoneTool;
 import com.example.weizhenbin.wangebug.tools.StatusTool;
 
 /**
@@ -58,7 +59,7 @@ public class TitleBar extends RelativeLayout{
             leftSrc =typedArray.getResourceId(R.styleable.titleBar_leftSrc,-1);
             rightSrc =typedArray.getResourceId(R.styleable.titleBar_rightSrc,-1);
             titleColor=typedArray.getColor(R.styleable.titleBar_titleColor,0xFF000000);
-            titleSize=typedArray.getDimensionPixelSize(R.styleable.titleBar_titleSize,36);
+            titleSize=typedArray.getDimensionPixelSize(R.styleable.titleBar_titleSize, PhoneTool.dip2px(context,16));
             typedArray.recycle();
         }catch (Exception e){
             e.printStackTrace();
@@ -97,8 +98,7 @@ public class TitleBar extends RelativeLayout{
         ImageView imageView=new ImageView(getContext());
         imageView.setImageResource(resId);
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        LayoutParams layoutParams=new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.addRule(CENTER_VERTICAL);
+        LayoutParams layoutParams=new LayoutParams(PhoneTool.dip2px(getContext(),46), PhoneTool.dip2px(getContext(),46));
         imageView.setLayoutParams(layoutParams);
         return imageView;
     }
