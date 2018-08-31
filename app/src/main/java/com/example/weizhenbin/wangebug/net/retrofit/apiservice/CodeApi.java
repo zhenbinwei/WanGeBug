@@ -4,9 +4,13 @@ import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.ProjectListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.ProjectTreeDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.SearchHotKeyDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.SystemTreeDataBean;
 
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -53,7 +57,7 @@ public interface CodeApi {
     Observable<SystemTreeDataBean> getSystemTree();
 
     /**
-     * 知识体系下的文章
+     * 文章列表
      * */
     @GET("article/list/{page}/json")
     Observable<ArticleListDataBean> getArticleList(@Path("page") String page,@Query("cid") String cid);
@@ -77,5 +81,17 @@ public interface CodeApi {
     @GET("project/list/{page}/json?")
     Observable<ProjectListDataBean> getProjectList(@Path("page") String page, @Query("cid") String cid);
 
+    /**
+     * 搜索
+     * */
+    @FormUrlEncoded
+    @POST("article/query/{page}/json")
+    Observable<ArticleListDataBean> getSearchData(@Path("page") String page,@Field("k") String key);
 
+
+    /**
+     * 搜索热词
+     * */
+    @GET("hotkey/json")
+    Observable<SearchHotKeyDataBean> getSearchHotKeyData();
 }

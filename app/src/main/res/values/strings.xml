@@ -14,4 +14,7 @@
     <string name="project_string">项目</string>
     <string name="system_string">体系</string>
     <string name="home_string">首页</string>
+    <string name="search_hot_key_string">搜索热词</string>
+    <string name="search_history_string">搜索历史</string>
+    <string name="clean_string">清空</string>
 </resources>

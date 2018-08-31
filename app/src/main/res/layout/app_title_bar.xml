@@ -21,6 +21,7 @@
         android:id="@+id/rl_right"
         android:visibility="gone"
         android:minWidth="46dp"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
 </LinearLayout>

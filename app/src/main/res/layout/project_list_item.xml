@@ -16,7 +16,7 @@
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
-            android:maxLines="2"
+            android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/colorGray2"
             android:textSize="14sp"
@@ -29,10 +29,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:maxLines="4"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:lineSpacingExtra="4dp"
             android:textColor="@color/colorGray5"
             android:ellipsize="end"
+            android:paddingLeft="4dp"
             android:text="好的好好的\n好的好好的\n好的好好的\n好的好好的\n"
             android:layout_weight="1"/>
         <RelativeLayout

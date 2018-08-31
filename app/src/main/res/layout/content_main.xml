@@ -18,6 +18,7 @@
        android:layout_height="wrap_content"
        app:title="@string/code_string"
        app:leftSrc="@drawable/menu"
+       app:rightSrc="@drawable/search"
        app:titleSize="16sp"
        app:titleColor="#fff"
        android:background="@color/colorPrimary"/>

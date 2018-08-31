@@ -100,6 +100,10 @@ public class YiYuanPicBean extends YiYuanBaseBean {
                 this.currentPage = currentPage;
             }
 
+            public boolean isLastPage(){
+                return currentPage>=allPages;
+            }
+
             public List<ContentlistBean> getContentlist() {
                 return contentlist;
             }

@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.example.weizhenbin.wangebug.base.BaseActivity;
 import com.example.weizhenbin.wangebug.modules.code.uis.CodeFragment;
+import com.example.weizhenbin.wangebug.modules.code.uis.CodeSearchActivity;
 import com.example.weizhenbin.wangebug.modules.news.uis.NewsFragment;
 import com.example.weizhenbin.wangebug.modules.recreation.uis.RecreationFragment;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
@@ -46,6 +47,12 @@ public class MainActivity extends BaseActivity
             @Override
             public void onClick(View v) {
                 drawer.openDrawer(GravityCompat.START);
+            }
+        });
+        titleBar.setRightOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CodeSearchActivity.startActivity(MainActivity.this);
             }
         });
     }

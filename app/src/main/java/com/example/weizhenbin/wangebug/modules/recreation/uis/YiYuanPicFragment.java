@@ -92,14 +92,20 @@ public class YiYuanPicFragment extends BaseFragment {
                             contentlistBeen.clear();
                         }
                         contentlistBeen.addAll(yiYuanPicBean.getShowapi_res_body().getPagebean().getContentlist());
-                    }
-                    if(page==1){
-                        listAdapter.setNewData(contentlistBeen);
+                        if(page==1){
+                            listAdapter.setNewData(contentlistBeen);
+                        }else {
+                            listAdapter.notifyDataSetChanged();
+                        }
+                        if (yiYuanPicBean.getShowapi_res_body().getPagebean().isLastPage()){
+                            listAdapter.loadMoreEnd();
+                        }else {
+                            listAdapter.loadMoreComplete();
+                            page++;
+                        }
                     }else {
-                        listAdapter.notifyDataSetChanged();
+                        listAdapter.loadMoreEnd();
                     }
-                    listAdapter.loadMoreComplete();
-                    page++;
                 }
             }
         });
