@@ -12,5 +12,6 @@
     <color name="colorGray5">#555</color>
     <color name="colorGray6">#666</color>
     <color name="colorGray9">#999</color>
+    <color name="colorGrayD">#ddd</color>
     <color name="colorGrayE">#EEE</color>
 </resources>
