@@ -26,9 +26,10 @@ import com.example.weizhenbin.wangebug.views.TouchImageView;
 public class PicBrowserFragment extends BaseFragment {
 
     @Override
-    public String getPageTitle() {
-        return null;
+    protected void loadData() {
+
     }
+
 
     String picUrl;
     private int maxTexture=0;

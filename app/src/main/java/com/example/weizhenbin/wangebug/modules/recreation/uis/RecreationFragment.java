@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.base.ViewPageAdapter;
+import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
+import com.example.weizhenbin.wangebug.views.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +29,11 @@ public class RecreationFragment extends Fragment {
     TabLayout tlJokeType;
     ViewPageAdapter pageAdapter=null;
     List<BaseFragment> fragments=new ArrayList<>();
+    TitleBar tbTitle;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("onCreateView", "RecreationFragment onCreateView");
         View view=inflater.inflate(R.layout.fm_recreation,null);
         initViews(view);
         initEvent();
@@ -52,8 +57,17 @@ public class RecreationFragment extends Fragment {
     private void initViews(View view) {
         vpJoke=view.findViewById(R.id.vp_joke);
         tlJokeType=view.findViewById(R.id.tl_joke_type);
+        tbTitle=view.findViewById(R.id.tb_title);
     }
 
     private void initEvent() {
+        tbTitle.setLeftOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getActivity() instanceof IOpenMenuHandler){
+                    ((IOpenMenuHandler) getActivity()).openMenu();
+                }
+            }
+        });
     }
 }

@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,14 +43,11 @@ public class CodeHomeFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("onCreateView", "CodeHomeFragment onCreateView");
         View view=inflater.inflate(R.layout.fm_code_home,null);
         initViews(view);
         initData();
         initEvent();
-        if (datasBeen.isEmpty()) {
-            getData();
-        }
-        getBannerData();
         return view;
     }
 
@@ -152,7 +150,15 @@ public class CodeHomeFragment extends BaseFragment {
 
 
     @Override
-    public String getPageTitle() {
+    protected void loadData() {
+        if (datasBeen.isEmpty()) {
+            getData();
+        }
+        getBannerData();
+    }
+
+    @Override
+    protected String getPageTitle() {
         return "首页";
     }
 

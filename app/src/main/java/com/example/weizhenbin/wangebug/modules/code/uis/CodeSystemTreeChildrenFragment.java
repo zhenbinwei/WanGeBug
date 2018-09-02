@@ -43,9 +43,6 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
         initViews(view);
         initData();
         initEvent();
-        if (datasBeen.isEmpty()) {
-            getData();
-        }
         return view;
     }
 
@@ -128,8 +125,16 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
         srlRefresh=view.findViewById(R.id.srl_refresh);
         rvDataList=view.findViewById(R.id.rv_data_list);
     }
+
     @Override
-    public String getPageTitle() {
+    protected void loadData() {
+        if (datasBeen.isEmpty()) {
+            getData();
+        }
+    }
+
+    @Override
+    protected String getPageTitle() {
         return name;
     }
 

@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,13 +44,11 @@ public class NewsListFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("onCreateView", "NewsListFragment onCreateView");
         View view=inflater.inflate(R.layout.fm_news_list,null);
         initViews(view);
         initData();
         initEvent();
-        if (contentlistBeen.isEmpty()) {
-            getData();
-        }
         return view;
     }
 
@@ -139,7 +138,14 @@ public class NewsListFragment extends BaseFragment {
     }
 
     @Override
-    public String getPageTitle() {
+    protected void loadData() {
+        if (contentlistBeen.isEmpty()) {
+            getData();
+        }
+    }
+
+    @Override
+    protected String getPageTitle() {
         if (TextUtils.isEmpty(channelName)){
             return "全部";
         }

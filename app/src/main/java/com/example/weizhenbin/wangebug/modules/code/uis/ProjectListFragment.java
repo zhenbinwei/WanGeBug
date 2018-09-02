@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,6 @@ public class ProjectListFragment extends BaseFragment {
         initViews(view);
         initData();
         initEvent();
-        if (contentlistBeen.isEmpty()) {
-            getData();
-        }
         return view;
     }
 
@@ -95,6 +93,9 @@ public class ProjectListFragment extends BaseFragment {
         },rvDataList);
     }
     private void getData(){
+        if (TextUtils.isEmpty(id)){
+            return;
+        }
         CodeController.getProjectListData(page,id,new DataResultAdapter<ProjectListDataBean>(){
             @Override
             public void onStart() {
@@ -139,7 +140,14 @@ public class ProjectListFragment extends BaseFragment {
     }
 
     @Override
-    public String getPageTitle() {
+    protected void loadData() {
+        if (contentlistBeen.isEmpty()) {
+            getData();
+        }
+    }
+
+    @Override
+    protected String getPageTitle() {
         return name;
     }
 }

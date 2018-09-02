@@ -47,7 +47,6 @@ public class JokePicFragment extends BaseFragment {
         view=inflater.inflate(R.layout.fm_joke,null);
         initViews(view);
         initEvent();
-        getData();
         return view;
     }
 
@@ -124,7 +123,12 @@ public class JokePicFragment extends BaseFragment {
     }
 
     @Override
-    public String getPageTitle() {
+    protected void loadData() {
+        getData();
+    }
+
+    @Override
+    protected String getPageTitle() {
         String title = null;
          if (jokeType==JokeType.GIF){
              title="精彩动图";

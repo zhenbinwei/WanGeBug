@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 
 public class CodeProjectFragment extends BaseFragment{
+
     ViewPager vpProject;
     TabLayout tlProjectType;
     ViewPageAdapter pageAdapter=null;
@@ -32,15 +34,21 @@ public class CodeProjectFragment extends BaseFragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("CodeProjectFragment", savedInstanceState+"");
         View view=inflater.inflate(R.layout.fm_code_project,null);
         initViews(view);
         initEvent();
         setData();
-        if (dataBeanList==null||dataBeanList.isEmpty()) {
-            getProjectTreeData();
-        }
         return view;
     }
+
+
+   @Override
+   protected void loadData() {
+       if (dataBeanList==null||dataBeanList.isEmpty()) {
+           getProjectTreeData();
+       }
+   }
 
     private void getProjectTreeData() {
         CodeController.getProjectTreeData(new DataResultAdapter<ProjectTreeDataBean>(){
@@ -76,8 +84,10 @@ public class CodeProjectFragment extends BaseFragment{
         tlProjectType=view.findViewById(R.id.tl_project_type);
     }
 
+
+
     @Override
-    public String getPageTitle() {
+    protected String getPageTitle() {
         return "首页";
     }
 

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,13 +37,11 @@ public class YiYuanPicFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("onCreateView", "YiYuanPicFragment onCreateView");
         View view=inflater.inflate(R.layout.fm_yiyuan_pic,null);
         initViews(view);
         initData();
         initEvent();
-        if (contentlistBeen.isEmpty()) {
-            getData();
-        }
         return view;
     }
 
@@ -119,7 +118,14 @@ public class YiYuanPicFragment extends BaseFragment {
     }
 
     @Override
-    public String getPageTitle() {
+    protected void loadData() {
+        if (contentlistBeen.isEmpty()) {
+            getData();
+        }
+    }
+
+    @Override
+    protected String getPageTitle() {
         return "图片";
     }
 }

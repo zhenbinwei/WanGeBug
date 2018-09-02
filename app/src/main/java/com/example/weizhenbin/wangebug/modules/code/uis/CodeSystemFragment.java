@@ -42,9 +42,6 @@ public class CodeSystemFragment extends BaseFragment{
         initViews(view);
         initData();
         initEvent();
-        if (datasBeen.isEmpty()) {
-            getData();
-        }
         return view;
     }
 
@@ -97,7 +94,14 @@ public class CodeSystemFragment extends BaseFragment{
 
 
     @Override
-    public String getPageTitle() {
+    protected void loadData() {
+        if (datasBeen.isEmpty()) {
+            getData();
+        }
+    }
+
+    @Override
+    protected String getPageTitle() {
         return "体系";
     }
 

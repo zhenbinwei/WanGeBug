@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.base.ViewPageAdapter;
+import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
+import com.example.weizhenbin.wangebug.views.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +26,17 @@ import java.util.List;
  */
 
 public class CodeFragment extends Fragment {
-   // TitleBar tbCode;
+    View view;
+    TitleBar tbTitle;
     BottomNavigationView bnvNavigation;
-    List<BaseFragment> modeFragments=new ArrayList<>();
+   public List<BaseFragment> modeFragments=new ArrayList<>();
     ViewPager vpCodeMode;
     ViewPageAdapter viewPageAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fm_code,null);
+        Log.d("onCreateView", "CodeFragment onCreateView");
+         view=inflater.inflate(R.layout.fm_code,null);
         initViews(view);
         initEvent();
         if (modeFragments.isEmpty()) {
@@ -55,20 +59,20 @@ public class CodeFragment extends Fragment {
     }
 
     private void initViews(View view) {
-       // tbCode=view.findViewById(R.id.tb_code);
+        tbTitle=view.findViewById(R.id.tb_title);
         vpCodeMode=view.findViewById(R.id.vp_code_mode);
         bnvNavigation=view.findViewById(R.id.bnv_navigation);
     }
 
     private void initEvent() {
-      /*  tbCode.setLeftOnClickListener(new View.OnClickListener() {
+        tbTitle.setLeftOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(getActivity() instanceof IOpenMenuHandler){
                     ((IOpenMenuHandler) getActivity()).openMenu();
                 }
             }
-        });*/
+        });
         bnvNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
