@@ -20,4 +20,10 @@
     <string name="search_hint_string">多个关键词，用空格隔开</string>
     <string name="todo_string">备忘录</string>
     <string name="settings_string">设置</string>
+    
+    
+    
+    
+   <!-- behavior-->
+   <string name="title_bar_behavior">com.example.weizhenbin.wangebug.views.behaviors.TitleBarBehavior</string>
 </resources>

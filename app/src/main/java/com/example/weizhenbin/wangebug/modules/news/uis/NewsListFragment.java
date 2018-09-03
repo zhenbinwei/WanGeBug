@@ -9,7 +9,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,15 +40,30 @@ public class NewsListFragment extends BaseFragment {
     private String channelId;
     private String channelName;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState!=null){
+            channelId=savedInstanceState.getString("channelId");
+            channelName=savedInstanceState.getString("channelName");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("onCreateView", "NewsListFragment onCreateView");
         View view=inflater.inflate(R.layout.fm_news_list,null);
         initViews(view);
         initData();
         initEvent();
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString("channelId",channelId);
+        outState.putString("channelName",channelName);
+        super.onSaveInstanceState(outState);
     }
 
     private void setChannelId(String channelId) {
@@ -95,6 +109,9 @@ public class NewsListFragment extends BaseFragment {
         },rvDataList);
     }
     private void getData(){
+        if (TextUtils.isEmpty(channelId)&&TextUtils.isEmpty(channelName)){
+            return;
+        }
         NewController.getNewsListData(page,channelId,new DataResultAdapter<YiYuanNewsBean>(){
             @Override
             public void onStart() {

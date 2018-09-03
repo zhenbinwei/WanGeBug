@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +34,6 @@ public class CodeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("onCreateView", "CodeFragment onCreateView");
          view=inflater.inflate(R.layout.fm_code,null);
         initViews(view);
         initEvent();
@@ -73,6 +71,12 @@ public class CodeFragment extends Fragment {
                 }
             }
         });
+        tbTitle.setRightOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CodeSearchActivity.startActivity(getContext());
+            }
+        });
         bnvNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -98,7 +102,6 @@ public class CodeFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("CodeFragment", "position:" + position);
                  switch (position){
                      case 0:
                          bnvNavigation.setSelectedItemId(R.id.action_home);

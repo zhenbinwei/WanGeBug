@@ -40,6 +40,16 @@ public class ProjectListFragment extends BaseFragment {
     private String id;
     private String name;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState!=null){
+            id=savedInstanceState.getString("id");
+            name=savedInstanceState.getString("name");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,6 +58,13 @@ public class ProjectListFragment extends BaseFragment {
         initData();
         initEvent();
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString("id",id);
+        outState.putString("name",name);
+        super.onSaveInstanceState(outState);
     }
 
     private void setId(String id) {
