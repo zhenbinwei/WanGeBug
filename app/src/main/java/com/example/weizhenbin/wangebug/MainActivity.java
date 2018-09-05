@@ -16,7 +16,7 @@ import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.modules.code.uis.CodeFragment;
 import com.example.weizhenbin.wangebug.modules.news.uis.NewsFragment;
 import com.example.weizhenbin.wangebug.modules.recreation.uis.RecreationFragment;
-import com.example.weizhenbin.wangebug.modules.todo.uis.TodoActivity;
+import com.example.weizhenbin.wangebug.modules.todo.uis.TodoEditActivity;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,IOpenMenuHandler {
@@ -178,7 +178,7 @@ public class MainActivity extends BaseActivity
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_todo:
-                TodoActivity.startActivity(MainActivity.this);
+                TodoEditActivity.startActivity(MainActivity.this);
                 break;
             case R.id.nav_share:
                 break;
