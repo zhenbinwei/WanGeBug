@@ -157,6 +157,9 @@ public class BaseDao<T> implements IBaseDao<T> {
         //把数据转移到ContentValues中
         ContentValues values = getContentValues(map);
         //开始插入
+        if (TextUtils.isEmpty(values.toString())){
+            return -1;
+        }
         long result = sqLiteDatabase.insert(tableName, null, values);
 
         return result;

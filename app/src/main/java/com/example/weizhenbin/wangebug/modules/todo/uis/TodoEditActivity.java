@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.dp.db.BaseDao;
+import com.example.weizhenbin.wangebug.dp.db.BaseDaoFactory;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TodoBean;
 import com.example.weizhenbin.wangebug.tools.DateTool;
 import com.example.weizhenbin.wangebug.tools.DialogTool;
@@ -61,12 +63,9 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
         tbTitle.setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             /* DialogTool.showTimeDialog(TodoEditActivity.this, new ITimePickerResult() {
-                  @Override
-                  public void onTimeResult(int hourOfDay, int minute) {
-                      Log.d("TodoEditActivity", "hourOfDay:" + hourOfDay +"  minute:"+minute);
-                  }
-              });*/
+                BaseDao baseDao= BaseDaoFactory.getOurInstance().getBaseDao(BaseDao.class,TodoBean.class);
+                baseDao.insert(todoBean);
+
             }
         });
     }
