@@ -6,8 +6,8 @@ package com.example.weizhenbin.wangebug.modules.todo.entity;
 
 public class TodoBean {
     //事件时间
-    private long todoTime;
-    private String todoTimeStr;
+    private long todoCreateTime;
+    private String todoCreateTimeStr;
     //事件标题
     private String todoTitle;
     //事件内容
@@ -23,20 +23,20 @@ public class TodoBean {
     private long todoRemindTime;
     private String todoRemindTimeStr;
 
-    public long getTodoTime() {
-        return todoTime;
+    public long getTodoCreateTime() {
+        return todoCreateTime;
     }
 
-    public void setTodoTime(long todoTime) {
-        this.todoTime = todoTime;
+    public void setTodoCreateTime(long todoCreateTime) {
+        this.todoCreateTime = todoCreateTime;
     }
 
-    public String getTodoTimeStr() {
-        return todoTimeStr;
+    public String getTodoCreateTimeStr() {
+        return todoCreateTimeStr;
     }
 
-    public void setTodoTimeStr(String todoTimeStr) {
-        this.todoTimeStr = todoTimeStr;
+    public void setTodoCreateTimeStr(String todoCreateTimeStr) {
+        this.todoCreateTimeStr = todoCreateTimeStr;
     }
 
     public String getTodoTitle() {
