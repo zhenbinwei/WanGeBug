@@ -36,7 +36,11 @@ public class DateTool {
         }
         return date.getTime();
     }
-
+    //日期转时间戳
+    public static String getDateToString(long date, String pattern) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.CHINESE);
+       return dateFormat.format(new Date(date));
+    }
 
     public static void showDateDialog(Context context, final IDatePickerResult iDatePickerResult){
         View view= View.inflate(context, R.layout.dialog_datepicker_layout,null);
