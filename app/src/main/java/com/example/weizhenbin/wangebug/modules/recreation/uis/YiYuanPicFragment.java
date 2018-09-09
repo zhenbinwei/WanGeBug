@@ -1,14 +1,9 @@
 package com.example.weizhenbin.wangebug.modules.recreation.uis;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
@@ -33,14 +28,18 @@ public class YiYuanPicFragment extends BaseFragment {
     int page=1;
 
     List<YiYuanPicBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean>  contentlistBeen=new ArrayList<>();
-    @Nullable
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fm_yiyuan_pic,null);
+    protected int getContentViewLayoutId() {
+        return R.layout.fm_yiyuan_pic;
+    }
+
+    @Override
+    protected void initFragment(View view) {
         initViews(view);
         initData();
         initEvent();
-        return view;
     }
 
     private void initData() {

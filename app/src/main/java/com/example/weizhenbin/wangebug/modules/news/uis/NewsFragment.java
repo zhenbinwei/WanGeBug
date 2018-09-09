@@ -1,14 +1,8 @@
 package com.example.weizhenbin.wangebug.modules.news.uis;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
@@ -26,24 +20,33 @@ import java.util.List;
  * Created by weizhenbin on 2018/8/6.
  */
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends BaseFragment {
     ViewPager vpNews;
     TabLayout tlNewsType;
     ViewPageAdapter pageAdapter=null;
     List<BaseFragment> fragments=new ArrayList<>();
     List<YiYuanNewsChannelBean.ShowapiResBodyBean.ChannelListBean> channelListBeen;
     TitleBar tbTitle;
-    @Nullable
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View  view=inflater.inflate(R.layout.fm_news,null);
+    protected int getContentViewLayoutId() {
+        return R.layout.fm_news;
+    }
+
+    @Override
+    protected void initFragment(View view) {
         initViews(view);
         initEvent();
         setData();
         if (channelListBeen==null||channelListBeen.isEmpty()) {
             getChannleData();
         }
-        return view;
+    }
+
+    @Override
+    protected void loadData() {
+
     }
 
     private void getChannleData() {

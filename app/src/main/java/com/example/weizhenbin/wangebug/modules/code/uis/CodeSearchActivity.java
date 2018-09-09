@@ -51,7 +51,7 @@ public class CodeSearchActivity extends BaseActivity {
     SwipeRefreshLayout srlRefresh;
     RecyclerView rvDataList;
     CodeArticleListAdapter listAdapter;
-    int page=0;
+    int page=1;
     List<ArticleListDataBean.DataBean.DatasBean> datasBeen=new ArrayList<>();
     List<SearchHotKeyDataBean.DataBean> hotkeyDatas;
     String key;
@@ -127,7 +127,7 @@ public class CodeSearchActivity extends BaseActivity {
             @Override
             public void onStart() {
                 super.onStart();
-                if (page==0){
+                if (page==1){
                     srlRefresh.setRefreshing(true);
                 }
             }
@@ -138,11 +138,11 @@ public class CodeSearchActivity extends BaseActivity {
                 srlRefresh.setRefreshing(false);
                 if (articleListDataBean!=null&&articleListDataBean.getErrorCode()==0){
                     if (articleListDataBean.getData()!=null&&articleListDataBean.getData().getDatas()!=null){
-                        if (page==0){
+                        if (page==1){
                             datasBeen.clear();
                         }
                         datasBeen.addAll(articleListDataBean.getData().getDatas());
-                        if(page==0){
+                        if(page==1){
                             listAdapter.setNewData(datasBeen);
                         }else {
                             listAdapter.notifyDataSetChanged();
@@ -259,7 +259,7 @@ public class CodeSearchActivity extends BaseActivity {
 
     private void search() {
         SoftKeyboardTool.hideSoftKeyboard(CodeSearchActivity.this);
-        page=0;
+        page=1;
         key=editText.getText().toString();
         if (TextUtils.isEmpty(key.trim())){
             srlRefresh.setRefreshing(false);

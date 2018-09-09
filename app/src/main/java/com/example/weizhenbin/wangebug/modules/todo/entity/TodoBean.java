@@ -1,33 +1,41 @@
 package com.example.weizhenbin.wangebug.modules.todo.entity;
 
+import android.text.TextUtils;
+
 /**
  * Created by weizhenbin on 2018/9/5.
+ * 数据库表 基础类型要用对象表示
+ *
  */
 
 public class TodoBean {
     //事件时间
-    private long todoCreateTime;
+    private Long todoCreateTime;
     private String todoCreateTimeStr;
     //事件标题
     private String todoTitle;
     //事件内容
     private String todoContent;
     //事件状态
-    private int todoStatus;
+    private Integer todoStatus;  //0未完成  1 已完成
     //事件完成时间
-    private long todoDoneTime;
+    private Long todoDoneTime;
     private String todoDoneTimeStr;
     //事件是否提醒
-    private boolean isTodoRemind;
+    private Integer isTodoRemind;//0 代表false 1代表true
     //事件提醒时间
-    private long todoRemindTime;
+    private Long todoRemindTime;
     private String todoRemindTimeStr;
 
-    public long getTodoCreateTime() {
+    //事件提醒日期
+    private Long todoRemindDate;
+    private String todoRemindDateStr;
+
+    public Long getTodoCreateTime() {
         return todoCreateTime;
     }
 
-    public void setTodoCreateTime(long todoCreateTime) {
+    public void setTodoCreateTime(Long todoCreateTime) {
         this.todoCreateTime = todoCreateTime;
     }
 
@@ -55,19 +63,19 @@ public class TodoBean {
         this.todoContent = todoContent;
     }
 
-    public int getTodoStatus() {
+    public Integer getTodoStatus() {
         return todoStatus;
     }
 
-    public void setTodoStatus(int todoStatus) {
+    public void setTodoStatus(Integer todoStatus) {
         this.todoStatus = todoStatus;
     }
 
-    public long getTodoDoneTime() {
+    public Long getTodoDoneTime() {
         return todoDoneTime;
     }
 
-    public void setTodoDoneTime(long todoDoneTime) {
+    public void setTodoDoneTime(Long todoDoneTime) {
         this.todoDoneTime = todoDoneTime;
     }
 
@@ -79,19 +87,19 @@ public class TodoBean {
         this.todoDoneTimeStr = todoDoneTimeStr;
     }
 
-    public boolean isTodoRemind() {
+    public Integer getIsTodoRemind() {
         return isTodoRemind;
     }
 
-    public void setTodoRemind(boolean todoRemind) {
-        isTodoRemind = todoRemind;
+    public void setIsTodoRemind(Integer isTodoRemind) {
+        this.isTodoRemind = isTodoRemind;
     }
 
-    public long getTodoRemindTime() {
+    public Long getTodoRemindTime() {
         return todoRemindTime;
     }
 
-    public void setTodoRemindTime(long todoRemindTime) {
+    public void setTodoRemindTime(Long todoRemindTime) {
         this.todoRemindTime = todoRemindTime;
     }
 
@@ -101,5 +109,69 @@ public class TodoBean {
 
     public void setTodoRemindTimeStr(String todoRemindTimeStr) {
         this.todoRemindTimeStr = todoRemindTimeStr;
+    }
+
+    public Long getTodoRemindDate() {
+        return todoRemindDate;
+    }
+
+    public void setTodoRemindDate(Long todoRemindDate) {
+        this.todoRemindDate = todoRemindDate;
+    }
+
+    public String getTodoRemindDateStr() {
+        return todoRemindDateStr;
+    }
+
+    public void setTodoRemindDateStr(String todoRemindDateStr) {
+        this.todoRemindDateStr = todoRemindDateStr;
+    }
+
+    @Override
+    public String toString() {
+        return "TodoBean{" +
+                "todoCreateTime=" + todoCreateTime +
+                ", todoCreateTimeStr='" + todoCreateTimeStr + '\'' +
+                ", todoTitle='" + todoTitle + '\'' +
+                ", todoContent='" + todoContent + '\'' +
+                ", todoStatus=" + todoStatus +
+                ", todoDoneTime=" + todoDoneTime +
+                ", todoDoneTimeStr='" + todoDoneTimeStr + '\'' +
+                ", isTodoRemind=" + isTodoRemind +
+                ", todoRemindTime=" + todoRemindTime +
+                ", todoRemindTimeStr='" + todoRemindTimeStr + '\'' +
+                ", todoRemindDate=" + todoRemindDate +
+                ", todoRemindDateStr='" + todoRemindDateStr + '\'' +
+                '}';
+    }
+
+    public boolean isEmpty(){
+        return TextUtils.isEmpty(todoContent)&&
+         TextUtils.isEmpty(todoCreateTimeStr)&&
+         TextUtils.isEmpty(todoTitle)&&
+         TextUtils.isEmpty(todoDoneTimeStr)&&
+         TextUtils.isEmpty(todoRemindTimeStr)&&
+         TextUtils.isEmpty(todoRemindDateStr)&&
+                 todoCreateTime==null&&
+                 todoStatus==null&&
+                 todoDoneTime==null&&
+                 todoRemindDate==null&&
+                 isTodoRemind==null&&
+                 todoRemindTime==null;
+    }
+
+    public void reset(){
+        todoContent=null;
+        todoCreateTimeStr=null;
+        todoTitle=null;
+        todoDoneTimeStr=null;
+        todoRemindTimeStr=null;
+        todoRemindDateStr=null;
+        todoCreateTime=null;
+        todoStatus=null;
+        todoDoneTime=null;
+        todoRemindDate=null;
+        isTodoRemind=null;
+        todoRemindTime=null;
     }
 }

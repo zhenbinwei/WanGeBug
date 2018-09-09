@@ -1,13 +1,8 @@
 package com.example.weizhenbin.wangebug.modules.code.uis;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
@@ -30,18 +25,22 @@ public class CodeProjectFragment extends BaseFragment{
     ViewPageAdapter pageAdapter=null;
     List<BaseFragment> fragments=new ArrayList<>();
     List<ProjectTreeDataBean.DataBean> dataBeanList;
-    @Nullable
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fm_code_project,null);
+    protected int getContentViewLayoutId() {
+        return R.layout.fm_code_project;
+    }
+
+    @Override
+    protected void initFragment(View view) {
         initViews(view);
         initEvent();
         setData();
-        return view;
     }
 
 
-   @Override
+    @Override
    protected void loadData() {
        if (dataBeanList==null||dataBeanList.isEmpty()) {
            getProjectTreeData();

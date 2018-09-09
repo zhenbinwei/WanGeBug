@@ -9,9 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
@@ -33,7 +31,7 @@ public class ProjectListFragment extends BaseFragment {
     private SwipeRefreshLayout srlRefresh;
     private RecyclerView rvDataList;
     private CodeProjectListAdapter listAdapter;
-    int page=0;
+    int page=1;
 
     List<ProjectListDataBean.DataBean.DatasBean> contentlistBeen=new ArrayList<>();
 
@@ -50,14 +48,16 @@ public class ProjectListFragment extends BaseFragment {
         }
     }
 
-    @Nullable
+   @Override
+   protected int getContentViewLayoutId() {
+       return R.layout.fm_project_list;
+   }
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fm_project_list,null);
+    protected void initFragment(View view) {
         initViews(view);
         initData();
         initEvent();
-        return view;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class ProjectListFragment extends BaseFragment {
         srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page=0;
+                page=1;
                 getData();
             }
         });
@@ -117,7 +117,7 @@ public class ProjectListFragment extends BaseFragment {
             @Override
             public void onStart() {
                 super.onStart();
-                if (page==0) {
+                if (page==1) {
                     srlRefresh.setRefreshing(true);
                 }
             }
@@ -128,11 +128,11 @@ public class ProjectListFragment extends BaseFragment {
                 srlRefresh.setRefreshing(false);
                 if (projectListDataBean!=null&&projectListDataBean.getErrorCode()==0){
                     if (projectListDataBean.getData()!=null&&projectListDataBean.getData().getDatas()!=null){
-                        if (page==0){
+                        if (page==1){
                             contentlistBeen.clear();
                         }
                         contentlistBeen.addAll(projectListDataBean.getData().getDatas());
-                        if(page==0){
+                        if(page==1){
                             listAdapter.setNewData(contentlistBeen);
                         }else {
                             listAdapter.notifyDataSetChanged();
@@ -155,6 +155,8 @@ public class ProjectListFragment extends BaseFragment {
         srlRefresh =  view.findViewById(R.id.srl_refresh);
         rvDataList = view.findViewById(R.id.rv_data_list);
     }
+
+
 
     @Override
     protected void loadData() {

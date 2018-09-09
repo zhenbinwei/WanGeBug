@@ -16,7 +16,7 @@ import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.modules.code.uis.CodeFragment;
 import com.example.weizhenbin.wangebug.modules.news.uis.NewsFragment;
 import com.example.weizhenbin.wangebug.modules.recreation.uis.RecreationFragment;
-import com.example.weizhenbin.wangebug.modules.todo.uis.TodoEditActivity;
+import com.example.weizhenbin.wangebug.modules.todo.uis.TodoListActivity;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,IOpenMenuHandler {
@@ -154,31 +154,22 @@ public class MainActivity extends BaseActivity
         FragmentTransaction transaction;
         switch (id){
             case R.id.nav_news:
-                /*transaction=fragmentManager.beginTransaction();
-                transaction.replace(R.id.fl_content,newsFragment,"newsFragment");
-                transaction.commit();*/
                 showFragment(newsFragment);
                 currentModule=NEWS_MODULE;
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_code:
-               /* transaction=fragmentManager.beginTransaction();
-                transaction.replace(R.id.fl_content, codeFragment,"codeFragment");
-                transaction.commit();*/
                 showFragment(codeFragment);
                 currentModule=CODE_MODULE;
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_recreation:
-               /* transaction=fragmentManager.beginTransaction();
-                transaction.replace(R.id.fl_content,recreationFragment,"recreationFragment");
-                transaction.commit();*/
                 showFragment(recreationFragment);
                 currentModule=RECREATION_MODULE;
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_todo:
-                TodoEditActivity.startActivity(MainActivity.this);
+                TodoListActivity.startActivity(MainActivity.this);
                 break;
             case R.id.nav_share:
                 break;

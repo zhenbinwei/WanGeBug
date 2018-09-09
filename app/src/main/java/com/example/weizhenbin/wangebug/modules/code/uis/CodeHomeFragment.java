@@ -1,24 +1,19 @@
 package com.example.weizhenbin.wangebug.modules.code.uis;
 
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.base.DataResultAdapter;
-import com.example.weizhenbin.wangebug.modules.code.adapters.CodeHomeBannerAdapter;
 import com.example.weizhenbin.wangebug.modules.code.adapters.CodeArticleListAdapter;
+import com.example.weizhenbin.wangebug.modules.code.adapters.CodeHomeBannerAdapter;
 import com.example.weizhenbin.wangebug.modules.code.controllers.CodeController;
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
@@ -36,19 +31,22 @@ public class CodeHomeFragment extends BaseFragment {
     SwipeRefreshLayout srlRefresh;
     RecyclerView rvDataList;
     CodeArticleListAdapter listAdapter;
-    int page=0;
+    int page=1;
     View bannerHeader;
     AutoScrollerLayout autoScrollerLayout;
     List<ArticleListDataBean.DataBean.DatasBean> datasBeen=new ArrayList<>();
-    @Nullable
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("onCreateView", "CodeHomeFragment onCreateView");
-        View view=inflater.inflate(R.layout.fm_code_home,null);
+    protected int getContentViewLayoutId() {
+        return R.layout.fm_code_home;
+    }
+
+    @Override
+    protected void initFragment(View view) {
         initViews(view);
         initData();
         initEvent();
-        return view;
     }
 
     private void getData() {
@@ -56,7 +54,7 @@ public class CodeHomeFragment extends BaseFragment {
             @Override
             public void onStart() {
                 super.onStart();
-                if (page==0){
+                if (page==1){
                     srlRefresh.setRefreshing(true);
                 }
             }
@@ -67,11 +65,11 @@ public class CodeHomeFragment extends BaseFragment {
                 srlRefresh.setRefreshing(false);
                 if (articleListDataBean!=null&&articleListDataBean.getErrorCode()==0){
                     if (articleListDataBean.getData()!=null&&articleListDataBean.getData().getDatas()!=null){
-                        if (page==0){
+                        if (page==1){
                             datasBeen.clear();
                         }
                         datasBeen.addAll(articleListDataBean.getData().getDatas());
-                        if(page==0){
+                        if(page==1){
                             listAdapter.setNewData(datasBeen);
                         }else {
                             listAdapter.notifyDataSetChanged();
@@ -116,7 +114,7 @@ public class CodeHomeFragment extends BaseFragment {
         srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page=0;
+                page=1;
                 getData();
             }
         });

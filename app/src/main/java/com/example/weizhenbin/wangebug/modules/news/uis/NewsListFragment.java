@@ -9,9 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
@@ -49,14 +47,18 @@ public class NewsListFragment extends BaseFragment {
         }
     }
 
-    @Nullable
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fm_news_list,null);
+    protected int getContentViewLayoutId() {
+        return R.layout.fm_news_list;
+    }
+
+    @Override
+    protected void initFragment(View view) {
         initViews(view);
         initData();
         initEvent();
-        return view;
     }
 
     @Override

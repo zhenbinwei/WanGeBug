@@ -1,15 +1,10 @@
 package com.example.weizhenbin.wangebug.modules.code.uis;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
@@ -24,24 +19,33 @@ import java.util.List;
  * Created by weizhenbin on 2018/8/6.
  */
 
-public class CodeFragment extends Fragment {
+public class CodeFragment extends BaseFragment {
     View view;
     TitleBar tbTitle;
     BottomNavigationView bnvNavigation;
    public List<BaseFragment> modeFragments=new ArrayList<>();
     ViewPager vpCodeMode;
     ViewPageAdapter viewPageAdapter;
-    @Nullable
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-         view=inflater.inflate(R.layout.fm_code,null);
+    protected int getContentViewLayoutId() {
+        return R.layout.fm_code;
+    }
+
+    @Override
+    protected void initFragment(View view) {
         initViews(view);
         initEvent();
         if (modeFragments.isEmpty()) {
             addModes();
         }
         setModes();
-        return view;
+    }
+
+    @Override
+    protected void loadData() {
+
     }
 
     private void setModes() {

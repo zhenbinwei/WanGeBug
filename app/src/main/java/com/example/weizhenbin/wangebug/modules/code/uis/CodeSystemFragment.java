@@ -1,16 +1,11 @@
 package com.example.weizhenbin.wangebug.modules.code.uis;
 
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
@@ -35,14 +30,18 @@ public class CodeSystemFragment extends BaseFragment{
     List<SystemTreeDataBean.DataBean> datasBeen=new ArrayList<>();
 
 
-    @Nullable
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fm_code_system,null);
+    protected int getContentViewLayoutId() {
+        return R.layout.fm_code_system;
+    }
+
+    @Override
+    protected void initFragment(View view) {
         initViews(view);
         initData();
         initEvent();
-        return view;
     }
 
     private void getData() {

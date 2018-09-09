@@ -1,16 +1,11 @@
 package com.example.weizhenbin.wangebug.modules.code.uis;
 
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
@@ -32,18 +27,22 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
     SwipeRefreshLayout srlRefresh;
     RecyclerView rvDataList;
     CodeArticleListAdapter listAdapter;
-    int page=0;
+    int page=1;
     List<ArticleListDataBean.DataBean.DatasBean> datasBeen=new ArrayList<>();
     int cid;
     String name;
-    @Nullable
+
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fm_system_tree_children,null);
+    protected int getContentViewLayoutId() {
+        return R.layout.fm_system_tree_children;
+    }
+
+    @Override
+    protected void initFragment(View view) {
         initViews(view);
         initData();
         initEvent();
-        return view;
     }
 
     private void getData() {
@@ -51,7 +50,7 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
             @Override
             public void onStart() {
                 super.onStart();
-                if (page==0){
+                if (page==1){
                     srlRefresh.setRefreshing(true);
                 }
             }
@@ -62,11 +61,11 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
                 srlRefresh.setRefreshing(false);
                 if (articleListDataBean!=null&&articleListDataBean.getErrorCode()==0){
                     if (articleListDataBean.getData()!=null&&articleListDataBean.getData().getDatas()!=null){
-                        if (page==0){
+                        if (page==1){
                             datasBeen.clear();
                         }
                         datasBeen.addAll(articleListDataBean.getData().getDatas());
-                        if(page==0){
+                        if(page==1){
                             listAdapter.setNewData(datasBeen);
                         }else {
                             listAdapter.notifyDataSetChanged();
@@ -97,7 +96,7 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
         srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page=0;
+                page=1;
                 getData();
             }
         });
