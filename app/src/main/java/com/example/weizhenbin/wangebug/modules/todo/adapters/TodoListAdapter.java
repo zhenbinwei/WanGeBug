@@ -55,7 +55,7 @@ public class TodoListAdapter extends BaseQuickAdapter<TodoBean,BaseViewHolder> {
             helper.setGone(R.id.tv_done_time,true);
             helper.setText(R.id.tv_done_time, item.getTodoDoneTimeStr());
         }
-        if (item.getIsTodoRemind()==0){
+        if (item.getIsTodoRemind()==null||item.getIsTodoRemind()==0){
             helper.setGone(R.id.tv_remind_time,false);
         }else {
             helper.setGone(R.id.tv_remind_time,true);

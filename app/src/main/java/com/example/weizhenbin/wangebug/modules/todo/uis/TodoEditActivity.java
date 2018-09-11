@@ -112,6 +112,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     saveTodo();
+                    finish();
                 }
             }, "取消", new DialogInterface.OnClickListener() {
                 @Override
