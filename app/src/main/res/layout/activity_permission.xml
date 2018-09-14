@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
         android:id="@+id/bt"
-        android:text="权限申请"
+        android:text="打开悬浮窗"
         android:layout_margin="60dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-</LinearLayout>
+
+    <Button
+        android:id="@+id/bt2"
+        android:text="关闭悬浮窗"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="99dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/bt" />
+</RelativeLayout>

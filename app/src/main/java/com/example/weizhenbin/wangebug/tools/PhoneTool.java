@@ -1,7 +1,6 @@
 package com.example.weizhenbin.wangebug.tools;
 
-import android.content.Context;
-import android.util.DisplayMetrics;
+import com.example.weizhenbin.wangebug.base.App;
 
 /**
  * Created by weizhenbin on 2018/8/21.
@@ -10,24 +9,24 @@ import android.util.DisplayMetrics;
 public class PhoneTool {
 
     public static  int getScreenHeight(){
-        return new DisplayMetrics().heightPixels;
+        return App.app.getResources().getDisplayMetrics().heightPixels;
     }
     public static  int getScreenWidth(){
-        return new DisplayMetrics().widthPixels;
+        return App.app.getResources().getDisplayMetrics().widthPixels;
     }
 
 
-    public static int dip2px(Context context, float dpValue) {
+    public static int dip2px(float dpValue) {
 
-        final float scale = context.getResources().getDisplayMetrics().density;
+        final float scale = App.app.getResources().getDisplayMetrics().density;
 
         return (int) (dpValue * scale +0.5f);
 
     }
 
-    public static int px2dip(Context context, float pxValue) {
+    public static int px2dip(float pxValue) {
 
-        final float scale = context.getResources().getDisplayMetrics().density;
+        final float scale = App.app.getResources().getDisplayMetrics().density;
 
         return (int) (pxValue / scale +0.5f);
 

@@ -71,8 +71,8 @@ public class AutoScrollerLayout extends RelativeLayout {
         int dotCount=pageAadpter.getReadCount();
         for (int i = 0; i < dotCount; i++) {
             ImageView dotImageView=new ImageView(getContext());
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(PhoneTool.dip2px(getContext(),8),PhoneTool.dip2px(getContext(),8));
-            params.rightMargin=PhoneTool.dip2px(getContext(),4);
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(PhoneTool.dip2px(8),PhoneTool.dip2px(8));
+            params.rightMargin=PhoneTool.dip2px(4);
             dotImageView.setBackgroundResource(R.drawable.indicator_dot);
             llIndicator.addView(dotImageView,params);
         }

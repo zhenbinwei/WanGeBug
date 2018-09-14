@@ -10,9 +10,13 @@ import com.example.weizhenbin.wangebug.image.glide.GlideImageLoader;
  */
 
 public class App extends Application {
+
+    public static App app;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        app=this;
         ImageLoader.getImageLoader().init(new GlideImageLoader());
        /* HashMap map = new HashMap();
         map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);

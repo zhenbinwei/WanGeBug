@@ -92,11 +92,11 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                             layoutParams.weight=1;
                             if (size<3){
                                 if (i < 1) {
-                                    layoutParams.rightMargin = PhoneTool.dip2px(context, 8);
+                                    layoutParams.rightMargin = PhoneTool.dip2px( 8);
                                 }
                             }else {
                                 if (i < 2) {
-                                    layoutParams.rightMargin = PhoneTool.dip2px(context, 8);
+                                    layoutParams.rightMargin = PhoneTool.dip2px( 8);
                                 }
                             }
                             ImageLoader.getImageLoader().imageLoader(context, imageView, url2,DefImageConfig.smallImage());
