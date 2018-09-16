@@ -17,8 +17,18 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="50dp"
-        android:layout_marginStart="99dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/bt" />
+        android:layout_alignBaseline="@+id/bt"
+        android:layout_alignBottom="@+id/bt"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="75dp" />
+
+    <com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView
+        android:id="@+id/fv"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/bt"
+        android:layout_alignParentStart="true">
+
+    </com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView>
 </RelativeLayout>

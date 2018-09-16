@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow;
 
 /**
@@ -17,15 +18,17 @@ import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow;
 public class TestPermissionActivity extends BaseActivity {
 
     FloatingWindow floatingWindow;
+    FloatingView fv;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission);
         floatingWindow=new FloatingWindow(TestPermissionActivity.this);
+        fv=findViewById(R.id.fv);
         findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            //fv.zoomIn(fv.getWidth()/2,fv.getHeight()/2,50,null);
                 Log.d("TestPermissionActivity", "CAMERA:" + PermissionTool.checkPermission(TestPermissionActivity.this, Manifest.permission.CAMERA));
 
 
@@ -53,6 +56,7 @@ public class TestPermissionActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 floatingWindow.removeFloatingWindow();
+              //  fv.zoomOut(null);
             }
         });
     }

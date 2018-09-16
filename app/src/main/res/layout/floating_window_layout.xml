@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="#7f000000"
-    android:focusable="true"
-    android:layout_height="match_parent">
-    <com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView
-        android:id="@+id/fv_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp">
-    <TextView
+<com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fv_view"
+    android:layout_width="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_height="250dp">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:textColor="#fff"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="测试"
-        />
-    </com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView>
-</LinearLayout>
+        android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/ed_title"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:inputType="text"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:maxLines="1"
+                android:hint="@string/todo_title_string"
+                android:imeOptions="actionNext"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp"
+                android:textColorHint="@color/colorWhite150a"
+                android:textCursorDrawable="@drawable/cursor_style_gray"
+                android:background="@drawable/bottom_line_bg_gray"
+                />
+        <EditText
+            android:id="@+id/ed_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:gravity="left"
+            android:padding="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
+            android:textColorHint="@color/colorWhite150a"
+            android:inputType="textMultiLine"
+            android:hint="@string/todo_content_string"
+            android:textCursorDrawable="@drawable/cursor_style_gray"
+            android:background="@drawable/bottom_line_bg_gray"
+            android:layout_height="match_parent"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:background="@drawable/shape_gradient"
+            android:layout_height="3dp"/>
+    </LinearLayout>
+</com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView>

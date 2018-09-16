@@ -5,23 +5,29 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.PointF;
 import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.tools.PhoneTool;
 import com.example.weizhenbin.wangebug.tools.StatusTool;
 
-import static android.view.ViewAnimationUtils.createCircularReveal;
+import static android.view.View.inflate;
+import static com.example.weizhenbin.wangebug.R.id.imageView;
+import static com.example.weizhenbin.wangebug.R.id.scroll;
 
 /**
  * Created by weizhenbin on 2018/9/12.
@@ -31,16 +37,29 @@ import static android.view.ViewAnimationUtils.createCircularReveal;
 public class FloatingWindow implements View.OnTouchListener{
 
     private WindowManager windowManager;
-    private WindowManager.LayoutParams layoutParams;
+    private WindowManager.LayoutParams controlLayoutParams;//活动控制层
+    private WindowManager.LayoutParams baseLayoutParams;//基础层 底层
     private View contentView;
+    private FrameLayout baseView;//基础层
+
+
+    private View controller;//控制器 透明 用于接受触摸事件 浮窗位置
     private FloatingView fvView;
 
     /**
-     * 默认大小
+     * 悬浮窗大小
      * */
-    private int windowDefWidth=200;
+    private int windowMiniWidth =PhoneTool.dip2px(48);
 
-    private int windowDefHeight=200;
+    private int windowMiniHeight =PhoneTool.dip2px(48);
+
+
+    /**
+     * 不可移动的时候大小
+     * */
+    private int windowMiniWidthNoMove =PhoneTool.dip2px(48);
+
+    private int windowMiniHeightNoMove =PhoneTool.dip2px(48);
 
     /**
      * 默认位置
@@ -48,11 +67,6 @@ public class FloatingWindow implements View.OnTouchListener{
     private int defX=0;
     private int defY=0;
 
-    /**
-     * 修改后的位置
-     * */
-    private int updateX=0;
-    private int updateY=0;
 
 
     /**
@@ -88,107 +102,154 @@ public class FloatingWindow implements View.OnTouchListener{
 
     private boolean isAddView=false;
 
-    /**
-     * 悬浮窗大小
-     * */
-    private Size size;
+
 
     /**迷你状态*/
     private boolean isMini=true;
 
-
     public FloatingWindow(Context context) {
         initWindowManager(context);
-        contentView=View.inflate(context, R.layout.floating_window_layout,null);
+        baseView=new FloatingContentView(context);
+        contentView= LayoutInflater.from(context).inflate(R.layout.floating_window_layout,baseView,false);
+        baseView.addView(contentView);
+        controller=new View(context);
+        controller.setBackgroundResource(R.drawable.round_bg_primary);
+      //  baseView.setBackgroundColor(context.getResources().getColor(R.color.colorWhite100a));
         fvView=contentView.findViewById(R.id.fv_view);
-        contentView.setOnTouchListener(this);
+
         screenW= PhoneTool.getScreenWidth();
         screenH= PhoneTool.getScreenHeight();
         statusBarHeight=StatusTool.getStatusBarHeight(context);
-       /* contentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              if (isMini){
-                  fvView.setCircleX(layoutParams.x);
-                  zoomIn();
-              }else {
-                  fvView.setCircleX(defX);
-                  zoomOut();
-              }
-            }
-        });*/
-        fvView.setOnClickListener(new View.OnClickListener() {
+       // baseView.setFocusableInTouchMode(true);
+        initEvent();
+    }
+
+    private void initEvent() {
+        controller.setOnTouchListener(this);
+        controller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("FloatingWindow", "点击");
+                if (!isMini){
+                    viewZoomOut();
+                }else {
+
+                    if (controlLayoutParams.y > 0||(controlLayoutParams.x>0&&controlLayoutParams.x<screenW-windowMiniWidth)) {
+                        PointF end;
+                        if ((controlLayoutParams.x+windowMiniWidth/2)>screenW/2){
+                            end=new PointF(screenW-windowMiniWidth,0);
+                        }else {
+                            end=new PointF(0,0);
+                        }
+                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), end, new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                viewZoomIn();
+                            }
+                        });
+                    } else {
+                        viewZoomIn();
+                    }
+                }
+            }
+        });
+      /*  baseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("FloatingWindow", "测试点击");
+            }
+        });*/
+        baseView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+                    Log.d("FloatingWindow", "点击返回");
+                    if (!isMini){
+                        viewZoomOut();
+                    }
+
+                    return true;
+                }
+                return false;
             }
         });
     }
 
-
     /**
-     * 放大
+     * 扩展动画展开
      * */
-    private void zoomIn(){
+    private void viewZoomIn() {
+        AnimatorListenerAdapter animatorListenerAdapter=new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                baseLayoutParams.flags=WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+                controlLayoutParams.flags=WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE|WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                windowManager.updateViewLayout(baseView,baseLayoutParams);
+              /*  controlLayoutParams.width=windowMiniWidthNoMove;
+                controlLayoutParams.height=windowMiniHeightNoMove;
+                controlLayoutParams.x=controlLayoutParams.x>0?screenW-controlLayoutParams.width:0;*/
+                windowManager.updateViewLayout(controller,controlLayoutParams);
+            }
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                controller.setAlpha(0);
+            }
+        };
         if (isMini){
-            isMini=false;
-            Size end=new Size(screenW/2,400);
-           // layoutParams.width=end.width;
-           // layoutParams.height=end.height;
-
-            scale(new Size(layoutParams.width,layoutParams.height),end);
-
-           // layoutParams.y=70;
-            windowManager.updateViewLayout(contentView, layoutParams);
-            fvView.post(new Runnable() {
-                @Override
-                public void run() {
-                   // fvView.zoomIn(null);
-                }
-            });
+        isMini=false;
+        fvView.zoomIn(controlLayoutParams.x+windowMiniWidth/2 , controlLayoutParams.y+windowMiniHeight/2, 0, animatorListenerAdapter);
+       /*     if (controlLayoutParams.x<=0) {
+        }else if (controlLayoutParams.x>=fvView.getWidth()- windowMiniWidth){
+            fvView.zoomIn(controlLayoutParams.x + windowMiniWidth, controlLayoutParams.y, windowMiniWidth/2, animatorListenerAdapter);
+        }else {
+            fvView.zoomIn(controlLayoutParams.x + windowMiniWidth / 2, controlLayoutParams.y, windowMiniWidth/2, animatorListenerAdapter);
+        }*/
         }
     }
-    /**
-     * 缩小
-     * */
-    private void zoomOut(){
+
+    private void viewZoomOut(){
         if (!isMini){
-            isMini=true;
-            Size end=new Size(windowDefWidth,windowDefHeight);
-            layoutParams.width=end.width;
-            layoutParams.height=end.height;
-            windowManager.updateViewLayout(contentView, layoutParams);
-            fvView.post(new Runnable() {
+          /*  controlLayoutParams.width=windowMiniWidth;
+            controlLayoutParams.height=windowMiniHeight;*/
+            controller.setAlpha(1);
+            windowManager.updateViewLayout(controller,controlLayoutParams);
+            fvView.zoomOut(new AnimatorListenerAdapter() {
                 @Override
-                public void run() {
-                   /* fvView.zoomOut(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            Size end=new Size(windowDefWidth,windowDefHeight);
-                            layoutParams.width=end.width;
-                            layoutParams.height=end.height;
-                            windowManager.updateViewLayout(contentView, layoutParams);
-                        }
-                    });*/
-
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    isMini=true;
+                    baseLayoutParams.flags=WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE |WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                    controlLayoutParams.flags=WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                    windowManager.updateViewLayout(baseView,baseLayoutParams);
+                    windowManager.updateViewLayout(controller,controlLayoutParams);
                 }
             });
         }
     }
+
+
+
+
 
 
     public void showFloatingWindow(){
         if (!isAddView) {
             isAddView = true;
-            windowManager.addView(contentView, layoutParams);
+            windowManager.addView(baseView,baseLayoutParams);
+            windowManager.addView(controller, controlLayoutParams);
         }
     }
 
     public void removeFloatingWindow(){
         if (isAddView) {
             isAddView = false;
-            windowManager.removeView(contentView);
+            windowManager.removeView(baseView);
+            windowManager.removeView(controller);
         }
     }
 
@@ -197,40 +258,48 @@ public class FloatingWindow implements View.OnTouchListener{
     private void initWindowManager(Context context) {
         windowManager= (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
-        layoutParams=new WindowManager.LayoutParams();
-        size=new Size(windowDefWidth,windowDefHeight);
+        controlLayoutParams =new WindowManager.LayoutParams();
+        baseLayoutParams=new WindowManager.LayoutParams();
         /**
          * 8.0以上 没有授权会直接闪退 8.0以下部分手机没有授权 home切换到桌面 悬浮窗会消失 系统会提示禁止了弹窗 应用内能提示
          * */
         if (Build.VERSION.SDK_INT >= 26) {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            controlLayoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            baseLayoutParams.type=WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         }else {
-            layoutParams.type=WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+            controlLayoutParams.type=WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+            baseLayoutParams.type=WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         }
-        layoutParams.flags=WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
-        layoutParams.format= PixelFormat.TRANSLUCENT;
-      //  layoutParams.width=size.width;
-      //  layoutParams.height=size.height;
-        layoutParams.width= WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height= WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.y=defY;
-        layoutParams.x=defX;
-        layoutParams.gravity= Gravity.TOP | Gravity.START;
+
+        //基础层初始状态不接收触摸事件
+        baseLayoutParams.flags=WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE|WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+
+        controlLayoutParams.flags= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        controlLayoutParams.format= PixelFormat.TRANSLUCENT;
+        baseLayoutParams.format= PixelFormat.TRANSLUCENT;
+        controlLayoutParams.width= windowMiniWidth;
+        controlLayoutParams.height= windowMiniHeight;
+        baseLayoutParams.width= WindowManager.LayoutParams.MATCH_PARENT;
+        baseLayoutParams.height= WindowManager.LayoutParams.MATCH_PARENT;
+        controlLayoutParams.y=defY;
+        controlLayoutParams.x=defX;
+        controlLayoutParams.gravity= Gravity.TOP | Gravity.START;
+        baseLayoutParams.gravity= Gravity.TOP | Gravity.START;
 
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-     /*   if(mGestureDetector==null){
+       if(mGestureDetector==null){
             mGestureDetector = new GestureDetector(v.getContext(), new GestureListener(v));
         }
             //长按 点击和onTouch 冲突问题  借助GestureDetector来解决 TouchImageView已经带有mGestureDetector如果不排除 会回调两次
-        Log.d("FloatingWindow", "mGestureDetector.onTouchEvent(event):" + mGestureDetector.onTouchEvent(event));
-
+        mGestureDetector.onTouchEvent(event);
+        if (!isMini){
+            return true;
+        }
         switch (event.getAction()){
-
             case MotionEvent.ACTION_DOWN:
                 downViewX= (int) event.getX();
                 downViewY= (int) event.getY();
@@ -238,51 +307,64 @@ public class FloatingWindow implements View.OnTouchListener{
                 downScreenY= (int) event.getRawY();
                 return true;
             case MotionEvent.ACTION_MOVE:
-                layoutParams.y= (int) event.getRawY()- statusBarHeight-downViewY;
-                layoutParams.x=(int) event.getRawX()-downViewX;
-                updateX = layoutParams.x;
-                updateY = layoutParams.y;
-                windowManager.updateViewLayout(contentView,layoutParams);
+                controlLayoutParams.y= (int) event.getRawY()- statusBarHeight-downViewY;
+                controlLayoutParams.x=(int) event.getRawX()-downViewX;
+                windowManager.updateViewLayout(controller,controlLayoutParams);
                 break;
             case MotionEvent.ACTION_UP:
-               *//* float x = event.getRawX();
-                float y = event.getRawY() - statusBarHeight;
-                if (x > screenW / 2 && y < screenH / 2) {
+            case MotionEvent.ACTION_CANCEL:
+                float w= controlLayoutParams.width;
+                float h= controlLayoutParams.height;
+                if (controlLayoutParams.x<0){
+                    controlLayoutParams.x=0;
+                }else if (controlLayoutParams.x>screenW-controlLayoutParams.width){
+                    controlLayoutParams.x=screenW-controlLayoutParams.width;
+                }
+                if (controlLayoutParams.y<0){
+                    controlLayoutParams.y=0;
+                }else if (controlLayoutParams.y>screenH - statusBarHeight-controlLayoutParams.height){
+                    controlLayoutParams.y=screenH - statusBarHeight-controlLayoutParams.height;
+                }
+
+                float x = controlLayoutParams.x+w/2;  //用中心点来决定位置
+                float y = controlLayoutParams.y+h/2;
+
+                if (x >=screenW / 2 && y <= (screenH+statusBarHeight) / 2) {
                     //第一象限
                     if (screenW - x > y) {
-                        scroll(new PointF(layoutParams.x, layoutParams.y), new PointF(layoutParams.x, 0));
+                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), new PointF(controlLayoutParams.x, 0));
                     } else {
-                        scroll(new PointF(layoutParams.x, layoutParams.y), new PointF(screenW, layoutParams.y));
+                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), new PointF(screenW-controlLayoutParams.width, controlLayoutParams.y));
                     }
-                }
-                if (x < screenW / 2 && y < screenH / 2) {
+                }else
+                if (x < screenW / 2 && y <  (screenH+statusBarHeight)  / 2) {
                     //第二象限
                     if (x > y) {
-                        scroll(new PointF(layoutParams.x, layoutParams.y), new PointF(layoutParams.x, 0));
+                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), new PointF(controlLayoutParams.x, 0));
                     } else {
-                        scroll(new PointF(layoutParams.x, layoutParams.y), new PointF(0, layoutParams.y));
+                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), new PointF(0, controlLayoutParams.y));
                     }
-                }
+                }else
 
-                if (x < screenW / 2 && y > screenH / 2) {
+                if (x <= screenW / 2 && y >=  (screenH+statusBarHeight)  / 2) {
                     //第三象限
                     if (x > screenH - y) {
-                        scroll(new PointF(layoutParams.x, layoutParams.y), new PointF(layoutParams.x, screenH + statusBarHeight));
+                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), new PointF(controlLayoutParams.x, screenH - statusBarHeight-controlLayoutParams.height));
                     } else {
-                        scroll(new PointF(layoutParams.x, layoutParams.y), new PointF(0, layoutParams.y));
+                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), new PointF(0, controlLayoutParams.y));
                     }
-                }
-                if (x > screenW / 2 && y > screenH / 2) {
+                }else
+                if (x > screenW / 2 && y >  (screenH+statusBarHeight)  / 2) {
                     //第四象限
                     if (screenW - x > screenH - y) {
-                        scroll(new PointF(layoutParams.x, layoutParams.y), new PointF(layoutParams.x, screenH + statusBarHeight));
+                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), new PointF(controlLayoutParams.x, screenH - statusBarHeight-controlLayoutParams.height));
                     } else {
-                        scroll(new PointF(layoutParams.x, layoutParams.y), new PointF(screenW, layoutParams.y));
+                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), new PointF(screenW-controlLayoutParams.width, controlLayoutParams.y));
                     }
-                }*//*
+                }
                 break;
 
-        }*/
+        }
         return false;
     }
 
@@ -296,32 +378,19 @@ public class FloatingWindow implements View.OnTouchListener{
         }
     }
 
-    private class SizeTypeEvaluator implements TypeEvaluator<Size> {
-        @Override
-        public Size evaluate(float fraction, Size startValue, Size endValue) {
 
-            startValue.width = (int) (startValue.width + fraction * (endValue.width - startValue.width));
-            startValue.height = (int) (startValue.height + fraction * (endValue.height - startValue.height));
-            return startValue;
-        }
-    }
-
-
-    private class Size{
-        int width;
-        int height;
-
-        public Size(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-    }
 
 
     /**
      * 使用属性动画 实现缓慢回弹效果
      */
     private void scroll(PointF start, PointF end) {
+       scroll(start,end,null);
+    }
+    /**
+     * 使用属性动画 实现缓慢回弹效果
+     */
+    private void scroll(PointF start, PointF end,Animator.AnimatorListener listener) {
         if (animator != null && animator.isRunning()) {
             animator.cancel();
             animator = null;
@@ -332,37 +401,18 @@ public class FloatingWindow implements View.OnTouchListener{
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 PointF point = (PointF) animation.getAnimatedValue();
-                layoutParams.x = (int) (point.x);
-                layoutParams.y = (int) (point.y);
-                updateX = layoutParams.x;
-                updateY = layoutParams.y;
-                windowManager.updateViewLayout(contentView, layoutParams);
+                controlLayoutParams.x = (int) (point.x);
+                controlLayoutParams.y = (int) (point.y);
+                windowManager.updateViewLayout(controller, controlLayoutParams);
+
             }
         });
+        if (listener!=null) {
+            animator.addListener(listener);
+        }
         animator.start();
     }
 
-    /**
-     * 使用属性动画 实现缩放
-     */
-    private void scale(Size start, Size end) {
-        if (animator != null && animator.isRunning()) {
-            animator.cancel();
-            animator = null;
-        }
-        animator = ValueAnimator.ofObject(new SizeTypeEvaluator(), start, end);
-        animator.setDuration(1500);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Size size = (Size) animation.getAnimatedValue();
-                layoutParams.width=size.width;
-                layoutParams.height=size.height;
-                windowManager.updateViewLayout(contentView, layoutParams);
-            }
-        });
-        animator.start();
-    }
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         private View view;
@@ -385,5 +435,6 @@ public class FloatingWindow implements View.OnTouchListener{
             view.performLongClick();
         }
     }
+
 
 }
