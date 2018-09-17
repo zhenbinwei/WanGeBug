@@ -1,9 +1,15 @@
 package com.example.weizhenbin.wangebug.base;
 
+import android.app.Activity;
 import android.app.Application;
+import android.os.Bundle;
+import android.util.Log;
 
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.image.glide.GlideImageLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by weizhenbin on 2018/8/8.
@@ -12,6 +18,8 @@ import com.example.weizhenbin.wangebug.image.glide.GlideImageLoader;
 public class App extends Application {
 
     public static App app;
+    private List<AppStatusListener> appStatusListeners=new ArrayList<>();
+
 
     @Override
     public void onCreate() {
@@ -38,6 +46,96 @@ public class App extends Application {
         };
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(),  cb);*/
-
+        addLifecycleCallback();
     }
+
+
+    private class  LifecycleCallback implements ActivityLifecycleCallbacks{
+
+        private int activityCount=0;
+        private int activityShow=0;
+
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+            Log.d("LifecycleCallback", "onActivityCreated"+activity.getClass().getSimpleName());
+            activityCount++;
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            Log.d("LifecycleCallback", "onActivityStarted"+activity.getClass().getSimpleName());
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+            Log.d("LifecycleCallback", "onActivityResumed"+activity.getClass().getSimpleName());
+            activityShow++;
+            if (activityShow>0){
+                Log.d("LifecycleCallback", "应用处于前台");
+                for (AppStatusListener appStatusListener:appStatusListeners){
+                    appStatusListener.onAppForeground();
+                }
+            }
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            Log.d("LifecycleCallback", "onActivityPaused"+activity.getClass().getSimpleName());
+            activityShow--;
+            if (activityShow<=0){
+                Log.d("LifecycleCallback", "应该即将退出后台");
+                for (AppStatusListener appStatusListener:appStatusListeners){
+                    appStatusListener.onAppBackground();
+                }
+            }
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            Log.d("LifecycleCallback", "onActivityStopped"+activity.getClass().getSimpleName());
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            //对于直接杀进程 并不会调用onActivityDestroyed
+            Log.d("LifecycleCallback", "onActivityDestroyed"+activity.getClass().getSimpleName());
+            activityCount--;
+            if (activityCount<=0){
+                Log.d("LifecycleCallback", "应用退出");
+                appStatusListeners.clear();
+            }
+        }
+    }
+
+    /**
+     * 添加全局生命周期
+     * */
+    private void addLifecycleCallback() {
+        registerActivityLifecycleCallbacks(new LifecycleCallback());
+    }
+
+
+    public void addAppStatusListener(AppStatusListener appStatusListener){
+        if (appStatusListener!=null&&!appStatusListeners.contains(appStatusListener)){
+            appStatusListeners.add(appStatusListener);
+        }
+    }
+
+    public void removeAppStatusListener(AppStatusListener appStatusListener){
+        if (appStatusListener!=null&&appStatusListeners.contains(appStatusListener)){
+            appStatusListeners.remove(appStatusListener);
+        }
+    }
+
+    public interface AppStatusListener{
+        void onAppForeground();
+        void onAppBackground();
+    }
+
+
 }

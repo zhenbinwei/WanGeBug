@@ -1,4 +1,4 @@
-package com.example.weizhenbin.wangebug.tools.permission;
+package com.example.weizhenbin.wangebug;
 
 import android.Manifest;
 import android.os.Bundle;
@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.tools.permission.PermissionTool;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow;
 
@@ -15,28 +15,28 @@ import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow;
  * Created by weizhenbin on 2018/9/11.
  */
 
-public class TestPermissionActivity extends BaseActivity {
+public class TestActivity extends BaseActivity {
 
     FloatingWindow floatingWindow;
     FloatingView fv;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_permission);
-        floatingWindow=new FloatingWindow(TestPermissionActivity.this);
+        setContentView(R.layout.activity_test);
+        floatingWindow=new FloatingWindow();
         fv=findViewById(R.id.fv);
         findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             //fv.zoomIn(fv.getWidth()/2,fv.getHeight()/2,50,null);
-                Log.d("TestPermissionActivity", "CAMERA:" + PermissionTool.checkPermission(TestPermissionActivity.this, Manifest.permission.CAMERA));
+                Log.d("TestActivity", "CAMERA:" + PermissionTool.checkPermission(TestActivity.this, Manifest.permission.CAMERA));
 
 
                /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PermissionTool.setOverlayPermission(TestPermissionActivity.this);
+                    PermissionTool.setOverlayPermission(TestActivity.this);
                 }*/
 
-               /* PermissionTool.with(TestPermissionActivity.this).setiPermissionGrantResult(new IPermissionGrantResult() {
+               /* PermissionTool.with(TestActivity.this).setiPermissionGrantResult(new IPermissionGrantResult() {
                     @Override
                     public void onGrantResult(@NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -45,9 +45,9 @@ public class TestPermissionActivity extends BaseActivity {
 
 
 
-                floatingWindow.showFloatingWindow();
+                floatingWindow.addFloatingWindow();
 
-              //  Toast.makeText(TestPermissionActivity.this,"测试点击穿透",Toast.LENGTH_LONG).show();
+              //  Toast.makeText(TestActivity.this,"测试点击穿透",Toast.LENGTH_LONG).show();
 
             }
         });

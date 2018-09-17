@@ -35,4 +35,13 @@ public class SoftKeyboardTool {
             inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+    /**
+     * 隐藏软键盘(可用于Activity，Fragment)
+     */
+    public static void hideSoftKeyboard(Context context, View view) {
+        if (view == null) return;
+
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 }

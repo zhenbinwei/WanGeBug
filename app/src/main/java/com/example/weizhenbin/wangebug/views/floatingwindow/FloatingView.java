@@ -114,6 +114,13 @@ public class FloatingView extends RelativeLayout {
     }
 
 
+    public void setCircleRadius(int circleRadius) {
+        if (circleRadius==this.circleRadius){
+            return;
+        }
+        this.circleRadius = circleRadius;
+        invalidate();
+    }
 
     /**
      * 放大
