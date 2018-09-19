@@ -10,13 +10,21 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.weizhenbin.wangebug.base.BaseActivity;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.modules.code.uis.CodeFragment;
 import com.example.weizhenbin.wangebug.modules.news.uis.NewsFragment;
 import com.example.weizhenbin.wangebug.modules.recreation.uis.RecreationFragment;
+import com.example.weizhenbin.wangebug.modules.settings.SettingsActivity;
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoListActivity;
+import com.example.weizhenbin.wangebug.tools.permission.IFloattingWindowPermissionGrantResult;
+import com.example.weizhenbin.wangebug.tools.permission.PermissionTool;
+import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig;
+import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool;
+import com.example.weizhenbin.wangebug.views.floatingwindow.TodoFloatingWindowManager;
+import com.example.weizhenbin.wangebug.views.remindbar.RemindBar;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,IOpenMenuHandler {
@@ -50,7 +58,42 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView =findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initFragment(savedInstanceState);
+        openFloattingWindow();
     }
+
+
+    /**
+     * 判断权限 开启悬浮窗
+     * */
+    private void openFloattingWindow(){
+        if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false)){
+            if (PermissionTool.checkWindowPermission(MainActivity.this)){
+                TodoFloatingWindowManager.getManager().showFloatingWindow();
+            }else {
+                RemindBar.make(drawer,getString(R.string.no_floattingwindow_permission_remind_string),RemindBar.LENGTH_LONG)
+                        .setAction(getString(R.string.open_string), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PermissionTool.with(MainActivity.this).setiFloattingWindowPermissionGrantResult(new IFloattingWindowPermissionGrantResult() {
+                            @Override
+                            public void onGrantResult(boolean isGrant) {
+                                if (PermissionTool.checkWindowPermission(MainActivity.this)){
+                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,true);
+                                    TodoFloatingWindowManager.getManager().showFloatingWindow();
+                                }else {
+                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false);
+                                    TodoFloatingWindowManager.getManager().hideFloatingWindow();
+                                }
+                            }
+                        }).requestFloattingWindowPermission();
+                    }
+                }).show();
+            }
+        }
+    }
+
+
+
 
     private void initFragment(Bundle savedInstanceState) {
         fragmentManager=getSupportFragmentManager();
@@ -174,6 +217,7 @@ public class MainActivity extends BaseActivity
             case R.id.nav_share:
                 break;
             case R.id.nav_settings:
+                SettingsActivity.startActivity(MainActivity.this);
                 break;
             case R.id.nav_about:
                 break;

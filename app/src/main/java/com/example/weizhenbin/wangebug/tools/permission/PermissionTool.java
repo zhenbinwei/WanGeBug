@@ -25,6 +25,7 @@ public class PermissionTool {
 
     private Context context;
     private IPermissionGrantResult iPermissionGrantResult;
+    private IFloattingWindowPermissionGrantResult iFloattingWindowPermissionGrantResult;
     private PermissionTool(Context context){
          this.context=context;
     }
@@ -40,7 +41,12 @@ public class PermissionTool {
         return this;
     }
 
-  /**
+    public PermissionTool setiFloattingWindowPermissionGrantResult(IFloattingWindowPermissionGrantResult iFloattingWindowPermissionGrantResult) {
+        this.iFloattingWindowPermissionGrantResult = iFloattingWindowPermissionGrantResult;
+        return this;
+    }
+
+    /**
    * @see  Manifest.permission
    * */
     public void requestPermissions(String[] permissions){
@@ -55,7 +61,7 @@ public class PermissionTool {
                 PermissionResultManager.getManager().getiPermissionGrantResult().onGrantResult(permissions,grantResults);
             }
         }else {
-            PermissionEmptyActivity.startActivity(context, permissions);
+            PermissionEmptyActivity.requestPermission(context, permissions);
         }
     }
 
@@ -122,11 +128,21 @@ public class PermissionTool {
 
     /**
      * 引导用户去开启悬浮窗权限
-     * startActivity(new Intent(ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.getPackageName())));
+     * requestPermission(new Intent(ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.getPackageName())));
      * */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void setOverlayPermission(Context context){
-        context.startActivity(new Intent(ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName())));
+    public static void setOverlayPermission(Activity activity,int requestCode){
+        if (activity==null){
+            return;
+        }
+        activity.startActivityForResult(new Intent(ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + activity.getPackageName())),requestCode);
+    }
+
+
+    public void requestFloattingWindowPermission(){
+        PermissionResultManager.getManager().addFloattingWindowPermissionListener(null);
+        PermissionResultManager.getManager().addFloattingWindowPermissionListener(iFloattingWindowPermissionGrantResult);
+        PermissionEmptyActivity.requestFloattingWindowPermission(context);
     }
 
 }

@@ -5,9 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
@@ -28,23 +28,17 @@ import com.example.weizhenbin.wangebug.tools.PhoneTool;
 import com.example.weizhenbin.wangebug.tools.SoftKeyboardTool;
 import com.example.weizhenbin.wangebug.tools.StatusTool;
 
-import java.util.ArrayList;
-
-import static android.view.View.inflate;
-import static com.example.weizhenbin.wangebug.R.id.imageView;
-import static com.example.weizhenbin.wangebug.R.id.scroll;
-
 /**
  * Created by weizhenbin on 2018/9/12.
  * 悬浮窗
  */
 
-public class FloatingWindow implements View.OnTouchListener,App.AppStatusListener{
+public class FloatingWindow implements View.OnTouchListener{
 
     private WindowManager windowManager;
     private WindowManager.LayoutParams controlLayoutParams;//活动控制层
     private WindowManager.LayoutParams baseLayoutParams;//基础层 底层
-    private View contentView;
+    private ViewGroup contentView;
     private FrameLayout baseView;//基础层
 
 
@@ -60,32 +54,11 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
 
 
     /**
-     * 不可移动的时候大小
-     * */
-    private int windowMiniWidthNoMove =PhoneTool.dip2px(48);
-
-    private int windowMiniHeightNoMove =PhoneTool.dip2px(48);
-
-    /**
-     * 默认位置
-     * */
-    private int defX=0;
-    private int defY=0;
-
-
-
-    /**
      * 按下相对View的坐标
      * */
     private int downViewX;
     private int downViewY;
-    /**
-     * 按下相对屏幕的坐标
-     * */
-    private int downScreenX;
-    private int downScreenY;
 
-    
     /**
      * 屏幕宽高
      * */
@@ -107,8 +80,6 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
 
     private boolean isAddView=false;
 
-
-
     /**迷你状态*/
     private boolean isMini=true;
 
@@ -117,22 +88,65 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
         context= App.app.getApplicationContext();
         initWindowManager(context);
         baseView=new FloatingContentView(context);
-        contentView= LayoutInflater.from(context).inflate(R.layout.floating_window_layout,baseView,false);
+        contentView= (ViewGroup) LayoutInflater.from(context).inflate(R.layout.floating_window_layout,baseView,false);
         baseView.addView(contentView);
         controller=new ImageView(context);
         controller.setImageResource(R.drawable.add);
         controller.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         controller.setBackgroundResource(R.drawable.round_bg_primary);
-      //  baseView.setBackgroundColor(context.getResources().getColor(R.color.colorWhite100a));
         fvView=contentView.findViewById(R.id.fv_view);
-
         screenW= PhoneTool.getScreenWidth();
         screenH= PhoneTool.getScreenHeight();
         statusBarHeight=StatusTool.getStatusBarHeight(context);
-       // baseView.setFocusableInTouchMode(true);
         initEvent();
     }
 
+
+    /**
+     * 添加实际可操作的布局
+     * */
+    public void addRealContentView(View view){
+        if (view!=null&&view.getParent()==null) {
+            this.contentView.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        }
+    }
+
+    /**
+     * 设置可缩放布局大小
+     * */
+    public void setContentViewLayoutParams(FrameLayout.LayoutParams layoutParams){
+        contentView.setLayoutParams(layoutParams);
+    }
+
+    /**
+     * 设置悬浮窗大小
+     * */
+    public void  setMiniWindowSize(int width,int height){
+        controlLayoutParams.height=height;
+        controlLayoutParams.width=width;
+        windowMiniHeight=height;
+        windowMiniWidth=width;
+        windowManager.updateViewLayout(controller,controlLayoutParams);
+    }
+
+    /**
+     * 设置悬浮窗背景
+     * */
+    public void setMiniWindowBackground(Drawable background){
+        controller.setBackground(background);
+    }
+    /**
+     * 设置悬浮窗图标
+     * */
+    public void setMiniWindowIcon(int resId){
+        controller.setImageResource(resId);
+    }
+    /**
+     * 设置悬浮窗图标
+     * */
+    public void setMiniWindowIcon(Drawable drawable){
+        controller.setImageDrawable(drawable);
+    }
     private void initEvent() {
         controller.setOnTouchListener(this);
         controller.setOnClickListener(new View.OnClickListener() {
@@ -190,13 +204,6 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
 
     }
 
-    public void bindAppStatus(){
-        App.app.addAppStatusListener(this);
-    }
-    public void unBindAppStatus(){
-        App.app.removeAppStatusListener(this);
-    }
-
     /**
      * 扩展动画展开
      * */
@@ -208,36 +215,24 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
                 baseLayoutParams.flags=WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
                 controlLayoutParams.flags=WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE|WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                 windowManager.updateViewLayout(baseView,baseLayoutParams);
-              /*  controlLayoutParams.width=windowMiniWidthNoMove;
-                controlLayoutParams.height=windowMiniHeightNoMove;
-                controlLayoutParams.x=controlLayoutParams.x>0?screenW-controlLayoutParams.width:0;*/
                 windowManager.updateViewLayout(controller,controlLayoutParams);
             }
 
             @Override
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
-               // controller.getBackground().setAlpha(0);
                 controller.setVisibility(View.INVISIBLE);
             }
         };
         if (isMini){
         isMini=false;
         fvView.zoomIn(controlLayoutParams.x+windowMiniWidth/2 , controlLayoutParams.y+windowMiniHeight/2, windowMiniWidth/2, animatorListenerAdapter);
-       /*     if (controlLayoutParams.x<=0) {
-        }else if (controlLayoutParams.x>=fvView.getWidth()- windowMiniWidth){
-            fvView.zoomIn(controlLayoutParams.x + windowMiniWidth, controlLayoutParams.y, windowMiniWidth/2, animatorListenerAdapter);
-        }else {
-            fvView.zoomIn(controlLayoutParams.x + windowMiniWidth / 2, controlLayoutParams.y, windowMiniWidth/2, animatorListenerAdapter);
-        }*/
         }
     }
 
     private void viewZoomOut(){
         SoftKeyboardTool.hideSoftKeyboard(context,baseView);
         if (!isMini){
-          /*  controlLayoutParams.width=windowMiniWidth;
-            controlLayoutParams.height=windowMiniHeight;*/
             windowManager.updateViewLayout(controller,controlLayoutParams);
             fvView.zoomOut(new AnimatorListenerAdapter() {
                 @Override
@@ -248,7 +243,6 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
                     controlLayoutParams.flags=WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                     windowManager.updateViewLayout(baseView,baseLayoutParams);
                     windowManager.updateViewLayout(controller,controlLayoutParams);
-                    //controller.getBackground().setAlpha(255);
                     controller.setVisibility(View.VISIBLE);
                 }
             });
@@ -307,8 +301,6 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
         controlLayoutParams.height= windowMiniHeight;
         baseLayoutParams.width= WindowManager.LayoutParams.MATCH_PARENT;
         baseLayoutParams.height= WindowManager.LayoutParams.MATCH_PARENT;
-        controlLayoutParams.y=defY;
-        controlLayoutParams.x=defX;
         controlLayoutParams.gravity= Gravity.TOP | Gravity.START;
         baseLayoutParams.gravity= Gravity.TOP | Gravity.START;
 
@@ -320,7 +312,7 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
        if(mGestureDetector==null){
             mGestureDetector = new GestureDetector(v.getContext(), new GestureListener(v));
         }
-            //长按 点击和onTouch 冲突问题  借助GestureDetector来解决 TouchImageView已经带有mGestureDetector如果不排除 会回调两次
+        //长按 点击和onTouch 冲突问题  借助GestureDetector来解决
         mGestureDetector.onTouchEvent(event);
         if (!isMini){
             return true;
@@ -329,8 +321,6 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
             case MotionEvent.ACTION_DOWN:
                 downViewX= (int) event.getX();
                 downViewY= (int) event.getY();
-                downScreenX= (int) event.getRawX();
-                downScreenY= (int) event.getRawY();
                 fvView.setCircleRadius(0);
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -395,15 +385,6 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
         return false;
     }
 
-    @Override
-    public void onAppForeground() {
-         addFloatingWindow();
-    }
-
-    @Override
-    public void onAppBackground() {
-        removeFloatingWindow();
-    }
 
     private class PointTypeEvaluator implements TypeEvaluator<PointF> {
 
@@ -454,7 +435,7 @@ public class FloatingWindow implements View.OnTouchListener,App.AppStatusListene
 
         private View view;
 
-        public GestureListener(View view) {
+        private GestureListener(View view) {
             this.view = view;
         }
 

@@ -8,8 +8,8 @@
         android:id="@+id/tb_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftSrc="@drawable/close"
-        app:titleSize="18dp"
+        app:leftSrc="@drawable/back"
+        app:titleSize="16sp"
         app:titleColor="#fff"
         android:background="@color/colorPrimary"/>
 <com.example.weizhenbin.wangebug.views.WebViewLayout

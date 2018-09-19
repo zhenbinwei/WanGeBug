@@ -108,13 +108,13 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         if (!todoBean.isEmpty()){
-            DialogTool.showAlertDialog(TodoEditActivity.this, null, "是否保存事件", "保存", new DialogInterface.OnClickListener() {
+            DialogTool.showAlertDialog(TodoEditActivity.this, null, getString(R.string.save_todo_remind_string), getString(R.string.save_string), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     saveTodo();
                     finish();
                 }
-            }, "取消", new DialogInterface.OnClickListener() {
+            }, getString(R.string.cancel_string), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();

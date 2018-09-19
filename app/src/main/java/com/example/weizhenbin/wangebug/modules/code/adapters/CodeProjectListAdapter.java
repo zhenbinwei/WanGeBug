@@ -36,7 +36,7 @@ public class CodeProjectListAdapter extends BaseQuickAdapter<ProjectListDataBean
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (data!=null){
                     WebActivity.startActivity(context,data.get(position).getLink());
-                   // WebActivity.startActivity(context,"https://github.com/caiyonglong/Notepad/issues");
+                   // WebActivity.requestPermission(context,"https://github.com/caiyonglong/Notepad/issues");
                 }
             }
         });

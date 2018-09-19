@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.image.glide.GlideImageLoader;
+import com.example.weizhenbin.wangebug.views.floatingwindow.TodoFloatingWindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,11 +65,6 @@ public class App extends Application {
         @Override
         public void onActivityStarted(Activity activity) {
             Log.d("LifecycleCallback", "onActivityStarted"+activity.getClass().getSimpleName());
-        }
-
-        @Override
-        public void onActivityResumed(Activity activity) {
-            Log.d("LifecycleCallback", "onActivityResumed"+activity.getClass().getSimpleName());
             activityShow++;
             if (activityShow>0){
                 Log.d("LifecycleCallback", "应用处于前台");
@@ -79,8 +75,18 @@ public class App extends Application {
         }
 
         @Override
+        public void onActivityResumed(Activity activity) {
+            Log.d("LifecycleCallback", "onActivityResumed"+activity.getClass().getSimpleName());
+        }
+
+        @Override
         public void onActivityPaused(Activity activity) {
             Log.d("LifecycleCallback", "onActivityPaused"+activity.getClass().getSimpleName());
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            Log.d("LifecycleCallback", "onActivityStopped"+activity.getClass().getSimpleName());
             activityShow--;
             if (activityShow<=0){
                 Log.d("LifecycleCallback", "应该即将退出后台");
@@ -88,11 +94,6 @@ public class App extends Application {
                     appStatusListener.onAppBackground();
                 }
             }
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-            Log.d("LifecycleCallback", "onActivityStopped"+activity.getClass().getSimpleName());
         }
 
         @Override
@@ -108,8 +109,16 @@ public class App extends Application {
             if (activityCount<=0){
                 Log.d("LifecycleCallback", "应用退出");
                 appStatusListeners.clear();
+                onAppQuit();
             }
         }
+    }
+
+    /**
+     * 应用退出的时候
+     * */
+    private void onAppQuit() {
+        TodoFloatingWindowManager.getManager().cleanFloatingWindow();
     }
 
     /**
@@ -132,10 +141,7 @@ public class App extends Application {
         }
     }
 
-    public interface AppStatusListener{
-        void onAppForeground();
-        void onAppBackground();
-    }
+
 
 
 }

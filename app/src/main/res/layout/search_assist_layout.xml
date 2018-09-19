@@ -51,6 +51,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@drawable/shape_gradient"
+        android:background="@drawable/shape_gradient_graye_white"
         />
 </LinearLayout>

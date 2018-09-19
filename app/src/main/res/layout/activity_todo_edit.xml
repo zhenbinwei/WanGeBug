@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftSrc="@drawable/back"
-        app:layout_behavior="@string/title_bar_behavior"
         app:titleSize="16sp"
         app:titleColor="#fff"
         app:rightSrc="@drawable/done"
@@ -50,7 +49,7 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:background="@drawable/shape_gradient"
+                android:background="@drawable/shape_gradient_graye_white"
                 android:layout_height="3dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"

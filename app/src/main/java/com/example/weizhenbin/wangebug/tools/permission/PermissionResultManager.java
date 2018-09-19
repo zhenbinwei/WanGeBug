@@ -11,14 +11,23 @@ public class PermissionResultManager {
 
     private IPermissionGrantResult iPermissionGrantResult;
 
+    private IFloattingWindowPermissionGrantResult iFloattingWindowPermissionGrantResult;
 
     private PermissionResultManager(){
 
     }
 
 
+    public void addFloattingWindowPermissionListener(IFloattingWindowPermissionGrantResult iFloattingWindowPermissionGrantResult){
+        this.iFloattingWindowPermissionGrantResult=iFloattingWindowPermissionGrantResult;
+    }
     public void addPermissionGrantListener(IPermissionGrantResult iPermissionGrantResult){
         this.iPermissionGrantResult=iPermissionGrantResult;
+    }
+
+
+    public IFloattingWindowPermissionGrantResult getiFloattingWindowPermissionGrantResult() {
+        return iFloattingWindowPermissionGrantResult;
     }
 
     public IPermissionGrantResult getiPermissionGrantResult() {

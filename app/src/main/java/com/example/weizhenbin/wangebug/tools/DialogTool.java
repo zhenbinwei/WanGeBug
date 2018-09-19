@@ -11,34 +11,57 @@ import android.content.DialogInterface;
 
 public class DialogTool {
 
-    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr, DialogInterface.OnClickListener onPositiveClickListener, String negativeButtonStr, DialogInterface.OnClickListener onNegativeClickListener){
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr, DialogInterface.OnClickListener onPositiveClickListener, String negativeButtonStr, DialogInterface.OnClickListener onNegativeClickListener,boolean cancelable){
         Dialog alertDialog = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
                 .setTitle(title)
                 .setMessage(content)
                 .setPositiveButton(positiveButtonStr, onPositiveClickListener)
                 .setNegativeButton(negativeButtonStr, onNegativeClickListener)
                 .create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(cancelable);
         alertDialog.show();
+    }
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr, DialogInterface.OnClickListener onPositiveClickListener, String negativeButtonStr, DialogInterface.OnClickListener onNegativeClickListener){
+        showAlertDialog( context,  title,  content,  positiveButtonStr,  onPositiveClickListener,  negativeButtonStr,  onNegativeClickListener,true);
     }
     /**
      * 用于提示 确认操作
      * */
-    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr){
-       showAlertDialog(context,title,content,positiveButtonStr,null,null,null);
-    }
-    /**
-     * 用于提示 无操作
-     * */
-    public static void showAlertDialog(Context context, String title, String content){
-        showAlertDialog(context,title,content,null,null,null,null);
-    }
-    /**
-     * 用于提示 无操作
-     * */
-    public static void showAlertDialog(Context context, String content){
-        showAlertDialog(context,null,content,null,null,null,null);
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr,boolean cancelable){
+       showAlertDialog(context,title,content,positiveButtonStr,null,null,null,cancelable);
     }
 
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr){
+        showAlertDialog( context,  title,  content,  positiveButtonStr,true);
+    }
+    /**
+     * 用于提示 确认操作
+     * */
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr,DialogInterface.OnClickListener onPositiveClickListener,boolean cancelable){
+        showAlertDialog(context,title,content,positiveButtonStr,onPositiveClickListener,null,null,cancelable);
+    }
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr,DialogInterface.OnClickListener onPositiveClickListener){
+        showAlertDialog( context,  title,  content,  positiveButtonStr, onPositiveClickListener,true);
+    }
+    /**
+     * 用于提示 无操作
+     * */
+    public static void showAlertDialog(Context context, String title, String content,boolean cancelable){
+        showAlertDialog(context,title,content,null,null,null,null,cancelable);
+    }
+    public static void showAlertDialog(Context context, String title, String content){
+        showAlertDialog( context,  title,  content,true);
+    }
+    /**
+     * 用于提示 无操作
+     * */
+    public static void showAlertDialog(Context context, String content,boolean cancelable){
+        showAlertDialog(context,null,content,null,null,null,null, cancelable);
+    }
+    public static void showAlertDialog(Context context, String content){
+        showAlertDialog( context,content,true);
+    }
 
 
 
