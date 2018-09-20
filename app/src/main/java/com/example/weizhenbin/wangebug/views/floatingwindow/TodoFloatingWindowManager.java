@@ -1,6 +1,5 @@
 package com.example.weizhenbin.wangebug.views.floatingwindow;
 
-import android.util.Log;
 import android.view.View;
 
 import com.example.weizhenbin.wangebug.R;
@@ -58,7 +57,6 @@ public class TodoFloatingWindowManager extends AppStatusListener {
 
     @Override
     protected void onAppForeground() {
-        Log.d("TodoFloatingWindowManag", "onAppForeground");
         if (floatingWindow!=null&& PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false)){
             floatingWindow.addFloatingWindow();
         }
@@ -66,7 +64,6 @@ public class TodoFloatingWindowManager extends AppStatusListener {
 
     @Override
     protected void onAppBackground() {
-        Log.d("TodoFloatingWindowManag", "onAppBackground");
         if (floatingWindow!=null){
             floatingWindow.removeFloatingWindow();
         }

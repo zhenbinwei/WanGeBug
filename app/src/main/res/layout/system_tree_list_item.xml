@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_margin="8dp"
     android:layout_height="wrap_content">
-<TextView
+    <TextView
     android:id="@+id/tv_tree_name"
     android:layout_width="match_parent"
     android:textColor="@color/colorGray2"
@@ -17,6 +17,16 @@
         android:layout_marginTop="8dp"
         android:id="@+id/tfl_tree_datas"
         app:max_select="-1"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tv_tags"
+        android:textColor="@color/colorGray5"
+        android:textSize="14sp"
+        android:textColorHighlight="@color/colorAccent"
+        android:layout_marginTop="8dp"
+        android:lineSpacingExtra="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

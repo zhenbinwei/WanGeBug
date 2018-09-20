@@ -70,6 +70,7 @@
         <activity
             android:name=".TestActivity"
             android:screenOrientation="portrait">
+
         </activity>
         <activity
             android:screenOrientation="portrait"

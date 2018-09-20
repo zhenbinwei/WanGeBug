@@ -13,7 +13,6 @@ import android.view.WindowManager;
 
 import com.example.weizhenbin.wangebug.base.BaseActivity;
 
-import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION;
 
 /**
@@ -52,7 +51,7 @@ public class PermissionEmptyActivity extends BaseActivity {
                 requestPermission();
             }
         }else if (type==TYPE_FLOATTINGWINDOW){
-            requestFloattingWindow();
+            requestFloatingWindow();
         }
     }
 
@@ -75,14 +74,14 @@ public class PermissionEmptyActivity extends BaseActivity {
     }
 
 
-    private void requestFloattingWindow(){
+    private void requestFloatingWindow(){
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             startActivityForResult(new Intent(ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())),PERMISSION_REQUEST_CODE);
         }else {
-            if (PermissionResultManager.getManager().getiFloattingWindowPermissionGrantResult()!=null){
+            if (PermissionResultManager.getManager().getiFloatingWindowPermissionGrantResult()!=null){
                 PermissionResultManager.getManager()
-                        .getiFloattingWindowPermissionGrantResult()
+                        .getiFloatingWindowPermissionGrantResult()
                         .onGrantResult(true);
             }
             finish();
@@ -105,11 +104,12 @@ public class PermissionEmptyActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==PERMISSION_REQUEST_CODE){
-                if (PermissionResultManager.getManager().getiFloattingWindowPermissionGrantResult()!=null){
+                if (PermissionResultManager.getManager().getiFloatingWindowPermissionGrantResult()!=null){
                     PermissionResultManager.getManager()
-                            .getiFloattingWindowPermissionGrantResult()
+                            .getiFloatingWindowPermissionGrantResult()
                             .onGrantResult(PermissionTool.checkWindowPermission(PermissionEmptyActivity.this));
                 }
+                finish();
         }
     }
 }

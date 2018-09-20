@@ -1,13 +1,20 @@
 package com.example.weizhenbin.wangebug;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.views.MyTextView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow;
-import com.example.weizhenbin.wangebug.views.remindbar.RemindBar;
 
 /**
  * Created by weizhenbin on 2018/9/11.
@@ -18,6 +25,7 @@ public class TestActivity extends BaseActivity {
     FloatingWindow floatingWindow;
     FloatingView fv;
     //RemindBarLayout remindBar;
+    MyTextView myTextView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +35,10 @@ public class TestActivity extends BaseActivity {
         floatingWindow.addRealContentView(View.inflate(TestActivity.this,R.layout.floating_window_todo_edit_view,null));
       /*  remindBar=new RemindBarLayout(fv);
         remindBar.setMarginBottom(200);*/
+      myTextView=findViewById(R.id.tv_tags);
+
+
+
         findViewById(R.id.bt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,14 +74,34 @@ public class TestActivity extends BaseActivity {
                 remindBar.show();*/
 
              // RemindBarLayout.make(v,"测试", RemindBarLayout.LENGTH_LONG).show();
-                RemindBar.make(v,"测试", RemindBar.LENGTH_LONG).setAction("测试1", new View.OnClickListener() {
+               /* RemindBar.make(v,"测试", RemindBar.LENGTH_LONG).setAction("测试1", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                     }
-                }).show();
+                }).show();*/
 
+                String s1="测试 测试 测试内容 测试 测试内容 我是测试内容 内容 测试 测试 ";
+                StringBuilder stringBuilder=new StringBuilder();
 
+                String[] strings=getStrings(s1.toString());
+
+                int lineWidth=0;
+                //多加一个字的宽度 避开恰好到了text自动换行 变成了双换行\
+                for (int i = 0; i < strings.length; i++) {
+                    String s=strings[i];
+                    if ((lineWidth+myTextView.getPaint().measureText(s+"字"))>myTextView.getWidth()){
+                        lineWidth= 0;
+                        myTextView.append("\n");
+                    }
+                    MyClickableSpan span=new MyClickableSpan(i,s,0,s.length());
+                    SpannableString spannableString=new SpannableString(s);
+                    spannableString.setSpan(span,span.startIndex,span.endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    myTextView.append(spannableString);
+                    myTextView.append(" ");
+                    lineWidth+=myTextView.getPaint().measureText(s+" ");
+                }
+                myTextView.setMovementMethod(LinkMovementMethod.getInstance());
             }
         });
 
@@ -82,5 +114,39 @@ public class TestActivity extends BaseActivity {
                // remindBar.remove();
             }
         });
+    }
+    private String[] getStrings(String text){
+        return  text.split(" ");
+    }
+
+
+    private class MyClickableSpan extends ClickableSpan {
+        int position;
+
+        String str;
+
+        int startIndex;
+
+        int endIndex;
+
+        public MyClickableSpan(int position, String str, int startIndex, int endIndex) {
+            this.position = position;
+            this.str = str;
+            this.startIndex = startIndex;
+            this.endIndex = endIndex;
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+            ds.setColor(Color.BLACK);
+            Log.d("MyClickableSpan", "ds:" + ds);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            Log.d("MyClickableSpan", "点击");
+        }
     }
 }

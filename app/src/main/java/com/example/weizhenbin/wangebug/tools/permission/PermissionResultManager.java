@@ -26,7 +26,7 @@ public class PermissionResultManager {
     }
 
 
-    public IFloattingWindowPermissionGrantResult getiFloattingWindowPermissionGrantResult() {
+    public IFloattingWindowPermissionGrantResult getiFloatingWindowPermissionGrantResult() {
         return iFloattingWindowPermissionGrantResult;
     }
 

@@ -152,7 +152,6 @@ public class FloatingWindow implements View.OnTouchListener{
         controller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("FloatingWindow", "点击");
                 if (!isMini){
                     viewZoomOut();
                 }else {
@@ -180,7 +179,6 @@ public class FloatingWindow implements View.OnTouchListener{
         baseView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("FloatingWindow", "测试点击");
                 if (!isMini){
                     viewZoomOut();
                 }
@@ -190,8 +188,6 @@ public class FloatingWindow implements View.OnTouchListener{
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-                    Log.d("FloatingWindow", "点击返回");
                     if (!isMini){
                         viewZoomOut();
                     }
@@ -244,6 +240,12 @@ public class FloatingWindow implements View.OnTouchListener{
                     windowManager.updateViewLayout(baseView,baseLayoutParams);
                     windowManager.updateViewLayout(controller,controlLayoutParams);
                     controller.setVisibility(View.VISIBLE);
+                    fvView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            fvView.setCircleRadius(0);
+                        }
+                    },100);
                 }
             });
         }
