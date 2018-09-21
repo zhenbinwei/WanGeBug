@@ -19,7 +19,7 @@ import java.util.List;
 public class App extends Application {
 
     public static App app;
-    private List<AppStatusListener> appStatusListeners=new ArrayList<>();
+    private List<AppActivityLifecycleListener> appStatusListeners=new ArrayList<>();
 
 
     @Override
@@ -60,6 +60,9 @@ public class App extends Application {
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
             Log.d("LifecycleCallback", "onActivityCreated"+activity.getClass().getSimpleName());
             activityCount++;
+            for (AppActivityLifecycleListener appStatusListener:appStatusListeners){
+                appStatusListener.onActivityCreated(activity,savedInstanceState);
+            }
         }
 
         @Override
@@ -68,20 +71,29 @@ public class App extends Application {
             activityShow++;
             if (activityShow>0){
                 Log.d("LifecycleCallback", "应用处于前台");
-                for (AppStatusListener appStatusListener:appStatusListeners){
+                for (AppActivityLifecycleListener appStatusListener:appStatusListeners){
                     appStatusListener.onAppForeground();
                 }
+            }
+            for (AppActivityLifecycleListener appStatusListener:appStatusListeners){
+                appStatusListener.onActivityStarted(activity);
             }
         }
 
         @Override
         public void onActivityResumed(Activity activity) {
             Log.d("LifecycleCallback", "onActivityResumed"+activity.getClass().getSimpleName());
+            for (AppActivityLifecycleListener appStatusListener:appStatusListeners){
+                appStatusListener.onActivityResumed(activity);
+            }
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
             Log.d("LifecycleCallback", "onActivityPaused"+activity.getClass().getSimpleName());
+            for (AppActivityLifecycleListener appStatusListener:appStatusListeners){
+                appStatusListener.onActivityPaused(activity);
+            }
         }
 
         @Override
@@ -90,15 +102,20 @@ public class App extends Application {
             activityShow--;
             if (activityShow<=0){
                 Log.d("LifecycleCallback", "应该即将退出后台");
-                for (AppStatusListener appStatusListener:appStatusListeners){
+                for (AppActivityLifecycleListener appStatusListener:appStatusListeners){
                     appStatusListener.onAppBackground();
                 }
+            }
+            for (AppActivityLifecycleListener appStatusListener:appStatusListeners){
+                appStatusListener.onActivityStopped(activity);
             }
         }
 
         @Override
         public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
+            for (AppActivityLifecycleListener appStatusListener:appStatusListeners){
+                appStatusListener.onActivitySaveInstanceState(activity,outState);
+            }
         }
 
         @Override
@@ -110,6 +127,9 @@ public class App extends Application {
                 Log.d("LifecycleCallback", "应用退出");
                 appStatusListeners.clear();
                 onAppQuit();
+            }
+            for (AppActivityLifecycleListener appStatusListener:appStatusListeners){
+                appStatusListener.onActivityDestroyed(activity);
             }
         }
     }

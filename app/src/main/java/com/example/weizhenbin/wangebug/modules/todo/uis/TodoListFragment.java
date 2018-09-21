@@ -15,7 +15,7 @@ import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.modules.todo.adapters.TodoListAdapter;
 import com.example.weizhenbin.wangebug.modules.todo.controllers.TodoController;
-import com.example.weizhenbin.wangebug.modules.todo.entity.TodoBean;
+import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class TodoListFragment extends BaseFragment {
     private SwipeRefreshLayout srlRefresh;
     private RecyclerView rvDataList;
     private TodoListAdapter listAdapter;
-    private List<TodoBean> beanList=new ArrayList<>();
+    private List<TBTodoBean> beanList=new ArrayList<>();
     private int page=1;
 
     @Override
@@ -85,20 +85,20 @@ public class TodoListFragment extends BaseFragment {
         if (page==1){
             srlRefresh.setRefreshing(true);
         }
-        Observable.create(new Observable.OnSubscribe<List<TodoBean>>() {
+        Observable.create(new Observable.OnSubscribe<List<TBTodoBean>>() {
             @Override
-            public void call(Subscriber<? super List<TodoBean>> subscriber) {
+            public void call(Subscriber<? super List<TBTodoBean>> subscriber) {
 
-                TodoBean where=new TodoBean();
+                TBTodoBean where=new TBTodoBean();
                 if (todoStatus!=-1) {
                     where.setTodoStatus(todoStatus);
                 }
-               List<TodoBean> beanList= TodoController.getTodoList(where);
+               List<TBTodoBean> beanList= TodoController.getTodoList(where);
                 subscriber.onNext(beanList);
             }
         }).observeOn(AndroidSchedulers.mainThread())
           .subscribeOn(Schedulers.io())
-          .subscribe(new Observer<List<TodoBean>>() {
+          .subscribe(new Observer<List<TBTodoBean>>() {
               @Override
               public void onCompleted() {
 
@@ -110,7 +110,7 @@ public class TodoListFragment extends BaseFragment {
               }
 
               @Override
-              public void onNext(List<TodoBean> todoBeen) {
+              public void onNext(List<TBTodoBean> todoBeen) {
                   srlRefresh.setRefreshing(false);
                   if (todoBeen!=null){
                       if (page==1){
@@ -140,6 +140,9 @@ public class TodoListFragment extends BaseFragment {
         rvDataList = view.findViewById(R.id.rv_data_list);
     }
     private void initData() {
+        if (getContext()==null){
+            return;
+        }
         listAdapter=new TodoListAdapter(beanList);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));

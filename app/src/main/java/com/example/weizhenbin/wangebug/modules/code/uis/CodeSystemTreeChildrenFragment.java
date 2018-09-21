@@ -27,7 +27,7 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
     SwipeRefreshLayout srlRefresh;
     RecyclerView rvDataList;
     CodeArticleListAdapter listAdapter;
-    int page=1;
+    int page=0;
     List<ArticleListDataBean.DataBean.DatasBean> datasBeen=new ArrayList<>();
     int cid;
     String name;
@@ -50,7 +50,7 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
             @Override
             public void onStart() {
                 super.onStart();
-                if (page==1){
+                if (page==0){
                     srlRefresh.setRefreshing(true);
                 }
             }
@@ -61,11 +61,11 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
                 srlRefresh.setRefreshing(false);
                 if (articleListDataBean!=null&&articleListDataBean.getErrorCode()==0){
                     if (articleListDataBean.getData()!=null&&articleListDataBean.getData().getDatas()!=null){
-                        if (page==1){
+                        if (page==0){
                             datasBeen.clear();
                         }
                         datasBeen.addAll(articleListDataBean.getData().getDatas());
-                        if(page==1){
+                        if(page==0){
                             listAdapter.setNewData(datasBeen);
                         }else {
                             listAdapter.notifyDataSetChanged();
@@ -96,7 +96,7 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
         srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page=1;
+                page=0;
                 getData();
             }
         });
@@ -109,6 +109,9 @@ public class CodeSystemTreeChildrenFragment extends BaseFragment {
     }
 
     private void initData() {
+        if (getContext()==null){
+            return;
+        }
         listAdapter=new CodeArticleListAdapter(getContext(),datasBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));

@@ -1,17 +1,16 @@
 package com.example.weizhenbin.wangebug;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.tools.DialogTool;
 import com.example.weizhenbin.wangebug.views.MyTextView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow;
@@ -81,7 +80,7 @@ public class TestActivity extends BaseActivity {
                     }
                 }).show();*/
 
-                String s1="测试 测试 测试内容 测试 测试内容 我是测试内容 内容 测试 测试 ";
+             /*   String s1="测试 测试 测试内容 测试 测试内容 我是测试内容 内容 测试 测试 ";
                 StringBuilder stringBuilder=new StringBuilder();
 
                 String[] strings=getStrings(s1.toString());
@@ -101,7 +100,17 @@ public class TestActivity extends BaseActivity {
                     myTextView.append(" ");
                     lineWidth+=myTextView.getPaint().measureText(s+" ");
                 }
-                myTextView.setMovementMethod(LinkMovementMethod.getInstance());
+                myTextView.setMovementMethod(LinkMovementMethod.getInstance());*/
+
+
+              //  UUID uuid=UUID.randomUUID();
+               // Log.d("TestActivity", "uuid:" + uuid.toString().replaceAll("-", ""));
+                DialogTool.showListAlertDialog(TestActivity.this, new String[]{"删除","编辑为完成"}, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
             }
         });
 

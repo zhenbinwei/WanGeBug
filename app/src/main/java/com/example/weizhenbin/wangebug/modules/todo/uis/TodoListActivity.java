@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 
 import com.example.weizhenbin.wangebug.R;
@@ -27,7 +27,7 @@ public class TodoListActivity extends BaseActivity {
     List<BaseFragment> fragments = new ArrayList<>();
     ViewPager vpTodo;
     TabLayout tlTodoStatus;
-    FloatingActionButton fabAdd;
+    AppCompatImageView ivAdd;
     TitleBar tbTitle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class TodoListActivity extends BaseActivity {
     }
 
     private void initEvent() {
-        fabAdd.setOnClickListener(new View.OnClickListener() {
+        ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TodoEditActivity.startActivity(TodoListActivity.this);
@@ -70,7 +70,7 @@ public class TodoListActivity extends BaseActivity {
     private void initViews() {
         vpTodo = findViewById(R.id.vp_todo);
         tlTodoStatus = findViewById(R.id.tl_todo_status);
-        fabAdd = findViewById(R.id.fab_add);
+        ivAdd = findViewById(R.id.iv_add);
         tbTitle=findViewById(R.id.tb_title);
     }
 

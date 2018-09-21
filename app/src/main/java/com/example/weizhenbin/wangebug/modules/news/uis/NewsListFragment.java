@@ -85,6 +85,9 @@ public class NewsListFragment extends BaseFragment {
 
 
     private void initData() {
+        if (getContext()==null){
+            return;
+        }
         listAdapter=new NewsListAdapter(getContext(),contentlistBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));

@@ -77,6 +77,9 @@ public class CodeSystemFragment extends BaseFragment{
     }
 
     private void initData() {
+        if (getContext()==null){
+            return;
+        }
         listAdapter=new CodeSystemTreeAdapter(datasBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));

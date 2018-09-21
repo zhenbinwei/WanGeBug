@@ -83,6 +83,9 @@ public class FloatingWindow implements View.OnTouchListener{
     /**迷你状态*/
     private boolean isMini=true;
 
+
+    private IWindowChangeListener iWindowChangeListener;
+
     private Context context;
     public FloatingWindow() {
         context= App.app.getApplicationContext();
@@ -153,26 +156,9 @@ public class FloatingWindow implements View.OnTouchListener{
             @Override
             public void onClick(View v) {
                 if (!isMini){
-                    viewZoomOut();
+                    zoomOutWindow();
                 }else {
-
-                    if (controlLayoutParams.y > 0||(controlLayoutParams.x>0&&controlLayoutParams.x<screenW-windowMiniWidth)) {
-                        PointF end;
-                        if ((controlLayoutParams.x+windowMiniWidth/2)>screenW/2){
-                            end=new PointF(screenW-windowMiniWidth,0);
-                        }else {
-                            end=new PointF(0,0);
-                        }
-                        scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), end, new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                viewZoomIn();
-                            }
-                        });
-                    } else {
-                        viewZoomIn();
-                    }
+                    zoomInWindow();
                 }
             }
         });
@@ -200,6 +186,33 @@ public class FloatingWindow implements View.OnTouchListener{
 
     }
 
+    public void zoomInWindow(){
+       if (isMini){
+           if (controlLayoutParams.y > 0||(controlLayoutParams.x>0&&controlLayoutParams.x<screenW-windowMiniWidth)) {
+               PointF end;
+               if ((controlLayoutParams.x+windowMiniWidth/2)>screenW/2){
+                   end=new PointF(screenW-windowMiniWidth,0);
+               }else {
+                   end=new PointF(0,0);
+               }
+               scroll(new PointF(controlLayoutParams.x, controlLayoutParams.y), end, new AnimatorListenerAdapter() {
+                   @Override
+                   public void onAnimationEnd(Animator animation) {
+                       super.onAnimationEnd(animation);
+                       viewZoomIn();
+                   }
+               });
+           } else {
+               viewZoomIn();
+           }
+       }
+    }
+    public void zoomOutWindow(){
+        if (!isMini) {
+            viewZoomOut();
+        }
+    }
+
     /**
      * 扩展动画展开
      * */
@@ -212,6 +225,9 @@ public class FloatingWindow implements View.OnTouchListener{
                 controlLayoutParams.flags=WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE|WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                 windowManager.updateViewLayout(baseView,baseLayoutParams);
                 windowManager.updateViewLayout(controller,controlLayoutParams);
+                if (iWindowChangeListener!=null){
+                    iWindowChangeListener.onWindowZoomIn();
+                }
             }
 
             @Override
@@ -246,6 +262,9 @@ public class FloatingWindow implements View.OnTouchListener{
                             fvView.setCircleRadius(0);
                         }
                     },100);
+                    if (iWindowChangeListener!=null){
+                        iWindowChangeListener.onWindowZoomOut();
+                    }
                 }
             });
         }
@@ -456,5 +475,13 @@ public class FloatingWindow implements View.OnTouchListener{
         }
     }
 
+    public void setiWindowChangeListener(IWindowChangeListener iWindowChangeListener) {
+        this.iWindowChangeListener = iWindowChangeListener;
+    }
+
+    public interface IWindowChangeListener{
+        void onWindowZoomIn();
+        void onWindowZoomOut();
+    }
 
 }

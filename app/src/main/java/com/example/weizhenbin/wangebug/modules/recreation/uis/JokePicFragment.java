@@ -49,6 +49,9 @@ public class JokePicFragment extends BaseFragment {
     }
 
     protected void initViews(View view) {
+        if (getContext()==null){
+            return;
+        }
         srlRefresh=view.findViewById(R.id.srl_refresh);
         rvDataList=view.findViewById(R.id.rv_data_list);
         srlRefresh.setRefreshing(true);

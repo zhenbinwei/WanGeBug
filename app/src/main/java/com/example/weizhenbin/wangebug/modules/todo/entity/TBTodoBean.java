@@ -2,13 +2,21 @@ package com.example.weizhenbin.wangebug.modules.todo.entity;
 
 import android.text.TextUtils;
 
+import com.example.weizhenbin.wangebug.dp.annotation.DbTable;
+
+import java.io.Serializable;
+
 /**
  * Created by weizhenbin on 2018/9/5.
  * 数据库表 基础类型要用对象表示
  *
  */
+@DbTable("tb_todo")
+public class TBTodoBean implements Serializable{
 
-public class TodoBean {
+    private String uuid;//唯一设别码
+
+
     //事件时间
     private Long todoCreateTime;
     private String todoCreateTimeStr;
@@ -127,9 +135,17 @@ public class TodoBean {
         this.todoRemindDateStr = todoRemindDateStr;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     @Override
     public String toString() {
-        return "TodoBean{" +
+        return "TBTodoBean{" +
                 "todoCreateTime=" + todoCreateTime +
                 ", todoCreateTimeStr='" + todoCreateTimeStr + '\'' +
                 ", todoTitle='" + todoTitle + '\'' +
@@ -145,19 +161,15 @@ public class TodoBean {
                 '}';
     }
 
+
+
     public boolean isEmpty(){
         return TextUtils.isEmpty(todoContent)&&
          TextUtils.isEmpty(todoCreateTimeStr)&&
          TextUtils.isEmpty(todoTitle)&&
          TextUtils.isEmpty(todoDoneTimeStr)&&
          TextUtils.isEmpty(todoRemindTimeStr)&&
-         TextUtils.isEmpty(todoRemindDateStr)&&
-                 todoCreateTime==null&&
-                 todoStatus==null&&
-                 todoDoneTime==null&&
-                 todoRemindDate==null&&
-                 isTodoRemind==null&&
-                 todoRemindTime==null;
+         TextUtils.isEmpty(todoRemindDateStr);
     }
 
     public void reset(){

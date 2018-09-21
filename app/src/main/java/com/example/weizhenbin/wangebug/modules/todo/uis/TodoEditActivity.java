@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -15,9 +16,10 @@ import android.widget.TextView;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
 import com.example.weizhenbin.wangebug.modules.todo.controllers.TodoController;
-import com.example.weizhenbin.wangebug.modules.todo.entity.TodoBean;
+import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
 import com.example.weizhenbin.wangebug.tools.DateTool;
 import com.example.weizhenbin.wangebug.tools.DialogTool;
+import com.example.weizhenbin.wangebug.tools.UUIDTool;
 import com.example.weizhenbin.wangebug.tools.interfaces.IDatePickerResult;
 import com.example.weizhenbin.wangebug.tools.interfaces.ITimePickerResult;
 import com.example.weizhenbin.wangebug.views.TitleBar;
@@ -36,7 +38,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
     private EditText edContent;
     private TextView tvLoc;
     private ImageView ivDelRemindTime;
-    private TodoBean todoBean;
+    private TBTodoBean tbTodoBean;
 
     private StringBuilder timeStringBuilder;
     @Override
@@ -49,9 +51,27 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initData() {
-        todoBean=new TodoBean();
-        todoBean.setTodoStatus(0);
-        timeStringBuilder=new StringBuilder();
+        Intent intent=getIntent();
+        if (intent.hasExtra("todo")&&intent.getSerializableExtra("todo")!=null){
+            tbTodoBean= (TBTodoBean) intent.getSerializableExtra("todo");
+            if (!TextUtils.isEmpty(tbTodoBean.getTodoContent())) {
+                edContent.setText(tbTodoBean.getTodoContent());
+                edContent.setSelection(tbTodoBean.getTodoContent().length());
+            }
+            if (!TextUtils.isEmpty(tbTodoBean.getTodoTitle())) {
+                edTitle.setText(tbTodoBean.getTodoTitle());
+                edTitle.setSelection(tbTodoBean.getTodoTitle().length());
+            }
+            if (!TextUtils.isEmpty(tbTodoBean.getTodoRemindTimeStr())){
+                tvRemindTime.setText(tbTodoBean.getTodoRemindTimeStr());
+                ivDelRemindTime.setVisibility(View.VISIBLE);
+            }
+
+        }else {
+            tbTodoBean = new TBTodoBean();
+            tbTodoBean.setTodoStatus(0);
+            timeStringBuilder = new StringBuilder();
+        }
     }
 
     private void initEvent() {
@@ -83,7 +103,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                  todoBean.setTodoContent(s.toString());
+                  tbTodoBean.setTodoContent(s.toString());
             }
         });
         edTitle.addTextChangedListener(new TextWatcher() {
@@ -99,7 +119,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                todoBean.setTodoTitle(s.toString());
+                tbTodoBean.setTodoTitle(s.toString());
             }
         });
     }
@@ -107,7 +127,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        if (!todoBean.isEmpty()){
+        if (!tbTodoBean.isEmpty()){
             DialogTool.showAlertDialog(TodoEditActivity.this, null, getString(R.string.save_todo_remind_string), getString(R.string.save_string), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -127,9 +147,10 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
 
     private void saveTodo() {
         long todoCreateTime=System.currentTimeMillis();
-        todoBean.setTodoCreateTime(todoCreateTime);
-        todoBean.setTodoCreateTimeStr(DateTool.getDateToString(todoCreateTime,"yyyy-MM-dd HH:mm"));
-        TodoController.saveTodo(todoBean);
+        tbTodoBean.setUuid(UUIDTool.getUUID());
+        tbTodoBean.setTodoCreateTime(todoCreateTime);
+        tbTodoBean.setTodoCreateTimeStr(DateTool.getDateToString(todoCreateTime,"yyyy-MM-dd HH:mm"));
+        TodoController.saveTodo(tbTodoBean);
     }
 
     private void initViews() {
@@ -145,33 +166,39 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
     public static void startActivity(Context context){
         context.startActivity(new Intent(context,TodoEditActivity.class));
     }
-
+    public static void startActivity(Context context,TBTodoBean tbTodoBean){
+        Intent intent=new Intent(context,TodoEditActivity.class);
+        if (tbTodoBean!=null) {
+            intent.putExtra("todo", tbTodoBean);
+        }
+        context.startActivity(intent);
+    }
     @Override
     public void onClick(View v) {
         if (v==ivDelRemindTime){
             tvRemindTime.setText(getString(R.string.hint_time_string));
-            todoBean.setIsTodoRemind(null);
-            todoBean.setTodoRemindTime(null);
-            todoBean.setTodoRemindTimeStr(null);
-            todoBean.setTodoRemindDate(null);
-            todoBean.setTodoRemindDateStr(null);
+            tbTodoBean.setIsTodoRemind(null);
+            tbTodoBean.setTodoRemindTime(null);
+            tbTodoBean.setTodoRemindTimeStr(null);
+            tbTodoBean.setTodoRemindDate(null);
+            tbTodoBean.setTodoRemindDateStr(null);
             timeStringBuilder.delete(0,timeStringBuilder.length());
             ivDelRemindTime.setVisibility(View.GONE);
         }else if (v==tvRemindTime){
             DateTool.showDateDialog(TodoEditActivity.this, new IDatePickerResult() {
                 @Override
                 public void onDateResult(int year, int monthOfYear, int dayOfMonth) {
-                    todoBean.setIsTodoRemind(1);
+                    tbTodoBean.setIsTodoRemind(1);
                     timeStringBuilder.delete(0,timeStringBuilder.length());
                     StringBuffer dateBuffer=new StringBuffer();
                     dateBuffer.append(year).append("-").append(monthOfYear<10?"0"+monthOfYear:monthOfYear).append("-").append(dayOfMonth<10?"0"+dayOfMonth:dayOfMonth);
                     timeStringBuilder.append(dateBuffer.toString());
                     tvRemindTime.setText(timeStringBuilder.toString());
                     ivDelRemindTime.setVisibility(View.VISIBLE);
-                    todoBean.setTodoRemindDateStr(dateBuffer.toString());
-                    todoBean.setTodoRemindDate(DateTool.getStringToDate(dateBuffer.toString(),"yyyy-MM-dd"));
-                    todoBean.setTodoRemindTimeStr(dateBuffer.toString());
-                    todoBean.setTodoRemindTime(DateTool.getStringToDate(dateBuffer.toString(),"yyyy-MM-dd"));
+                    tbTodoBean.setTodoRemindDateStr(dateBuffer.toString());
+                    tbTodoBean.setTodoRemindDate(DateTool.getStringToDate(dateBuffer.toString(),"yyyy-MM-dd"));
+                    tbTodoBean.setTodoRemindTimeStr(dateBuffer.toString());
+                    tbTodoBean.setTodoRemindTime(DateTool.getStringToDate(dateBuffer.toString(),"yyyy-MM-dd"));
                     DateTool.showTimeDialog(TodoEditActivity.this, new ITimePickerResult() {
                         @Override
                         public void onTimeResult(int hourOfDay, int minute) {
@@ -179,8 +206,8 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
                             timeBuffer.append(hourOfDay<10?"0"+hourOfDay:hourOfDay).append(":").append(minute<10?"0"+minute:minute);
                             timeStringBuilder.append("   ").append(timeBuffer.toString());
                             tvRemindTime.setText(timeStringBuilder.toString());
-                            todoBean.setTodoRemindTimeStr(timeBuffer.toString());
-                            todoBean.setTodoRemindTime(DateTool.getStringToDate(timeStringBuilder.toString(),"yyyy-MM-dd HH:mm"));
+                            tbTodoBean.setTodoRemindTimeStr(timeBuffer.toString());
+                            tbTodoBean.setTodoRemindTime(DateTool.getStringToDate(timeStringBuilder.toString(),"yyyy-MM-dd HH:mm"));
                         }
                     });
                 }

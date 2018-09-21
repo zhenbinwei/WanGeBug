@@ -31,7 +31,7 @@ public class ProjectListFragment extends BaseFragment {
     private SwipeRefreshLayout srlRefresh;
     private RecyclerView rvDataList;
     private CodeProjectListAdapter listAdapter;
-    int page=1;
+    int page=0;
 
     List<ProjectListDataBean.DataBean.DatasBean> contentlistBeen=new ArrayList<>();
 
@@ -84,6 +84,9 @@ public class ProjectListFragment extends BaseFragment {
 
 
     private void initData() {
+        if (getContext()==null){
+            return;
+        }
         listAdapter=new CodeProjectListAdapter(getContext(),contentlistBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
@@ -98,7 +101,7 @@ public class ProjectListFragment extends BaseFragment {
         srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page=1;
+                page=0;
                 getData();
             }
         });
@@ -117,7 +120,7 @@ public class ProjectListFragment extends BaseFragment {
             @Override
             public void onStart() {
                 super.onStart();
-                if (page==1) {
+                if (page==0) {
                     srlRefresh.setRefreshing(true);
                 }
             }
@@ -128,11 +131,11 @@ public class ProjectListFragment extends BaseFragment {
                 srlRefresh.setRefreshing(false);
                 if (projectListDataBean!=null&&projectListDataBean.getErrorCode()==0){
                     if (projectListDataBean.getData()!=null&&projectListDataBean.getData().getDatas()!=null){
-                        if (page==1){
+                        if (page==0){
                             contentlistBeen.clear();
                         }
                         contentlistBeen.addAll(projectListDataBean.getData().getDatas());
-                        if(page==1){
+                        if(page==0){
                             listAdapter.setNewData(contentlistBeen);
                         }else {
                             listAdapter.notifyDataSetChanged();

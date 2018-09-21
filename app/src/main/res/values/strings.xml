@@ -39,4 +39,6 @@
     <string name="floatting_window_permission_request_describe_string">开启Todo悬浮窗需要授权应用开启悬浮窗功能</string>
     <string name="save_todo_remind_string">是否保存事件</string>
     <string name="no_floattingwindow_permission_remind_string">悬浮窗权限未开启,无法使用Todo快捷功能</string>
+    <string name="done_string">完成</string>
+    <string name="del_string">删除</string>
 </resources>

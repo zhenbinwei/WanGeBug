@@ -65,6 +65,15 @@ public class DialogTool {
 
 
 
-
+    public static void showListAlertDialog(Context context,String title,String[] items,DialogInterface.OnClickListener onClickListener){
+        Dialog alertDialog = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
+                .setTitle(title)
+                .setItems(items, onClickListener)
+                .create();
+        alertDialog.show();
+    }
+    public static void showListAlertDialog(Context context,String[] items,DialogInterface.OnClickListener onClickListener){
+        showListAlertDialog(context,null,items,onClickListener);
+    }
 
 }
