@@ -32,7 +32,7 @@ public class TodoListAdapter extends BaseQuickAdapter<TBTodoBean,BaseViewHolder>
                 Log.d(TAG, "点击了");
                 if (data!=null) {
                     if (data.get(position).isDone()){
-                        TodoDoneActivity.startActicity(mContext,data.get(position));
+                        TodoDoneActivity.startActivity(mContext,data.get(position));
                     }else {
                         TodoEditActivity.startActivity(mContext, data.get(position));
                     }

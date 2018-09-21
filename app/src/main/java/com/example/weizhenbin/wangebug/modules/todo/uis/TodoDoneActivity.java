@@ -63,7 +63,7 @@ public class TodoDoneActivity extends BaseActivity {
     }
 
 
-    public static void startActicity(Context context,TBTodoBean tbTodoBean){
+    public static void startActivity(Context context, TBTodoBean tbTodoBean){
         Intent intent=new Intent(context,TodoDoneActivity.class);
         intent.putExtra("todo",tbTodoBean);
         context.startActivity(intent);
