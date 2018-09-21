@@ -9,8 +9,11 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.modules.todo.controllers.TodoController;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
+import com.example.weizhenbin.wangebug.modules.todo.uis.TodoDoneActivity;
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoEditActivity;
+import com.example.weizhenbin.wangebug.tools.DateTool;
 import com.example.weizhenbin.wangebug.tools.DialogTool;
 
 import java.util.List;
@@ -28,17 +31,43 @@ public class TodoListAdapter extends BaseQuickAdapter<TBTodoBean,BaseViewHolder>
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.d(TAG, "点击了");
                 if (data!=null) {
-                    TodoEditActivity.startActivity(mContext, data.get(position));
+                    if (data.get(position).isDone()){
+                        TodoDoneActivity.startActicity(mContext,data.get(position));
+                    }else {
+                        TodoEditActivity.startActivity(mContext, data.get(position));
+                    }
                 }
             }
         });
         setOnItemChildLongClickListener(new OnItemChildLongClickListener() {
             @Override
-            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
+            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, final int position) {
                 DialogTool.showListAlertDialog(mContext, new String[]{mContext.getString(R.string.done_string),mContext.getString(R.string.del_string)}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                           switch (which){
+                               case 0:
+                                   if (data==null){
+                                       return;
+                                   }
+                                   TBTodoBean updateWhere=new TBTodoBean();
+                                   TBTodoBean todoBean=data.get(position);
+                                   todoBean.setIsDone(true);
+                                   long doneTime=System.currentTimeMillis();
+                                   todoBean.setTodoDoneTime(doneTime);
+                                   todoBean.setTodoDoneTimeStr(DateTool.getDateToString(doneTime, "yyyy-MM-dd HH:mm"));
+                                   updateWhere.setUuid(data.get(position).getUuid());
+                                   TodoController.updateTodo(data.get(position),updateWhere);
+                                   break;
+                               case 1:
+                                   if (data==null){
+                                       return;
+                                   }
+                                   TBTodoBean delWhere=new TBTodoBean();
+                                   delWhere.setUuid(data.get(position).getUuid());
+                                   TodoController.delTodo(delWhere);
+                                   break;
+                           }
                     }
                 });
                 return true;

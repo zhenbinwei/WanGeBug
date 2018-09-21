@@ -86,7 +86,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
         tbTitle.setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveTodo();
+                saveOrUpdateTodo();
                 finish();
             }
         });
@@ -131,7 +131,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
             DialogTool.showAlertDialog(TodoEditActivity.this, null, getString(R.string.save_todo_remind_string), getString(R.string.save_string), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    saveTodo();
+                    saveOrUpdateTodo();
                     finish();
                 }
             }, getString(R.string.cancel_string), new DialogInterface.OnClickListener() {
@@ -145,12 +145,21 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void saveTodo() {
-        long todoCreateTime=System.currentTimeMillis();
-        tbTodoBean.setUuid(UUIDTool.getUUID());
-        tbTodoBean.setTodoCreateTime(todoCreateTime);
-        tbTodoBean.setTodoCreateTimeStr(DateTool.getDateToString(todoCreateTime,"yyyy-MM-dd HH:mm"));
-        TodoController.saveTodo(tbTodoBean);
+    private void saveOrUpdateTodo() {
+        if (TextUtils.isEmpty(tbTodoBean.getUuid())) {
+            long todoCreateTime = System.currentTimeMillis();
+            tbTodoBean.setUuid(UUIDTool.getUUID());
+            tbTodoBean.setTodoCreateTime(todoCreateTime);
+            tbTodoBean.setTodoCreateTimeStr(DateTool.getDateToString(todoCreateTime, "yyyy-MM-dd HH:mm"));
+            TodoController.saveTodo(tbTodoBean);
+        }else {
+            long todoUpdateTime = System.currentTimeMillis();
+            tbTodoBean.setTodoLastUpdateDate(todoUpdateTime);
+            tbTodoBean.setTodoLastUpdateDateStr(DateTool.getDateToString(todoUpdateTime, "yyyy-MM-dd HH:mm"));
+            TBTodoBean where=new TBTodoBean();
+            where.setUuid(tbTodoBean.getUuid());
+            TodoController.updateTodo(tbTodoBean,where);
+        }
     }
 
     private void initViews() {

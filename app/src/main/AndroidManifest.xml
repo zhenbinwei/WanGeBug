@@ -56,7 +56,10 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".modules.todo.uis.TodoEditActivity">
-
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".modules.todo.uis.TodoDoneActivity">
         </activity>
         <activity
             android:screenOrientation="portrait"

@@ -39,6 +39,10 @@ public class TBTodoBean implements Serializable{
     private Long todoRemindDate;
     private String todoRemindDateStr;
 
+
+    private Long todoLastUpdateDate;
+    private String todoLastUpdateDateStr;
+
     public Long getTodoCreateTime() {
         return todoCreateTime;
     }
@@ -78,6 +82,20 @@ public class TBTodoBean implements Serializable{
     public void setTodoStatus(Integer todoStatus) {
         this.todoStatus = todoStatus;
     }
+
+    public void setIsDone(boolean isDone){
+        if (isDone){
+            todoStatus=1;
+        }else {
+            todoStatus=0;
+        }
+    }
+
+
+    public boolean isDone(){
+        return todoStatus==1;
+    }
+
 
     public Long getTodoDoneTime() {
         return todoDoneTime;
@@ -141,6 +159,23 @@ public class TBTodoBean implements Serializable{
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+
+    public Long getTodoLastUpdateDate() {
+        return todoLastUpdateDate;
+    }
+
+    public void setTodoLastUpdateDate(Long todoLastUpdateDate) {
+        this.todoLastUpdateDate = todoLastUpdateDate;
+    }
+
+    public String getTodoLastUpdateDateStr() {
+        return todoLastUpdateDateStr;
+    }
+
+    public void setTodoLastUpdateDateStr(String todoLastUpdateDateStr) {
+        this.todoLastUpdateDateStr = todoLastUpdateDateStr;
     }
 
     @Override

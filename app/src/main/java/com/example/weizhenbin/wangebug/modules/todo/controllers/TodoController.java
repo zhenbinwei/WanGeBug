@@ -25,16 +25,32 @@ public class TodoController {
     }
 
 
+    /**
+     * 获取todo列表
+     * */
     public static List<TBTodoBean> getTodoList(TBTodoBean where){
         BaseDao baseDao= BaseDaoFactory.getOurInstance().getBaseDao(BaseDao.class,TBTodoBean.class);
-        TBTodoBean TBTodoBean =new TBTodoBean();
         return baseDao.query(where);
     }
 
 
 
+    /**
+     * 修改todo
+     * */
+    public static long updateTodo(TBTodoBean todoBean,TBTodoBean where){
+        BaseDao baseDao= BaseDaoFactory.getOurInstance().getBaseDao(BaseDao.class,TBTodoBean.class);
+        return baseDao.update(todoBean,where);
+    }
 
 
+    /**
+     * 删除todo
+     * */
+     public static int delTodo(TBTodoBean where){
+         BaseDao baseDao= BaseDaoFactory.getOurInstance().getBaseDao(BaseDao.class,TBTodoBean.class);
+         return baseDao.delete(where);
+     }
 
 
 }
