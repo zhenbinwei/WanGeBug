@@ -33,7 +33,7 @@ public class ProjectListFragment extends BaseFragment {
     private CodeProjectListAdapter listAdapter;
     int page=0;
 
-    List<ProjectListDataBean.DataBean.DatasBean> contentlistBeen=new ArrayList<>();
+    List<ProjectListDataBean.DataBean.DatasBean> contentListBeen =new ArrayList<>();
 
     private String id;
     private String name;
@@ -87,7 +87,7 @@ public class ProjectListFragment extends BaseFragment {
         if (getContext()==null){
             return;
         }
-        listAdapter=new CodeProjectListAdapter(getContext(),contentlistBeen);
+        listAdapter=new CodeProjectListAdapter(getContext(), contentListBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         DividerItemDecoration itemDecoration=new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
@@ -132,11 +132,11 @@ public class ProjectListFragment extends BaseFragment {
                 if (projectListDataBean!=null&&projectListDataBean.getErrorCode()==0){
                     if (projectListDataBean.getData()!=null&&projectListDataBean.getData().getDatas()!=null){
                         if (page==0){
-                            contentlistBeen.clear();
+                            contentListBeen.clear();
                         }
-                        contentlistBeen.addAll(projectListDataBean.getData().getDatas());
+                        contentListBeen.addAll(projectListDataBean.getData().getDatas());
                         if(page==0){
-                            listAdapter.setNewData(contentlistBeen);
+                            listAdapter.setNewData(contentListBeen);
                         }else {
                             listAdapter.notifyDataSetChanged();
                         }
@@ -163,7 +163,7 @@ public class ProjectListFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        if (contentlistBeen.isEmpty()) {
+        if (contentListBeen.isEmpty()) {
             getData();
         }
     }
