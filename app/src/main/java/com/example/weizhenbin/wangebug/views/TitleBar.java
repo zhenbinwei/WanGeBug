@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,10 +34,12 @@ public class TitleBar extends RelativeLayout{
     private int titleColor;
     private int titleSize;
 
+    private LinearLayout llTitleBar;
     private void assignViews() {
-        rlLeft = (RelativeLayout) findViewById(R.id.rl_left);
-        rlCenter = (RelativeLayout) findViewById(R.id.rl_center);
-        rlRight = (RelativeLayout) findViewById(R.id.rl_right);
+        rlLeft =  findViewById(R.id.rl_left);
+        rlCenter = findViewById(R.id.rl_center);
+        rlRight =  findViewById(R.id.rl_right);
+        llTitleBar=findViewById(R.id.ll_title_bar);
     }
 
 
@@ -164,4 +167,8 @@ public class TitleBar extends RelativeLayout{
         }
     }
 
+
+    public LinearLayout getLlTitleBar() {
+        return llTitleBar;
+    }
 }

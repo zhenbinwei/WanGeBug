@@ -5,12 +5,16 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
 import com.example.weizhenbin.wangebug.base.ViewPageAdapter;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.views.TitleBar;
+import com.example.weizhenbin.wangebug.views.nestlayout.IRollChange;
+import com.example.weizhenbin.wangebug.views.nestlayout.NestLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +30,8 @@ public class CodeFragment extends BaseFragment {
    public List<BaseFragment> modeFragments=new ArrayList<>();
     ViewPager vpCodeMode;
     ViewPageAdapter viewPageAdapter;
-
-
+    NestLayout nlContent;
+    private TranslateAnimation mShowAction, mHiddenAction;
     @Override
     protected int getContentViewLayoutId() {
         return R.layout.fm_code;
@@ -41,6 +45,19 @@ public class CodeFragment extends BaseFragment {
             addModes();
         }
         setModes();
+        initAnim();
+    }
+
+    private void initAnim() {
+        mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        mShowAction.setDuration(200);
+        mHiddenAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+                0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                1.0f);
+        mHiddenAction.setDuration(200);
     }
 
     @Override
@@ -64,6 +81,7 @@ public class CodeFragment extends BaseFragment {
         tbTitle=view.findViewById(R.id.tb_title);
         vpCodeMode=view.findViewById(R.id.vp_code_mode);
         bnvNavigation=view.findViewById(R.id.bnv_navigation);
+        nlContent=view.findViewById(R.id.nl_content);
     }
 
     private void initEvent() {
@@ -122,6 +140,24 @@ public class CodeFragment extends BaseFragment {
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+        nlContent.setiRollChange(new IRollChange() {
+            @Override
+            public void onRollChange(int dy) {
+                if (dy>0){
+                    //隐藏
+                    if (bnvNavigation.getVisibility()==View.VISIBLE){
+                        bnvNavigation.startAnimation(mHiddenAction);
+                        bnvNavigation.setVisibility(View.GONE);
+                    }
+                }else {
+                    //显示
+                    if (bnvNavigation.getVisibility()==View.GONE){
+                        bnvNavigation.startAnimation(mShowAction);
+                        bnvNavigation.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
     }

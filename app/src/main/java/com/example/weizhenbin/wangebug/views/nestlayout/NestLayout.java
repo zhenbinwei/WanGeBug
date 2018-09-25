@@ -10,7 +10,11 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import com.example.weizhenbin.wangebug.tools.PhoneTool;
+import com.example.weizhenbin.wangebug.views.TitleBar;
 
 /**
  * Created by weizhenbin on 2018/9/21.
@@ -18,8 +22,10 @@ import android.widget.FrameLayout;
 
 public class NestLayout extends FrameLayout implements NestedScrollingParent2{
 
-
+    IRollChange iRollChange;
     NestedScrollingParentHelper nestedScrollingParentHelper;
+
+    TitleBar titleBar;
 
     public NestLayout(@NonNull Context context) {
         this(context,null);
@@ -39,7 +45,43 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
         super.onFinishInflate();
         //找出所有符合条件的view
         //滑动的时候进行重新派遣指定事件
+        titleBar= (TitleBar) getTargetView(this,TitleBar.class);
+        Log.d("NestLayout", "titleBar:" + titleBar);
     }
+
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        Log.d("NestLayout", "MeasureSpec.getSize(heightMeasureSpec):" + MeasureSpec.getSize(heightMeasureSpec));
+        if (titleBar!=null) {
+            setMeasuredDimension(getDefaultSize(0, widthMeasureSpec), getDefaultSize(0, heightMeasureSpec));
+            int childWidthSize = getMeasuredWidth();
+            int childHeightSize = getMeasuredHeight();
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, MeasureSpec.EXACTLY);
+            /**按照比例改变高度值*/
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeightSize + PhoneTool.dip2px(50), MeasureSpec.EXACTLY);
+        }
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    //找到第一个符合条件的view
+    private View getTargetView(ViewGroup viewGroup,Class aClass){
+        if (viewGroup==null){
+            return null;
+        }
+         int size=viewGroup.getChildCount();
+        for (int i = 0; i < size; i++) {
+            View v=viewGroup.getChildAt(i);
+            if (v.getClass().equals(aClass)){
+                return v;
+            }else if(v instanceof ViewGroup){
+              return this.getTargetView((ViewGroup) v,aClass);
+            }
+        }
+        return null;
+    }
+
+
 
     @Override
     public boolean onStartNestedScroll(@NonNull View child, @NonNull View target, int axes, int type) {
@@ -58,12 +100,43 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
 
     @Override
     public void onNestedScroll(@NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
-        Log.d("NestLayout", "onNestedScroll");
+      //  Log.d("NestLayout", "onNestedScroll");
     }
 
     @Override
     public void onNestedPreScroll(@NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
-        Log.d("NestLayout", "onNestedPreScroll");
+      //  Log.d("NestLayout", "onNestedPreScroll");
+        if (titleBar!=null){
+            //dy<0  向下拉
+            if (dy<0&&getScrollY()>0){
+                if (getScrollY()+dy<0){
+                    scrollBy(0, -getScrollY());
+                    consumed[1] = -getScrollY();
+                }else {
+                    scrollBy(0, dy);
+                    consumed[1] = dy;
+                }
+            }
+            //往上滑
+            if (dy>0&&getScrollY()< PhoneTool.dip2px(50)){
+
+                if (getScrollY()+dy>PhoneTool.dip2px(50)){
+                    scrollBy(0, PhoneTool.dip2px(50)-getScrollY());
+                    consumed[1] = PhoneTool.dip2px(50)-getScrollY();
+                }else {
+                    scrollBy(0, dy);
+                    consumed[1] = dy;
+                }
+            }
+            float alpha=1-(getScrollY()/PhoneTool.dip2px(50));
+            if (alpha<0.4){
+                alpha=0;
+            }
+            titleBar.getLlTitleBar().setAlpha(alpha);
+        }
+        if (iRollChange!=null){
+            iRollChange.onRollChange(dy);
+        }
     }
 
     @Override
@@ -74,5 +147,10 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
     @Override
     public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
         return false;
+    }
+
+
+    public void setiRollChange(IRollChange iRollChange) {
+        this.iRollChange = iRollChange;
     }
 }
