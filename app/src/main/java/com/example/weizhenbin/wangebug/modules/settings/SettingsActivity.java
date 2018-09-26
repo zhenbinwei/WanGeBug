@@ -11,6 +11,9 @@ import android.view.View;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.eventbus.EventBusHandler;
+import com.example.weizhenbin.wangebug.eventbus.EventCode;
+import com.example.weizhenbin.wangebug.eventbus.MessageEvent;
 import com.example.weizhenbin.wangebug.tools.DialogTool;
 import com.example.weizhenbin.wangebug.tools.permission.IFloattingWindowPermissionGrantResult;
 import com.example.weizhenbin.wangebug.tools.permission.PermissionTool;
@@ -27,7 +30,8 @@ import com.example.weizhenbin.wangebug.views.floatingwindow.TodoFloatingWindowMa
 public class SettingsActivity extends BaseActivity implements View.OnClickListener{
 
 
-    AppCompatCheckBox cbOpenTodo;
+    AppCompatCheckBox cbTodoOpen;
+    AppCompatCheckBox cbHideTabOpen;
     TitleBar tbTitle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,15 +43,21 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initStatus() {
-        if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false)){
-            cbOpenTodo.setChecked(true);
+        if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false)){
+            cbTodoOpen.setChecked(true);
         }else {
-            cbOpenTodo.setChecked(false);
+            cbTodoOpen.setChecked(false);
+        }
+        if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_HIDE_TAB,true)){
+            cbHideTabOpen.setChecked(true);
+        }else {
+            cbHideTabOpen.setChecked(false);
         }
     }
 
     private void initEvent() {
-        cbOpenTodo.setOnClickListener(this);
+        cbTodoOpen.setOnClickListener(this);
+        cbHideTabOpen.setOnClickListener(this);
         tbTitle.setLeftOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +67,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initViews() {
-        cbOpenTodo=findViewById(R.id.cb_todo_open);
+        cbTodoOpen =findViewById(R.id.cb_todo_open);
+        cbHideTabOpen=findViewById(R.id.cb_hide_tab_open);
         tbTitle=findViewById(R.id.tb_title);
     }
 
@@ -68,28 +79,46 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if (v==cbOpenTodo){
-            if (cbOpenTodo.isChecked()) {
-                openFloattingWindow();
+        if (v== cbTodoOpen){
+            if (cbTodoOpen.isChecked()) {
+                openFloatingWindow();
             }else {
-                closeFloattingWindow();
+                closeFloatingWindow();
+            }
+        }else if (v==cbHideTabOpen){
+            if (cbHideTabOpen.isChecked()){
+                openHideTab();
+            }else {
+                closeHideTab();
             }
         }
     }
 
+    private void closeHideTab() {
+        PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_HIDE_TAB,false);
+        cbHideTabOpen.setChecked(false);
+        EventBusHandler.post(new MessageEvent(EventCode.HIDE_TAB_CODE,false));
+    }
 
-    private void closeFloattingWindow() {
-        cbOpenTodo.setChecked(false);
-        PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false);
+    private void openHideTab() {
+        PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_HIDE_TAB,true);
+        cbHideTabOpen.setChecked(true);
+        EventBusHandler.post(new MessageEvent(EventCode.HIDE_TAB_CODE,true));
+    }
+
+
+    private void closeFloatingWindow() {
+        cbTodoOpen.setChecked(false);
+        PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false);
         TodoFloatingWindowManager.getManager().hideFloatingWindow();
     }
 
-    private void openFloattingWindow() {
+    private void openFloatingWindow() {
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             //6.0以上必须开启悬浮窗权限
             if (PermissionTool.checkWindowPermission(SettingsActivity.this)){
-                 cbOpenTodo.setChecked(true);
-                 PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,true);
+                 cbTodoOpen.setChecked(true);
+                 PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,true);
                  TodoFloatingWindowManager.getManager().showFloatingWindow();
             }else {
                 //引导权限申请
@@ -100,12 +129,12 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                             @Override
                             public void onGrantResult(boolean isGrant) {
                                 if (PermissionTool.checkWindowPermission(SettingsActivity.this)){
-                                    cbOpenTodo.setChecked(true);
-                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,true);
+                                    cbTodoOpen.setChecked(true);
+                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,true);
                                     TodoFloatingWindowManager.getManager().showFloatingWindow();
                                 }else {
-                                    cbOpenTodo.setChecked(false);
-                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false);
+                                    cbTodoOpen.setChecked(false);
+                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false);
                                     TodoFloatingWindowManager.getManager().hideFloatingWindow();
                                 }
                             }
@@ -114,15 +143,15 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 }, getString(R.string.cancel_string), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        cbOpenTodo.setChecked(false);
-                        PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false);
+                        cbTodoOpen.setChecked(false);
+                        PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false);
                         TodoFloatingWindowManager.getManager().hideFloatingWindow();
                     }
                 },false);
             }
         }else {
-            cbOpenTodo.setChecked(true);
-            PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,true);
+            cbTodoOpen.setChecked(true);
+            PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,true);
             TodoFloatingWindowManager.getManager().showFloatingWindow();
         }
     }

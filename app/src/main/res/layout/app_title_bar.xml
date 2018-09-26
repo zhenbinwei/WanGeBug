@@ -3,7 +3,8 @@
     android:paddingTop="2dp"
     android:paddingBottom="2dp"
     android:id="@+id/ll_title_bar"
-    android:layout_width="match_parent" android:layout_height="50dp">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/title_bar_height">
     <RelativeLayout
         android:id="@+id/rl_left"
         android:minWidth="46dp"

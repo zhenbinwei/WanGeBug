@@ -8,12 +8,11 @@ import android.support.v4.view.NestedScrollingParent2;
 import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.example.weizhenbin.wangebug.tools.PhoneTool;
+import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 
 /**
@@ -27,6 +26,7 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
 
     TitleBar titleBar;
 
+    int titleBarHeighet;
     public NestLayout(@NonNull Context context) {
         this(context,null);
     }
@@ -38,6 +38,7 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
     public NestLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         nestedScrollingParentHelper=new NestedScrollingParentHelper(this);
+        titleBarHeighet=getResources().getDimensionPixelSize(R.dimen.title_bar_height);
     }
 
     @Override
@@ -46,20 +47,19 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
         //找出所有符合条件的view
         //滑动的时候进行重新派遣指定事件
         titleBar= (TitleBar) getTargetView(this,TitleBar.class);
-        Log.d("NestLayout", "titleBar:" + titleBar);
+
     }
 
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.d("NestLayout", "MeasureSpec.getSize(heightMeasureSpec):" + MeasureSpec.getSize(heightMeasureSpec));
         if (titleBar!=null) {
             setMeasuredDimension(getDefaultSize(0, widthMeasureSpec), getDefaultSize(0, heightMeasureSpec));
             int childWidthSize = getMeasuredWidth();
             int childHeightSize = getMeasuredHeight();
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, MeasureSpec.EXACTLY);
             /**按照比例改变高度值*/
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeightSize + PhoneTool.dip2px(50), MeasureSpec.EXACTLY);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeightSize + titleBarHeighet, MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -118,17 +118,17 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
                 }
             }
             //往上滑
-            if (dy>0&&getScrollY()< PhoneTool.dip2px(50)){
+            if (dy>0&&getScrollY()< titleBarHeighet){
 
-                if (getScrollY()+dy>PhoneTool.dip2px(50)){
-                    scrollBy(0, PhoneTool.dip2px(50)-getScrollY());
-                    consumed[1] = PhoneTool.dip2px(50)-getScrollY();
+                if (getScrollY()+dy>titleBarHeighet){
+                    scrollBy(0, titleBarHeighet-getScrollY());
+                    consumed[1] = titleBarHeighet-getScrollY();
                 }else {
                     scrollBy(0, dy);
                     consumed[1] = dy;
                 }
             }
-            float alpha=1-(getScrollY()/PhoneTool.dip2px(50));
+            float alpha=1-(getScrollY()/titleBarHeighet);
             if (alpha<0.4){
                 alpha=0;
             }

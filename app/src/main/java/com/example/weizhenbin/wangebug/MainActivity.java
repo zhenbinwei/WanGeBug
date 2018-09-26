@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity
      * 判断权限 开启悬浮窗
      * */
     private void openFloattingWindow(){
-        if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false)){
+        if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false)){
             if (PermissionTool.checkWindowPermission(MainActivity.this)){
                 TodoFloatingWindowManager.getManager().showFloatingWindow();
             }else {
@@ -78,10 +78,10 @@ public class MainActivity extends BaseActivity
                             @Override
                             public void onGrantResult(boolean isGrant) {
                                 if (PermissionTool.checkWindowPermission(MainActivity.this)){
-                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,true);
+                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,true);
                                     TodoFloatingWindowManager.getManager().showFloatingWindow();
                                 }else {
-                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false);
+                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false);
                                     TodoFloatingWindowManager.getManager().hideFloatingWindow();
                                 }
                             }

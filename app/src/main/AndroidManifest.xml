@@ -73,6 +73,7 @@
         <activity
             android:name=".TestActivity"
             android:screenOrientation="portrait">
+
         </activity>
         <activity
             android:screenOrientation="portrait"
@@ -82,6 +83,11 @@
             android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"
             android:process=":dexopt"/>
+        <receiver android:name=".modules.todo.alarm.AlarmReceiver">
+            <intent-filter>
+                <action android:name="com.example.weizhenbin.wangebug.modules.todo.alarm.action"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

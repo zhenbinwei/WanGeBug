@@ -1,6 +1,9 @@
 package com.example.weizhenbin.wangebug;
 
-import android.content.DialogInterface;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.weizhenbin.wangebug.base.BaseActivity;
-import com.example.weizhenbin.wangebug.tools.DialogTool;
+import com.example.weizhenbin.wangebug.modules.todo.alarm.AlarmReceiver;
 import com.example.weizhenbin.wangebug.views.MyTextView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow;
@@ -105,12 +108,14 @@ public class TestActivity extends BaseActivity {
 
               //  UUID uuid=UUID.randomUUID();
                // Log.d("TestActivity", "uuid:" + uuid.toString().replaceAll("-", ""));
-                DialogTool.showListAlertDialog(TestActivity.this, new String[]{"删除","编辑为完成"}, new DialogInterface.OnClickListener() {
+               /* DialogTool.showListAlertDialog(TestActivity.this, new String[]{"删除","编辑为完成"}, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                });
+                });*/
+
+               setAlarmTime(TestActivity.this,System.currentTimeMillis()+15*1000);
             }
         });
 
@@ -127,6 +132,20 @@ public class TestActivity extends BaseActivity {
     private String[] getStrings(String text){
         return  text.split(" ");
     }
+
+
+    private void setAlarmTime(Context context, long triggerAtMillis) {
+        AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(AlarmReceiver.action);
+        intent.putExtra("key","测试");
+        PendingIntent sender = PendingIntent.getBroadcast(
+                context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        //闹铃间隔， 这里设为1分钟闹一次，在第2步我们将每隔1分钟收到一次广播
+        //int interval = 60 * 1000;
+        //am.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, interval, sender);
+        am.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, sender);
+    }
+
 
 
     private class MyClickableSpan extends ClickableSpan {

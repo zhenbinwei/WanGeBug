@@ -9,8 +9,12 @@ public final class PreferencesConfig {
     /**
      *   todo悬浮窗是否开启
      * */
-    public static final String KEY_OPEN_FLOATTING_WINDOW="OPEN_FLOATTING_WINDOW";
+    public static final String KEY_OPEN_FLOATING_WINDOW ="OPEN_FLOATING_WINDOW";
 
+    /**
+     * 滑动隐藏tab功能
+     * */
+    public static final String KEY_OPEN_HIDE_TAB="OPEN_HIDE_TAB";
 
 
 }

@@ -42,4 +42,32 @@
             android:theme="@style/CheckBox"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <TextView
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:text="体验设置"
+        android:padding="8dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:text="@string/hide_tab_hint_string"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/colorGray6"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/cb_hide_tab_open"
+            android:layout_width="wrap_content"
+            android:theme="@style/CheckBox"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

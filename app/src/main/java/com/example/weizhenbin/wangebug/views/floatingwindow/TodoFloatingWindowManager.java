@@ -130,7 +130,7 @@ public class TodoFloatingWindowManager extends AppStatusListener implements View
 
     @Override
     protected void onAppForeground() {
-        if (floatingWindow!=null&& PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false)){
+        if (floatingWindow!=null&& PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false)){
             floatingWindow.addFloatingWindow();
         }
     }
@@ -150,7 +150,7 @@ public class TodoFloatingWindowManager extends AppStatusListener implements View
                 floatingWindow.removeFloatingWindow();
             }
         } else {
-            if (floatingWindow!=null&& PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATTING_WINDOW,false)){
+            if (floatingWindow!=null&& PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false)){
                 floatingWindow.addFloatingWindow();
             }
         }

@@ -42,4 +42,5 @@
     <string name="done_string">完成</string>
     <string name="del_string">删除</string>
     <string name="event_string">事件</string>
+    <string name="hide_tab_hint_string">开启浏览列表自动隐藏底部Tab功能</string>
 </resources>
