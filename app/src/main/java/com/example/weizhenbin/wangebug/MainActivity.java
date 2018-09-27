@@ -213,11 +213,23 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.nav_todo:
                 TodoListActivity.startActivity(MainActivity.this);
+                drawer.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawer.closeDrawer(GravityCompat.START,false);
+                    }
+                },500);
                 break;
             case R.id.nav_share:
                 break;
             case R.id.nav_settings:
                 SettingsActivity.startActivity(MainActivity.this);
+                drawer.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawer.closeDrawer(GravityCompat.START,false);
+                    }
+                },500);
                 break;
             case R.id.nav_about:
                 break;

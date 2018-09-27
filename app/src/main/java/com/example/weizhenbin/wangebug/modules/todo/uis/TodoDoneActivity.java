@@ -69,9 +69,4 @@ public class TodoDoneActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-
-
-
-
-
 }

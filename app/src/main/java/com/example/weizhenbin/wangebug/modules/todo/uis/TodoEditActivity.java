@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.eventbus.EventBusHandler;
+import com.example.weizhenbin.wangebug.eventbus.EventCode;
+import com.example.weizhenbin.wangebug.eventbus.MessageEvent;
 import com.example.weizhenbin.wangebug.modules.todo.controllers.TodoController;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
 import com.example.weizhenbin.wangebug.tools.DateTool;
@@ -152,6 +155,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
             tbTodoBean.setTodoCreateTime(todoCreateTime);
             tbTodoBean.setTodoCreateTimeStr(DateTool.getDateToString(todoCreateTime, "yyyy-MM-dd HH:mm"));
             TodoController.saveTodo(tbTodoBean);
+            EventBusHandler.post(new MessageEvent(EventCode.ADD_TODO_CODE,tbTodoBean));
         }else {
             long todoUpdateTime = System.currentTimeMillis();
             tbTodoBean.setTodoLastUpdateDate(todoUpdateTime);
@@ -159,6 +163,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
             TBTodoBean where=new TBTodoBean();
             where.setUuid(tbTodoBean.getUuid());
             TodoController.updateTodo(tbTodoBean,where);
+            EventBusHandler.post(new MessageEvent(EventCode.UPDATE_TODO_CODE,tbTodoBean));
         }
     }
 

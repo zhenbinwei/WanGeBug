@@ -9,6 +9,9 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.eventbus.EventBusHandler;
+import com.example.weizhenbin.wangebug.eventbus.EventCode;
+import com.example.weizhenbin.wangebug.eventbus.MessageEvent;
 import com.example.weizhenbin.wangebug.modules.todo.controllers.TodoController;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoDoneActivity;
@@ -24,7 +27,7 @@ import java.util.List;
 
 public class TodoListAdapter extends BaseQuickAdapter<TBTodoBean,BaseViewHolder> {
 
-    public TodoListAdapter(@Nullable final List<TBTodoBean> data) {
+    public TodoListAdapter(@Nullable final List<TBTodoBean> data, final int todoStatus) {
         super(R.layout.todo_list_item,data);
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
@@ -42,7 +45,14 @@ public class TodoListAdapter extends BaseQuickAdapter<TBTodoBean,BaseViewHolder>
         setOnItemChildLongClickListener(new OnItemChildLongClickListener() {
             @Override
             public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, final int position) {
-                DialogTool.showListAlertDialog(mContext, new String[]{mContext.getString(R.string.done_string),mContext.getString(R.string.del_string)}, new DialogInterface.OnClickListener() {
+                String[] items;
+                if (todoStatus==-1||todoStatus==0){
+                    items=new String[]{mContext.getString(R.string.done_string),mContext.getString(R.string.del_string)};
+                }else {
+                    items=new String[]{mContext.getString(R.string.del_string)};
+                }
+
+                DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                            switch (which){
@@ -58,6 +68,7 @@ public class TodoListAdapter extends BaseQuickAdapter<TBTodoBean,BaseViewHolder>
                                    todoBean.setTodoDoneTimeStr(DateTool.getDateToString(doneTime, "yyyy-MM-dd HH:mm"));
                                    updateWhere.setUuid(data.get(position).getUuid());
                                    TodoController.updateTodo(data.get(position),updateWhere);
+                                   EventBusHandler.post(new MessageEvent(EventCode.DONE_TODO_CODE,todoBean));
                                    break;
                                case 1:
                                    if (data==null){
@@ -66,6 +77,7 @@ public class TodoListAdapter extends BaseQuickAdapter<TBTodoBean,BaseViewHolder>
                                    TBTodoBean delWhere=new TBTodoBean();
                                    delWhere.setUuid(data.get(position).getUuid());
                                    TodoController.delTodo(delWhere);
+                                   EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,data.get(position)));
                                    break;
                            }
                     }

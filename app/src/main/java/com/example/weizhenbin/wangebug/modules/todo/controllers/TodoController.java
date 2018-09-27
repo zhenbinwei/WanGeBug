@@ -30,7 +30,7 @@ public class TodoController {
      * */
     public static List<TBTodoBean> getTodoList(TBTodoBean where){
         BaseDao baseDao= BaseDaoFactory.getOurInstance().getBaseDao(BaseDao.class,TBTodoBean.class);
-        return baseDao.query(where);
+        return baseDao.query(where,"todoCreateTime desc",null,null);
     }
 
 

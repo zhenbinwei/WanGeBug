@@ -33,7 +33,6 @@ import java.util.List;
  */
 
 public class CodeFragment extends BaseFragment {
-    View view;
     TitleBar tbTitle;
     BottomNavigationView bnvNavigation;
     public List<BaseFragment> modeFragments = new ArrayList<>();

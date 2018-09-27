@@ -143,7 +143,7 @@ public class TodoListFragment extends BaseFragment {
         if (getContext()==null){
             return;
         }
-        listAdapter=new TodoListAdapter(beanList);
+        listAdapter=new TodoListAdapter(beanList,todoStatus);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         DividerItemDecoration itemDecoration=new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
@@ -181,4 +181,71 @@ public class TodoListFragment extends BaseFragment {
             getData();
         }
     }
+
+
+    public void addTodo(TBTodoBean tbTodoBean){
+        if (listAdapter==null){
+            return;
+        }
+        if (isContain(tbTodoBean)){
+            return;
+        }
+        beanList.add(0,tbTodoBean);
+        listAdapter.notifyItemInserted(0);
+    }
+    public void delTodo(TBTodoBean tbTodoBean){
+        if (listAdapter==null){
+            return;
+        }
+        if (!isContain(tbTodoBean)){
+            return;
+        }
+        int size=beanList.size();
+        for (int i = 0; i < size; i++) {
+            if (tbTodoBean.getUuid().equals(beanList.get(i).getUuid())){
+                beanList.remove(i);
+                listAdapter.notifyItemRemoved(i);
+                break;
+            }
+        }
+    }
+
+    public void updateTodo(TBTodoBean tbTodoBean){
+        if (listAdapter==null){
+            return;
+        }
+        if (!isContain(tbTodoBean)){
+            return;
+        }
+        int size=beanList.size();
+        for (int i = 0; i < size; i++) {
+            if (tbTodoBean.getUuid().equals(beanList.get(i).getUuid())){
+                beanList.remove(i);
+                beanList.add(i,tbTodoBean);
+                listAdapter.notifyItemChanged(i);
+                break;
+            }
+        }
+    }
+
+
+
+    private boolean isContain(TBTodoBean tbTodoBean){
+
+        if (tbTodoBean==null){
+            return false;
+        }
+
+        int size=beanList.size();
+
+        for (int i = 0; i < size; i++) {
+            if (tbTodoBean.getUuid().equals(beanList.get(i).getUuid())){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 }
