@@ -1,14 +1,15 @@
 package com.example.weizhenbin.wangebug.modules.code.adapters;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.App;
+import com.example.weizhenbin.wangebug.base.BaseSimpleAdapter;
 import com.example.weizhenbin.wangebug.modules.code.entity.SystemTreeDataBean;
 import com.example.weizhenbin.wangebug.modules.code.uis.CodeSystemTreeActivity;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -20,11 +21,11 @@ import java.util.List;
  * Created by weizhenbin on 2018/8/30.
  */
 
-public class CodeSystemTreeAdapter extends BaseQuickAdapter<SystemTreeDataBean.DataBean,BaseViewHolder> {
+public class CodeSystemTreeAdapter extends BaseSimpleAdapter<SystemTreeDataBean.DataBean,BaseViewHolder> {
 
 
-    public CodeSystemTreeAdapter(@Nullable List<SystemTreeDataBean.DataBean> data) {
-        super(R.layout.system_tree_list_item,data);
+    public CodeSystemTreeAdapter(@Nullable Context context,@Nullable List<SystemTreeDataBean.DataBean> data) {
+        super(context,R.layout.system_tree_list_item,data);
     }
 
     @Override

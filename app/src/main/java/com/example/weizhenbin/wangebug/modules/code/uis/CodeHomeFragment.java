@@ -83,6 +83,23 @@ public class CodeHomeFragment extends BaseFragment {
                     }else {
                         listAdapter.loadMoreEnd();
                     }
+                }else {
+                    if (page==0){
+                        listAdapter.emptyData();
+                    }else {
+                        listAdapter.loadMoreFail();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                srlRefresh.setRefreshing(false);
+                if (page==0){
+                    listAdapter.emptyData();
+                }else {
+                    listAdapter.loadMoreFail();
                 }
             }
         });
@@ -124,6 +141,14 @@ public class CodeHomeFragment extends BaseFragment {
                 getData();
             }
         },rvDataList);
+        listAdapter.setAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listAdapter.loading();
+                page=0;
+                getData();
+            }
+        });
     }
 
     private void initData() {

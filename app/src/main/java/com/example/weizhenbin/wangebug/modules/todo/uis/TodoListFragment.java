@@ -38,7 +38,7 @@ public class TodoListFragment extends BaseFragment {
     private TodoListAdapter listAdapter;
     private List<TBTodoBean> beanList=new ArrayList<>();
     private int page=1;
-
+    private int pageCount=15;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +79,13 @@ public class TodoListFragment extends BaseFragment {
                 getData();
             }
         },rvDataList);
+        listAdapter.setAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page=1;
+                getData();
+            }
+        });
     }
 
     private void getData() {
@@ -93,7 +100,7 @@ public class TodoListFragment extends BaseFragment {
                 if (todoStatus!=-1) {
                     where.setTodoStatus(todoStatus);
                 }
-               List<TBTodoBean> beanList= TodoController.getTodoList(where);
+               List<TBTodoBean> beanList= TodoController.getTodoList(todoStatus,page,pageCount);
                 subscriber.onNext(beanList);
             }
         }).observeOn(AndroidSchedulers.mainThread())
@@ -106,7 +113,12 @@ public class TodoListFragment extends BaseFragment {
 
               @Override
               public void onError(Throwable e) {
-
+                  srlRefresh.setRefreshing(false);
+                  if (page==1){
+                      listAdapter.emptyData();
+                  }else {
+                      listAdapter.loadMoreFail();
+                  }
               }
 
               @Override
@@ -122,14 +134,24 @@ public class TodoListFragment extends BaseFragment {
                       }else {
                           listAdapter.notifyDataSetChanged();
                       }
-                      if (todoBeen.isEmpty()||todoBeen.size()<20){
+                      if (todoBeen.isEmpty()){
+                          if (page==1){
+                              listAdapter.emptyData(false);
+                          }else {
+                              listAdapter.loadMoreComplete();
+                          }
+                      }else if (todoBeen.size()<pageCount){
                           listAdapter.loadMoreEnd();
                       }else {
                           listAdapter.loadMoreComplete();
                           page++;
                       }
                   }else {
-                      listAdapter.loadMoreEnd();
+                      if (page==1){
+                          listAdapter.emptyData();
+                      }else {
+                          listAdapter.loadMoreFail();
+                      }
                   }
               }
           });
@@ -143,7 +165,7 @@ public class TodoListFragment extends BaseFragment {
         if (getContext()==null){
             return;
         }
-        listAdapter=new TodoListAdapter(beanList,todoStatus);
+        listAdapter=new TodoListAdapter(getContext(),beanList,todoStatus);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         DividerItemDecoration itemDecoration=new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);

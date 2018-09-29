@@ -27,7 +27,7 @@ public class YiYuanPicFragment extends BaseFragment {
     YiYuanDataListAdapter listAdapter;
     int page=1;
 
-    List<YiYuanPicBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean>  contentlistBeen=new ArrayList<>();
+    List<YiYuanPicBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> contentListBeen =new ArrayList<>();
 
 
     @Override
@@ -43,7 +43,7 @@ public class YiYuanPicFragment extends BaseFragment {
     }
 
     private void initData() {
-        listAdapter=new YiYuanDataListAdapter(getContext(),R.layout.yiyuan_pic_item_layout,contentlistBeen);
+        listAdapter=new YiYuanDataListAdapter(getContext(),R.layout.yiyuan_pic_item_layout, contentListBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         listAdapter.bindToRecyclerView(rvDataList);
@@ -66,6 +66,13 @@ public class YiYuanPicFragment extends BaseFragment {
                 getData();
             }
         },rvDataList);
+        listAdapter.setAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page=1;
+                getData();
+            }
+        });
     }
 
     private void getData(){
@@ -85,11 +92,11 @@ public class YiYuanPicFragment extends BaseFragment {
                 if (yiYuanPicBean!=null&&yiYuanPicBean.getShowapi_res_code()==0){
                     if (yiYuanPicBean.getShowapi_res_body()!=null&&yiYuanPicBean.getShowapi_res_body().getPagebean()!=null){
                         if (page==1){
-                            contentlistBeen.clear();
+                            contentListBeen.clear();
                         }
-                        contentlistBeen.addAll(yiYuanPicBean.getShowapi_res_body().getPagebean().getContentlist());
+                        contentListBeen.addAll(yiYuanPicBean.getShowapi_res_body().getPagebean().getContentlist());
                         if(page==1){
-                            listAdapter.setNewData(contentlistBeen);
+                            listAdapter.setNewData(contentListBeen);
                         }else {
                             listAdapter.notifyDataSetChanged();
                         }
@@ -102,6 +109,23 @@ public class YiYuanPicFragment extends BaseFragment {
                     }else {
                         listAdapter.loadMoreEnd();
                     }
+                }else {
+                    if (page==1){
+                        listAdapter.emptyData();
+                    }else {
+                        listAdapter.loadMoreFail();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                srlRefresh.setRefreshing(false);
+                if (page==1){
+                    listAdapter.emptyData();
+                }else {
+                    listAdapter.loadMoreFail();
                 }
             }
         });
@@ -116,7 +140,7 @@ public class YiYuanPicFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        if (contentlistBeen.isEmpty()) {
+        if (contentListBeen.isEmpty()) {
             getData();
         }
     }

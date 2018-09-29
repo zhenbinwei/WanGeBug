@@ -7,10 +7,14 @@ import android.util.Log;
 
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.image.glide.GlideImageLoader;
+import com.example.weizhenbin.wangebug.modules.todo.entity.MyObjectBox;
 import com.example.weizhenbin.wangebug.views.floatingwindow.TodoFloatingWindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.objectbox.BoxStore;
+import io.objectbox.android.AndroidObjectBrowser;
 
 /**
  * Created by weizhenbin on 2018/8/8.
@@ -20,7 +24,7 @@ public class App extends Application {
 
     public static App app;
     private List<AppActivityLifecycleListener> appStatusListeners=new ArrayList<>();
-
+    private BoxStore boxStore;
 
     @Override
     public void onCreate() {
@@ -48,9 +52,13 @@ public class App extends Application {
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(),  cb);*/
         addLifecycleCallback();
+        boxStore = MyObjectBox.builder().androidContext(App.this).build();
+        new AndroidObjectBrowser(boxStore).start(this);
     }
 
-
+    public BoxStore getBoxStore() {
+        return boxStore;
+    }
     private class  LifecycleCallback implements ActivityLifecycleCallbacks{
 
         private int activityCount=0;

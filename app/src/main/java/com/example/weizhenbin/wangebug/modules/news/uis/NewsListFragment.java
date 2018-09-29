@@ -33,7 +33,7 @@ public class NewsListFragment extends BaseFragment {
     private NewsListAdapter listAdapter;
     int page=1;
 
-    List<YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> contentlistBeen=new ArrayList<>();
+    List<YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> contentListBeen =new ArrayList<>();
 
     private String channelId;
     private String channelName;
@@ -88,7 +88,7 @@ public class NewsListFragment extends BaseFragment {
         if (getContext()==null){
             return;
         }
-        listAdapter=new NewsListAdapter(getContext(),contentlistBeen);
+        listAdapter=new NewsListAdapter(getContext(), contentListBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         DividerItemDecoration itemDecoration=new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
@@ -112,6 +112,14 @@ public class NewsListFragment extends BaseFragment {
                 getData();
             }
         },rvDataList);
+
+        listAdapter.setAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page=1;
+                getData();
+            }
+        });
     }
     private void getData(){
         if (TextUtils.isEmpty(channelId)&&TextUtils.isEmpty(channelName)){
@@ -132,11 +140,11 @@ public class NewsListFragment extends BaseFragment {
                 if (yiYuanNewsBean!=null&&yiYuanNewsBean.getShowapi_res_code()==0){
                     if (yiYuanNewsBean.getShowapi_res_body()!=null&&yiYuanNewsBean.getShowapi_res_body().getPagebean()!=null){
                         if (page==1){
-                            contentlistBeen.clear();
+                            contentListBeen.clear();
                         }
-                        contentlistBeen.addAll(yiYuanNewsBean.getShowapi_res_body().getPagebean().getContentlist());
+                        contentListBeen.addAll(yiYuanNewsBean.getShowapi_res_body().getPagebean().getContentlist());
                         if(page==1){
-                            listAdapter.setNewData(contentlistBeen);
+                            listAdapter.setNewData(contentListBeen);
                         }else {
                             listAdapter.notifyDataSetChanged();
                         }
@@ -149,6 +157,23 @@ public class NewsListFragment extends BaseFragment {
                     }else {
                         listAdapter.loadMoreEnd();
                     }
+                }else {
+                    if (page==1){
+                        listAdapter.emptyData();
+                    }else {
+                        listAdapter.loadMoreFail();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                srlRefresh.setRefreshing(false);
+                if (page==1){
+                    listAdapter.emptyData();
+                }else {
+                    listAdapter.loadMoreFail();
                 }
             }
         });
@@ -161,7 +186,7 @@ public class NewsListFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        if (contentlistBeen.isEmpty()) {
+        if (contentListBeen.isEmpty()) {
             getData();
         }
     }

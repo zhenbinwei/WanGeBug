@@ -10,6 +10,7 @@ import com.example.weizhenbin.wangebug.base.DataResultAdapter;
 import com.example.weizhenbin.wangebug.base.ViewPageAdapter;
 import com.example.weizhenbin.wangebug.modules.code.controllers.CodeController;
 import com.example.weizhenbin.wangebug.modules.code.entity.ProjectTreeDataBean;
+import com.example.weizhenbin.wangebug.views.emptyview.EmptyView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class CodeProjectFragment extends BaseFragment{
     ViewPageAdapter pageAdapter=null;
     List<BaseFragment> fragments=new ArrayList<>();
     List<ProjectTreeDataBean.DataBean> dataBeanList;
-
+    EmptyView evEmpty;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -50,9 +51,17 @@ public class CodeProjectFragment extends BaseFragment{
     private void getProjectTreeData() {
         CodeController.getProjectTreeData(new DataResultAdapter<ProjectTreeDataBean>(){
             @Override
+            public void onStart() {
+                super.onStart();
+                evEmpty.setVisibility(View.VISIBLE);
+                evEmpty.loading(true);
+            }
+
+            @Override
             public void onSuccess(ProjectTreeDataBean projectTreeDataBean) {
                 super.onSuccess(projectTreeDataBean);
                 if (projectTreeDataBean!=null&&projectTreeDataBean.getErrorCode()==0){
+                    evEmpty.setVisibility(View.GONE);
                     if (projectTreeDataBean.getData()!=null&&projectTreeDataBean.getData()!=null){
                         dataBeanList=projectTreeDataBean.getData();
                         int size=dataBeanList.size();
@@ -62,7 +71,17 @@ public class CodeProjectFragment extends BaseFragment{
                         }
                         pageAdapter.notifyDataSetChanged();
                     }
+                }else {
+                    evEmpty.setVisibility(View.VISIBLE);
+                    evEmpty.emptyData();
                 }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                evEmpty.setVisibility(View.VISIBLE);
+                evEmpty.emptyData();
             }
         });
     }
@@ -73,12 +92,19 @@ public class CodeProjectFragment extends BaseFragment{
     }
 
     private void initEvent() {
-
+         evEmpty.setAction(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 getProjectTreeData();
+             }
+         });
     }
 
     private void initViews(View view) {
         vpProject=view.findViewById(R.id.vp_project);
         tlProjectType=view.findViewById(R.id.tl_project_type);
+        evEmpty=view.findViewById(R.id.ev_empty);
+        evEmpty.setProgressBarVisibility(View.VISIBLE);
     }
 
 

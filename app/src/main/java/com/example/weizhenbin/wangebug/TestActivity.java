@@ -115,7 +115,7 @@ public class TestActivity extends BaseActivity {
                     }
                 });*/
 
-               setAlarmTime(TestActivity.this,System.currentTimeMillis()+15*1000);
+              // setAlarmTime(TestActivity.this,System.currentTimeMillis()+15*1000);
             }
         });
 
@@ -126,6 +126,9 @@ public class TestActivity extends BaseActivity {
               //  fv.zoomOut(null);
                // TodoFloatingWindowManager.getManager().hideFloatingWindow();
                // remindBar.remove();
+               // Box<Note>   notesBox = ((App) getApplication()).getBoxStore().boxFor(Note.class);
+               // notesBox.
+
             }
         });
     }
@@ -177,4 +180,5 @@ public class TestActivity extends BaseActivity {
             Log.d("MyClickableSpan", "点击");
         }
     }
+
 }

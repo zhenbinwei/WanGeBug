@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -58,14 +57,14 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView =findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         initFragment(savedInstanceState);
-        openFloattingWindow();
+        openFloatingWindow();
     }
 
 
     /**
      * 判断权限 开启悬浮窗
      * */
-    private void openFloattingWindow(){
+    private void openFloatingWindow(){
         if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false)){
             if (PermissionTool.checkWindowPermission(MainActivity.this)){
                 TodoFloatingWindowManager.getManager().showFloatingWindow();
@@ -116,7 +115,6 @@ public class MainActivity extends BaseActivity
         hideAllFragment();
         if (savedInstanceState!=null){
             currentModule=savedInstanceState.getInt("currentModule");
-            Log.d("MainActivity", "currentModule:" + currentModule);
             if (currentModule==RECREATION_MODULE){
                 if (!recreationFragment.isAdded()) {
                     transaction.add(R.id.fl_content, recreationFragment, RecreationFragment.class.getSimpleName());
@@ -148,7 +146,6 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.d("MainActivity", "onSaveInstanceState-currentModule:" + currentModule);
         outState.putInt("currentModule",currentModule);
         super.onSaveInstanceState(outState);
     }
@@ -194,7 +191,6 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id=item.getItemId();
-        FragmentTransaction transaction;
         switch (id){
             case R.id.nav_news:
                 showFragment(newsFragment);

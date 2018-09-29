@@ -43,4 +43,7 @@
     <string name="del_string">删除</string>
     <string name="event_string">事件</string>
     <string name="hide_tab_hint_string">开启浏览列表自动隐藏底部Tab功能</string>
+    <string name="no_data_string">没有数据</string>
+    <string name="retry_string">点击重试</string>
+    <string name="loading_string">数据加载...</string>
 </resources>

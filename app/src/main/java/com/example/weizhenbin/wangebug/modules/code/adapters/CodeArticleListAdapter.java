@@ -7,10 +7,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.base.BaseMultipleAdapter;
 import com.example.weizhenbin.wangebug.base.WebActivity;
 import com.example.weizhenbin.wangebug.image.DefImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
@@ -26,7 +26,7 @@ import static com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDat
  * Created by weizhenbin on 18/8/26.
  */
 
-public class CodeArticleListAdapter extends BaseMultiItemQuickAdapter<ArticleListDataBean.DataBean.DatasBean,BaseViewHolder> {
+public class CodeArticleListAdapter extends BaseMultipleAdapter<ArticleListDataBean.DataBean.DatasBean,BaseViewHolder> {
     private Context context;
 
     /**
@@ -36,7 +36,7 @@ public class CodeArticleListAdapter extends BaseMultiItemQuickAdapter<ArticleLis
      * @param data A new list is created out of this one to avoid mutable list
      */
     public CodeArticleListAdapter(final Context context, final List<ArticleListDataBean.DataBean.DatasBean> data) {
-        super(data);
+        super(context,data);
         this.context=context;
         addItemType(HAS_PIC, R.layout.code_article_list_pic_item);
         addItemType(NO_PIC, R.layout.code_article_list_item);

@@ -111,6 +111,13 @@ public class ProjectListFragment extends BaseFragment {
                 getData();
             }
         },rvDataList);
+        listAdapter.setAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page=0;
+                getData();
+            }
+        });
     }
     private void getData(){
         if (TextUtils.isEmpty(id)){
@@ -149,6 +156,23 @@ public class ProjectListFragment extends BaseFragment {
                     }else {
                         listAdapter.loadMoreEnd();
                     }
+                }else {
+                    if (page==0){
+                        listAdapter.emptyData();
+                    }else {
+                        listAdapter.loadMoreFail();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                srlRefresh.setRefreshing(false);
+                if (page==0){
+                    listAdapter.emptyData();
+                }else {
+                    listAdapter.loadMoreFail();
                 }
             }
         });

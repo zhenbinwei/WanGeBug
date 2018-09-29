@@ -27,7 +27,7 @@ public class CodeSystemFragment extends BaseFragment{
     SwipeRefreshLayout srlRefresh;
     RecyclerView rvDataList;
     CodeSystemTreeAdapter listAdapter;
-    List<SystemTreeDataBean.DataBean> datasBeen=new ArrayList<>();
+    List<SystemTreeDataBean.DataBean> dataBeen =new ArrayList<>();
 
 
 
@@ -58,11 +58,20 @@ public class CodeSystemFragment extends BaseFragment{
                 srlRefresh.setRefreshing(false);
                 if (systemTreeDataBean!=null&&systemTreeDataBean.getErrorCode()==0){
                     if (systemTreeDataBean.getData()!=null){
-                        datasBeen.clear();
-                        datasBeen.addAll(systemTreeDataBean.getData());
+                        dataBeen.clear();
+                        dataBeen.addAll(systemTreeDataBean.getData());
                         listAdapter.notifyDataSetChanged();
                     }
+                }else {
+                    listAdapter.emptyData();
                 }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                srlRefresh.setRefreshing(false);
+                listAdapter.emptyData();
             }
         });
     }
@@ -74,13 +83,19 @@ public class CodeSystemFragment extends BaseFragment{
                 getData();
             }
         });
+        listAdapter.setAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getData();
+            }
+        });
     }
 
     private void initData() {
         if (getContext()==null){
             return;
         }
-        listAdapter=new CodeSystemTreeAdapter(datasBeen);
+        listAdapter=new CodeSystemTreeAdapter(getContext(), dataBeen);
         rvDataList.setAdapter(listAdapter);
         rvDataList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         DividerItemDecoration itemDecoration=new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
@@ -97,7 +112,7 @@ public class CodeSystemFragment extends BaseFragment{
 
     @Override
     protected void loadData() {
-        if (datasBeen.isEmpty()) {
+        if (dataBeen.isEmpty()) {
             getData();
         }
     }

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.base.BaseSimpleAdapter;
 import com.example.weizhenbin.wangebug.base.WebActivity;
 import com.example.weizhenbin.wangebug.image.DefImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
@@ -24,12 +25,12 @@ import static android.text.Html.FROM_HTML_MODE_COMPACT;
  * Created by weizhenbin on 2018/8/28.
  */
 
-public class CodeProjectListAdapter extends BaseQuickAdapter<ProjectListDataBean.DataBean.DatasBean,BaseViewHolder> {
+public class CodeProjectListAdapter extends BaseSimpleAdapter<ProjectListDataBean.DataBean.DatasBean,BaseViewHolder> {
 
     private Context context;
 
     public CodeProjectListAdapter(final Context context, @Nullable final List<ProjectListDataBean.DataBean.DatasBean> data) {
-        super(R.layout.project_list_item,data);
+        super(context,R.layout.project_list_item,data);
         this.context=context;
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override

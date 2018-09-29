@@ -1,5 +1,6 @@
 package com.example.weizhenbin.wangebug.modules.todo.adapters;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.base.BaseSimpleAdapter;
 import com.example.weizhenbin.wangebug.eventbus.EventBusHandler;
 import com.example.weizhenbin.wangebug.eventbus.EventCode;
 import com.example.weizhenbin.wangebug.eventbus.MessageEvent;
@@ -25,10 +27,10 @@ import java.util.List;
  * Created by weizhenbin on 18/9/9.
  */
 
-public class TodoListAdapter extends BaseQuickAdapter<TBTodoBean,BaseViewHolder> {
+public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder> {
 
-    public TodoListAdapter(@Nullable final List<TBTodoBean> data, final int todoStatus) {
-        super(R.layout.todo_list_item,data);
+    public TodoListAdapter(final Context mContext, @Nullable final List<TBTodoBean> data, final int todoStatus) {
+        super(mContext,R.layout.todo_list_item,data);
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -48,40 +50,55 @@ public class TodoListAdapter extends BaseQuickAdapter<TBTodoBean,BaseViewHolder>
                 String[] items;
                 if (todoStatus==-1||todoStatus==0){
                     items=new String[]{mContext.getString(R.string.done_string),mContext.getString(R.string.del_string)};
+                    DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case 0:
+                                    if (data==null){
+                                        return;
+                                    }
+                                    TBTodoBean todoBean=data.get(position);
+                                    todoBean.setIsDone(true);
+                                    long doneTime=System.currentTimeMillis();
+                                    todoBean.setTodoDoneTime(doneTime);
+                                    todoBean.setTodoDoneTimeStr(DateTool.getDateToString(doneTime, "yyyy-MM-dd HH:mm"));
+                                    TodoController.updateTodoByUuid(todoBean,todoBean.getUuid());
+                                    EventBusHandler.post(new MessageEvent(EventCode.DONE_TODO_CODE,data.get(position)));
+                                    break;
+                                case 1:
+                                    if (data==null){
+                                        return;
+                                    }
+                                    TBTodoBean delWhere=new TBTodoBean();
+                                    delWhere.setUuid(data.get(position).getUuid());
+                                    TodoController.delTodo(data.get(position).getUuid());
+                                    EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,data.get(position)));
+                                    break;
+                            }
+                        }
+                    });
                 }else {
                     items=new String[]{mContext.getString(R.string.del_string)};
+                    DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case 0:
+                                    if (data==null){
+                                        return;
+                                    }
+                                    TBTodoBean delWhere=new TBTodoBean();
+                                    delWhere.setUuid(data.get(position).getUuid());
+                                    TodoController.delTodo(data.get(position).getUuid());
+                                    EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,data.get(position)));
+                                    break;
+                            }
+                        }
+                    });
                 }
 
-                DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                           switch (which){
-                               case 0:
-                                   if (data==null){
-                                       return;
-                                   }
-                                   TBTodoBean updateWhere=new TBTodoBean();
-                                   TBTodoBean todoBean=data.get(position);
-                                   todoBean.setIsDone(true);
-                                   long doneTime=System.currentTimeMillis();
-                                   todoBean.setTodoDoneTime(doneTime);
-                                   todoBean.setTodoDoneTimeStr(DateTool.getDateToString(doneTime, "yyyy-MM-dd HH:mm"));
-                                   updateWhere.setUuid(data.get(position).getUuid());
-                                   TodoController.updateTodo(data.get(position),updateWhere);
-                                   EventBusHandler.post(new MessageEvent(EventCode.DONE_TODO_CODE,todoBean));
-                                   break;
-                               case 1:
-                                   if (data==null){
-                                       return;
-                                   }
-                                   TBTodoBean delWhere=new TBTodoBean();
-                                   delWhere.setUuid(data.get(position).getUuid());
-                                   TodoController.delTodo(delWhere);
-                                   EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,data.get(position)));
-                                   break;
-                           }
-                    }
-                });
+
                 return true;
             }
         });

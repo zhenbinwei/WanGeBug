@@ -160,9 +160,7 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
             long todoUpdateTime = System.currentTimeMillis();
             tbTodoBean.setTodoLastUpdateDate(todoUpdateTime);
             tbTodoBean.setTodoLastUpdateDateStr(DateTool.getDateToString(todoUpdateTime, "yyyy-MM-dd HH:mm"));
-            TBTodoBean where=new TBTodoBean();
-            where.setUuid(tbTodoBean.getUuid());
-            TodoController.updateTodo(tbTodoBean,where);
+            TodoController.updateTodoByUuid(tbTodoBean,tbTodoBean.getUuid());
             EventBusHandler.post(new MessageEvent(EventCode.UPDATE_TODO_CODE,tbTodoBean));
         }
     }

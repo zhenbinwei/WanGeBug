@@ -2,46 +2,73 @@ package com.example.weizhenbin.wangebug.modules.todo.entity;
 
 import android.text.TextUtils;
 
-import com.example.weizhenbin.wangebug.dp.annotation.DbTable;
-
 import java.io.Serializable;
+
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
 
 /**
  * Created by weizhenbin on 2018/9/5.
- * 数据库表 基础类型要用对象表示
- *
+ * 使用greenRobot 开源的 ObjectBox 框架
  */
-@DbTable("tb_todo")
+@Entity
 public class TBTodoBean implements Serializable{
+
+    @Id
+    long id;
+
 
     private String uuid;//唯一设别码
 
 
     //事件时间
-    private Long todoCreateTime;
+    private long todoCreateTime;
     private String todoCreateTimeStr;
     //事件标题
     private String todoTitle;
     //事件内容
     private String todoContent;
     //事件状态
-    private Integer todoStatus;  //0未完成  1 已完成
+    private int todoStatus;  //0未完成  1 已完成
     //事件完成时间
-    private Long todoDoneTime;
+    private long todoDoneTime;
     private String todoDoneTimeStr;
     //事件是否提醒
-    private Integer isTodoRemind;//0 代表false 1代表true
+    private int isTodoRemind;//0 代表false 1代表true
     //事件提醒时间
-    private Long todoRemindTime;
+    private long todoRemindTime;
     private String todoRemindTimeStr;
 
     //事件提醒日期
-    private Long todoRemindDate;
+    private long todoRemindDate;
     private String todoRemindDateStr;
 
 
-    private Long todoLastUpdateDate;
+    private long todoLastUpdateDate;
     private String todoLastUpdateDateStr;
+
+
+    public TBTodoBean() {
+    }
+
+    public TBTodoBean(long id, String uuid, Long todoCreateTime, String todoCreateTimeStr, String todoTitle, String todoContent, Integer todoStatus, Long todoDoneTime, String todoDoneTimeStr, Integer isTodoRemind, Long todoRemindTime, String todoRemindTimeStr, Long todoRemindDate, String todoRemindDateStr, Long todoLastUpdateDate, String todoLastUpdateDateStr) {
+        this.id = id;
+        this.uuid = uuid;
+        this.todoCreateTime = todoCreateTime;
+        this.todoCreateTimeStr = todoCreateTimeStr;
+        this.todoTitle = todoTitle;
+        this.todoContent = todoContent;
+        this.todoStatus = todoStatus;
+        this.todoDoneTime = todoDoneTime;
+        this.todoDoneTimeStr = todoDoneTimeStr;
+        this.isTodoRemind = isTodoRemind;
+        this.todoRemindTime = todoRemindTime;
+        this.todoRemindTimeStr = todoRemindTimeStr;
+        this.todoRemindDate = todoRemindDate;
+        this.todoRemindDateStr = todoRemindDateStr;
+        this.todoLastUpdateDate = todoLastUpdateDate;
+        this.todoLastUpdateDateStr = todoLastUpdateDateStr;
+    }
 
     public Long getTodoCreateTime() {
         return todoCreateTime;
@@ -178,6 +205,10 @@ public class TBTodoBean implements Serializable{
         this.todoLastUpdateDateStr = todoLastUpdateDateStr;
     }
 
+
+
+
+
     @Override
     public String toString() {
         return "TBTodoBean{" +
@@ -214,11 +245,35 @@ public class TBTodoBean implements Serializable{
         todoDoneTimeStr=null;
         todoRemindTimeStr=null;
         todoRemindDateStr=null;
-        todoCreateTime=null;
-        todoStatus=null;
-        todoDoneTime=null;
-        todoRemindDate=null;
-        isTodoRemind=null;
-        todoRemindTime=null;
+        todoCreateTime=-1;
+        todoStatus=-1;
+        todoDoneTime=-1;
+        todoRemindDate=-1;
+        isTodoRemind=-1;
+        todoRemindTime=-1;
     }
+
+
+    public void update(TBTodoBean todoBean){
+        if (todoBean==null){
+            return;
+        }
+        this.id=todoBean.id;
+        this.isTodoRemind=todoBean.isTodoRemind;
+        this.todoContent=todoBean.todoContent;
+        this.todoCreateTime=todoBean.todoCreateTime;
+        this.todoCreateTimeStr=todoBean.todoCreateTimeStr;
+        this.todoDoneTime=todoBean.todoDoneTime;
+        this.todoDoneTimeStr=todoBean.todoDoneTimeStr;
+        this.todoLastUpdateDate=todoBean.todoLastUpdateDate;
+        this.todoLastUpdateDateStr=todoBean.todoLastUpdateDateStr;
+        this.todoRemindDate=todoBean.todoRemindDate;
+        this.todoRemindDateStr=todoBean.todoRemindDateStr;
+        this.todoRemindTime=todoBean.todoRemindTime;
+        this.todoRemindTimeStr=todoBean.todoRemindTimeStr;
+        this.todoStatus=todoBean.todoStatus;
+        this.todoTitle=todoBean.todoTitle;
+        this.uuid=todoBean.uuid;
+    }
+
 }

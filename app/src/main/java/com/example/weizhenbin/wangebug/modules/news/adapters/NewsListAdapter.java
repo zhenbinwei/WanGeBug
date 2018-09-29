@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.base.BaseMultipleAdapter;
 import com.example.weizhenbin.wangebug.base.WebActivity;
 import com.example.weizhenbin.wangebug.image.DefImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
@@ -28,9 +28,8 @@ import static com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsBean
  * Created by weizhenbin on 2018/8/23.
  */
 
-public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean, BaseViewHolder> {
+public class NewsListAdapter extends BaseMultipleAdapter<YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean, BaseViewHolder> {
 
-    private Context context;
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -38,8 +37,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
      * @param data A new list is created out of this one to avoid mutable list
      */
     public NewsListAdapter(final Context context, final List<YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> data) {
-        super(data);
-        this.context=context;
+        super(context,data);
         addItemType(SINGLE_PIC, R.layout.news_single_pic_item);
         addItemType(MULTI_PIC, R.layout.news_multi_pic_item);
         addItemType(NO_PIC, R.layout.news_not_pic_item);
@@ -69,7 +67,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                      ratioImageView.setVisibility(View.GONE);
                  }else {
                      ratioImageView.setVisibility(View.VISIBLE);
-                     ImageLoader.getImageLoader().imageLoader(context, ratioImageView, url, DefImageConfig.smallImage());
+                     ImageLoader.getImageLoader().imageLoader(mContext, ratioImageView, url, DefImageConfig.smallImage());
                  }
                  helper.addOnClickListener(R.id.ll_item);
                  break;
@@ -85,7 +83,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                      for (int i = 0; i < size; i++) {
                         if (i<3){
                             String url2=item.getImageurls().get(i).getUrl();
-                            RatioImageView imageView=new RatioImageView(context);
+                            RatioImageView imageView=new RatioImageView(mContext);
                             imageView.setRatio(0.7f);
                             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                             LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -99,7 +97,7 @@ public class NewsListAdapter extends BaseMultiItemQuickAdapter<YiYuanNewsBean.Sh
                                     layoutParams.rightMargin = PhoneTool.dip2px( 8);
                                 }
                             }
-                            ImageLoader.getImageLoader().imageLoader(context, imageView, url2,DefImageConfig.smallImage());
+                            ImageLoader.getImageLoader().imageLoader(mContext, imageView, url2,DefImageConfig.smallImage());
                             linearLayout.addView(imageView,layoutParams);
                         }
                      }
