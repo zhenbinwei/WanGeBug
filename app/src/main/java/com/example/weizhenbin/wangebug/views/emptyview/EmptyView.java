@@ -20,7 +20,7 @@ public class EmptyView extends LinearLayout implements IEmptyViewProxy{
 
     private TextView tvEmpty;
     private TextView tvEvent;
-    private ContentLoadingProgressBar pbLoading;
+    private com.example.weizhenbin.wangebug.views.LoadingView lvLoading;
 
 
     public EmptyView(Context context) {
@@ -40,7 +40,7 @@ public class EmptyView extends LinearLayout implements IEmptyViewProxy{
         setClickable(true);
         tvEmpty = findViewById(R.id.tv_empty);
         tvEvent =  findViewById(R.id.tv_event);
-        pbLoading=findViewById(R.id.pb_loading);
+        lvLoading=findViewById(R.id.lv_loading);
     }
 
     public void setEmptyText(String text){
@@ -96,7 +96,7 @@ public class EmptyView extends LinearLayout implements IEmptyViewProxy{
 
     @Override
     public void setProgressBarVisibility(int visibility) {
-        pbLoading.setVisibility(visibility);
+        lvLoading.setVisibility(visibility);
     }
 
 

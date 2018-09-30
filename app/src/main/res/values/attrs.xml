@@ -14,4 +14,12 @@
     <declare-styleable name="RatioFrameLayout">
         <attr name="frameRatio" format="float"/>
     </declare-styleable>
+
+    <declare-styleable name="LoadingView">
+        <attr name="dotCount" format="integer"/>
+        <attr name="dotRadius" format="integer"/>
+        <attr name="dotSpace" format="integer"/>
+        <attr name="dotBgColor" format="color"/>
+        <attr name="dotFgColor" format="color"/>
+    </declare-styleable>
 </resources>

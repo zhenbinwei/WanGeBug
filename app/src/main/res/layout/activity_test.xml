@@ -34,8 +34,12 @@
     </com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView>
     <com.example.weizhenbin.wangebug.views.MyTextView
         android:id="@+id/tv_tags"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true" />
+    <com.example.weizhenbin.wangebug.views.LoadingView
+        android:layout_width="300dp"
+        android:layout_height="300dp" />
 </RelativeLayout>

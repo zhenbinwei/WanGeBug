@@ -30,7 +30,7 @@
         android:orientation="horizontal">
         <TextView
             android:layout_width="0dp"
-            android:text="@string/open_todo_floatingwindow_remind_string"
+            android:text="@string/open_todo_floating_window_remind_string"
             android:textSize="14sp"
             android:layout_weight="1"
             android:layout_marginRight="8dp"

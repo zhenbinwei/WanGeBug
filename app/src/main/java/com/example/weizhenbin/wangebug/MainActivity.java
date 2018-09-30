@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity
             if (PermissionTool.checkWindowPermission(MainActivity.this)){
                 TodoFloatingWindowManager.getManager().showFloatingWindow();
             }else {
-                RemindBar.make(drawer,getString(R.string.no_floattingwindow_permission_remind_string),RemindBar.LENGTH_LONG)
+                RemindBar.make(drawer,getString(R.string.no_floating_window_permission_remind_string),RemindBar.LENGTH_LONG)
                         .setAction(getString(R.string.open_string), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

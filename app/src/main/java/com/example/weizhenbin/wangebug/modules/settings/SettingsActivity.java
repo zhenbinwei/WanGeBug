@@ -122,7 +122,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                  TodoFloatingWindowManager.getManager().showFloatingWindow();
             }else {
                 //引导权限申请
-                DialogTool.showAlertDialog(SettingsActivity.this, getString(R.string.permission_request_string), getString(R.string.floatting_window_permission_request_describe_string), getString(R.string.open_string), new DialogInterface.OnClickListener() {
+                DialogTool.showAlertDialog(SettingsActivity.this, getString(R.string.permission_request_string), getString(R.string.floating_window_permission_request_describe_string), getString(R.string.open_string), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         PermissionTool.with(SettingsActivity.this).setiFloattingWindowPermissionGrantResult(new IFloattingWindowPermissionGrantResult() {
