@@ -4,9 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="match_parent">
     <com.example.weizhenbin.wangebug.views.TitleBar
         android:id="@+id/tb_title"
@@ -19,6 +18,7 @@
         android:background="@color/colorPrimary"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_news"
+        android:layout_below="@+id/tb_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.design.widget.TabLayout
@@ -34,5 +34,10 @@
             app:tabTextAppearance="@style/TabLayoutTextAppearance"
             />
     </android.support.v4.view.ViewPager>
-    </LinearLayout>
+        <com.example.weizhenbin.wangebug.views.emptyview.EmptyView
+            android:id="@+id/ev_empty"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/tb_title"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
 </com.example.weizhenbin.wangebug.views.nestlayout.NestLayout>

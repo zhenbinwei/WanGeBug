@@ -70,11 +70,43 @@ public class TBTodoBean implements Serializable{
         this.todoLastUpdateDateStr = todoLastUpdateDateStr;
     }
 
-    public Long getTodoCreateTime() {
+
+
+    public void setIsDone(boolean isDone){
+        if (isDone){
+            todoStatus=1;
+        }else {
+            todoStatus=0;
+        }
+    }
+
+
+    public boolean isDone(){
+        return todoStatus==1;
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public long getTodoCreateTime() {
         return todoCreateTime;
     }
 
-    public void setTodoCreateTime(Long todoCreateTime) {
+    public void setTodoCreateTime(long todoCreateTime) {
         this.todoCreateTime = todoCreateTime;
     }
 
@@ -102,33 +134,19 @@ public class TBTodoBean implements Serializable{
         this.todoContent = todoContent;
     }
 
-    public Integer getTodoStatus() {
+    public int getTodoStatus() {
         return todoStatus;
     }
 
-    public void setTodoStatus(Integer todoStatus) {
+    public void setTodoStatus(int todoStatus) {
         this.todoStatus = todoStatus;
     }
 
-    public void setIsDone(boolean isDone){
-        if (isDone){
-            todoStatus=1;
-        }else {
-            todoStatus=0;
-        }
-    }
-
-
-    public boolean isDone(){
-        return todoStatus==1;
-    }
-
-
-    public Long getTodoDoneTime() {
+    public long getTodoDoneTime() {
         return todoDoneTime;
     }
 
-    public void setTodoDoneTime(Long todoDoneTime) {
+    public void setTodoDoneTime(long todoDoneTime) {
         this.todoDoneTime = todoDoneTime;
     }
 
@@ -140,19 +158,19 @@ public class TBTodoBean implements Serializable{
         this.todoDoneTimeStr = todoDoneTimeStr;
     }
 
-    public Integer getIsTodoRemind() {
+    public int getIsTodoRemind() {
         return isTodoRemind;
     }
 
-    public void setIsTodoRemind(Integer isTodoRemind) {
+    public void setIsTodoRemind(int isTodoRemind) {
         this.isTodoRemind = isTodoRemind;
     }
 
-    public Long getTodoRemindTime() {
+    public long getTodoRemindTime() {
         return todoRemindTime;
     }
 
-    public void setTodoRemindTime(Long todoRemindTime) {
+    public void setTodoRemindTime(long todoRemindTime) {
         this.todoRemindTime = todoRemindTime;
     }
 
@@ -164,11 +182,11 @@ public class TBTodoBean implements Serializable{
         this.todoRemindTimeStr = todoRemindTimeStr;
     }
 
-    public Long getTodoRemindDate() {
+    public long getTodoRemindDate() {
         return todoRemindDate;
     }
 
-    public void setTodoRemindDate(Long todoRemindDate) {
+    public void setTodoRemindDate(long todoRemindDate) {
         this.todoRemindDate = todoRemindDate;
     }
 
@@ -180,20 +198,11 @@ public class TBTodoBean implements Serializable{
         this.todoRemindDateStr = todoRemindDateStr;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-
-    public Long getTodoLastUpdateDate() {
+    public long getTodoLastUpdateDate() {
         return todoLastUpdateDate;
     }
 
-    public void setTodoLastUpdateDate(Long todoLastUpdateDate) {
+    public void setTodoLastUpdateDate(long todoLastUpdateDate) {
         this.todoLastUpdateDate = todoLastUpdateDate;
     }
 
@@ -204,10 +213,6 @@ public class TBTodoBean implements Serializable{
     public void setTodoLastUpdateDateStr(String todoLastUpdateDateStr) {
         this.todoLastUpdateDateStr = todoLastUpdateDateStr;
     }
-
-
-
-
 
     @Override
     public String toString() {

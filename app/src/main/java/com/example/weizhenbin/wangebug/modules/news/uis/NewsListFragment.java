@@ -127,13 +127,6 @@ public class NewsListFragment extends BaseFragment {
         }
         NewController.getNewsListData(page,channelId,new DataResultAdapter<YiYuanNewsBean>(){
             @Override
-            public void onStart() {
-                super.onStart();
-                if (page==1) {
-                    srlRefresh.setRefreshing(true);
-                }
-            }
-            @Override
             public void onSuccess(YiYuanNewsBean yiYuanNewsBean) {
                 super.onSuccess(yiYuanNewsBean);
                 srlRefresh.setRefreshing(false);

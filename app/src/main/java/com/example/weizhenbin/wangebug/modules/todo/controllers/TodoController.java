@@ -1,6 +1,14 @@
 package com.example.weizhenbin.wangebug.modules.todo.controllers;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+
 import com.example.weizhenbin.wangebug.base.App;
+import com.example.weizhenbin.wangebug.modules.todo.alarm.AlarmReceiver;
+import com.example.weizhenbin.wangebug.modules.todo.entity.TBAlarmMapBean;
+import com.example.weizhenbin.wangebug.modules.todo.entity.TBAlarmMapBean_;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean_;
 
@@ -45,6 +53,12 @@ public class TodoController {
         }
     }
 
+    public static TBTodoBean getTodoBean(String uuid){
+        Box<TBTodoBean> todoBeanBox = App.app.getBoxStore().boxFor(TBTodoBean.class);
+       return todoBeanBox.query().equal(TBTodoBean_.uuid,uuid).build().findFirst();
+    }
+
+
     /**
      * 修改todo
      * */
@@ -70,5 +84,95 @@ public class TodoController {
         return todoBeanBox.query().equal(TBTodoBean_.uuid,uuid).build().remove();
      }
 
+
+     /**
+      * 获取闹钟个数
+      * */
+     public static long getRemindCount(){
+         Box<TBTodoBean> todoBeanBox = App.app.getBoxStore().boxFor(TBTodoBean.class);
+         return todoBeanBox.query().equal(TBTodoBean_.isTodoRemind,1).build().count();
+     }
+
+
+
+     /**
+      * 设置闹钟
+      * */
+     public static void setAlarm(Context context,TBTodoBean  tbTodoBean){
+         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+         Intent intent = new Intent(AlarmReceiver.ACTION_KEY);
+         intent.putExtra(AlarmReceiver.KEY_ID,tbTodoBean.getUuid());
+         intent.putExtra(AlarmReceiver.KEY_TITLE,tbTodoBean.getTodoTitle());
+         intent.putExtra(AlarmReceiver.KEY_CONTENT,tbTodoBean.getTodoContent());
+         int number= (int) (getLastId()+1);
+         addAlarmMap(new TBAlarmMapBean(number,tbTodoBean.getUuid()));
+         intent.putExtra(AlarmReceiver.KEY_NUMBER,number);
+         PendingIntent sender = PendingIntent.getBroadcast(
+                 context, number, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+         //闹铃间隔， 这里设为1分钟闹一次，在第2步我们将每隔1分钟收到一次广播
+         //int interval = 60 * 1000;
+         //am.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, interval, sender);
+         if (am!=null) {
+             am.set(AlarmManager.RTC_WAKEUP, tbTodoBean.getTodoRemindTime(), sender);
+         }
+     }
+
+     /**
+      * 删除闹钟
+      * */
+     public static void cancelAlarm(Context context, TBTodoBean  tbTodoBean){
+         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+         Intent intent = new Intent(AlarmReceiver.ACTION_KEY);
+         intent.putExtra(AlarmReceiver.KEY_ID,tbTodoBean.getUuid());
+         intent.putExtra(AlarmReceiver.KEY_TITLE,tbTodoBean.getTodoTitle());
+         intent.putExtra(AlarmReceiver.KEY_CONTENT,tbTodoBean.getTodoContent());
+
+         int number= (int) getIdByKey(tbTodoBean.getUuid());
+         intent.putExtra(AlarmReceiver.KEY_NUMBER,number);
+         PendingIntent sender = PendingIntent.getBroadcast(
+                 context, number, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+         //闹铃间隔， 这里设为1分钟闹一次，在第2步我们将每隔1分钟收到一次广播
+         //int interval = 60 * 1000;
+         //am.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, interval, sender);
+         if (am!=null) {
+             am.cancel(sender);
+         }
+     }
+
+
+     /**
+      * 添加alarm映射
+      * */
+     public static void addAlarmMap(TBAlarmMapBean tbAlarmMapBean){
+         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.app.getBoxStore().boxFor(TBAlarmMapBean.class);
+         tbAlarmMapBeanBox.query().equal(TBAlarmMapBean_.key,tbAlarmMapBean.getKey()).build().remove();
+         tbAlarmMapBeanBox.put(tbAlarmMapBean);
+     }
+
+     /**
+      * 获取最后添加的数据 获取最大id
+      * */
+
+     public static long getLastId(){
+         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.app.getBoxStore().boxFor(TBAlarmMapBean.class);
+         TBAlarmMapBean alarmMapBean=tbAlarmMapBeanBox.query().orderDesc(TBAlarmMapBean_.id).build().findFirst();
+         if (alarmMapBean!=null){
+             return alarmMapBean.getId();
+         }else {
+             return 0;
+         }
+     }
+
+     public static long getIdByKey(String key){
+         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.app.getBoxStore().boxFor(TBAlarmMapBean.class);
+
+         TBAlarmMapBean alarmMapBean= tbAlarmMapBeanBox.query().equal(TBAlarmMapBean_.key,key).build().findFirst();
+         if (alarmMapBean!=null){
+             return alarmMapBean.getId();
+         }else {
+             return 0;
+         }
+
+     }
 
 }

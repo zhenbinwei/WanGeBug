@@ -89,9 +89,6 @@ public class TodoListFragment extends BaseFragment {
     }
 
     private void getData() {
-        if (page==1){
-            srlRefresh.setRefreshing(true);
-        }
         Observable.create(new Observable.OnSubscribe<List<TBTodoBean>>() {
             @Override
             public void call(Subscriber<? super List<TBTodoBean>> subscriber) {

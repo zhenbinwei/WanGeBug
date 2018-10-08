@@ -52,14 +52,6 @@ public class CodeHomeFragment extends BaseFragment {
     private void getData() {
         CodeController.getArticleListData(page,new DataResultAdapter<ArticleListDataBean>(){
             @Override
-            public void onStart() {
-                super.onStart();
-                if (page==0){
-                    srlRefresh.setRefreshing(true);
-                }
-            }
-
-            @Override
             public void onSuccess(ArticleListDataBean articleListDataBean) {
                 super.onSuccess(articleListDataBean);
                 srlRefresh.setRefreshing(false);

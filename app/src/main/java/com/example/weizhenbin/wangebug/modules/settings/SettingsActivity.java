@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
@@ -32,7 +33,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     AppCompatCheckBox cbTodoOpen;
     AppCompatCheckBox cbHideTabOpen;
+    AppCompatCheckBox cbTodoNotificationSoundOpen;
     TitleBar tbTitle;
+    TextView tvCleanCache;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,11 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         }else {
             cbHideTabOpen.setChecked(false);
         }
+        if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_NOTIFICATION_SOUND,false)){
+            cbHideTabOpen.setChecked(true);
+        }else {
+            cbHideTabOpen.setChecked(false);
+        }
     }
 
     private void initEvent() {
@@ -64,12 +72,16 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
              finish();
             }
         });
+        tvCleanCache.setOnClickListener(this);
+        cbTodoNotificationSoundOpen.setOnClickListener(this);
     }
 
     private void initViews() {
         cbTodoOpen =findViewById(R.id.cb_todo_open);
         cbHideTabOpen=findViewById(R.id.cb_hide_tab_open);
         tbTitle=findViewById(R.id.tb_title);
+        tvCleanCache=findViewById(R.id.tv_clean_cache);
+        cbTodoNotificationSoundOpen=findViewById(R.id.cb_todo_notification_sound_open);
     }
 
 
@@ -90,6 +102,14 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 openHideTab();
             }else {
                 closeHideTab();
+            }
+        }else if (v==tvCleanCache){
+
+        }else if (v==cbTodoNotificationSoundOpen){
+            if (cbTodoNotificationSoundOpen.isChecked()){
+                PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_NOTIFICATION_SOUND, true);
+            }else {
+                PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_NOTIFICATION_SOUND, false);
             }
         }
     }

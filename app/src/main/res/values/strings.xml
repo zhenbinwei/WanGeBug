@@ -41,9 +41,14 @@
     <string name="no_floating_window_permission_remind_string">悬浮窗权限未开启,无法使用Todo快捷功能</string>
     <string name="done_string">完成</string>
     <string name="del_string">删除</string>
+    <string name="edit_string">编辑</string>
     <string name="event_string">事件</string>
     <string name="hide_tab_hint_string">开启浏览列表自动隐藏底部Tab功能</string>
     <string name="no_data_string">没有数据</string>
     <string name="retry_string">点击重试</string>
     <string name="loading_string">数据加载中</string>
+    <string name="input_key_string">输入关键词</string>
+    <string name="clean_cache_string">清除缓存</string>
+    <string name="remind_time_invalid_string">提醒时间已过时</string>
+    <string name="open_notification_sound_hint_string">开启通知声音</string>
 </resources>

@@ -44,6 +44,9 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
     private TBTodoBean tbTodoBean;
 
     private StringBuilder timeStringBuilder;
+
+    private boolean isAlterRemindDate=false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +76,8 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
         }else {
             tbTodoBean = new TBTodoBean();
             tbTodoBean.setTodoStatus(0);
-            timeStringBuilder = new StringBuilder();
         }
+        timeStringBuilder = new StringBuilder();
     }
 
     private void initEvent() {
@@ -90,7 +93,6 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 saveOrUpdateTodo();
-                finish();
             }
         });
         edContent.addTextChangedListener(new TextWatcher() {
@@ -135,7 +137,6 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     saveOrUpdateTodo();
-                    finish();
                 }
             }, getString(R.string.cancel_string), new DialogInterface.OnClickListener() {
                 @Override
@@ -150,6 +151,9 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
 
     private void saveOrUpdateTodo() {
         if (TextUtils.isEmpty(tbTodoBean.getUuid())) {
+            if (!setAlarm()){
+                return;
+            }
             long todoCreateTime = System.currentTimeMillis();
             tbTodoBean.setUuid(UUIDTool.getUUID());
             tbTodoBean.setTodoCreateTime(todoCreateTime);
@@ -157,12 +161,33 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
             TodoController.saveTodo(tbTodoBean);
             EventBusHandler.post(new MessageEvent(EventCode.ADD_TODO_CODE,tbTodoBean));
         }else {
+            if (!setAlarm()){
+                return;
+            }
             long todoUpdateTime = System.currentTimeMillis();
             tbTodoBean.setTodoLastUpdateDate(todoUpdateTime);
             tbTodoBean.setTodoLastUpdateDateStr(DateTool.getDateToString(todoUpdateTime, "yyyy-MM-dd HH:mm"));
             TodoController.updateTodoByUuid(tbTodoBean,tbTodoBean.getUuid());
             EventBusHandler.post(new MessageEvent(EventCode.UPDATE_TODO_CODE,tbTodoBean));
         }
+        finish();
+    }
+
+    private boolean setAlarm() {
+        if (isAlterRemindDate){
+        if (tbTodoBean.getIsTodoRemind()==1){
+            if (tbTodoBean.getTodoRemindTime()<System.currentTimeMillis()){
+                //提醒时间小于当前时间
+                DialogTool.showAlertDialog(TodoEditActivity.this,null,getString(R.string.remind_time_invalid_string),getString(R.string.confirm_string));
+                return false;
+            }else {
+                TodoController.setAlarm(TodoEditActivity.this,tbTodoBean);
+            }
+        }else {
+            TodoController.cancelAlarm(TodoEditActivity.this,tbTodoBean);
+        }
+        }
+        return true;
     }
 
     private void initViews() {
@@ -189,17 +214,19 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         if (v==ivDelRemindTime){
             tvRemindTime.setText(getString(R.string.hint_time_string));
-            tbTodoBean.setIsTodoRemind(null);
-            tbTodoBean.setTodoRemindTime(null);
+            tbTodoBean.setIsTodoRemind(0);
+            tbTodoBean.setTodoRemindTime(-1);
             tbTodoBean.setTodoRemindTimeStr(null);
-            tbTodoBean.setTodoRemindDate(null);
+            tbTodoBean.setTodoRemindDate(-1);
             tbTodoBean.setTodoRemindDateStr(null);
-            timeStringBuilder.delete(0,timeStringBuilder.length());
+            timeStringBuilder.delete(0, timeStringBuilder.length());
             ivDelRemindTime.setVisibility(View.GONE);
+            isAlterRemindDate=true;
         }else if (v==tvRemindTime){
             DateTool.showDateDialog(TodoEditActivity.this, new IDatePickerResult() {
                 @Override
                 public void onDateResult(int year, int monthOfYear, int dayOfMonth) {
+                    isAlterRemindDate=true;
                     tbTodoBean.setIsTodoRemind(1);
                     timeStringBuilder.delete(0,timeStringBuilder.length());
                     StringBuffer dateBuffer=new StringBuffer();

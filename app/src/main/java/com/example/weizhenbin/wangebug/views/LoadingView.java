@@ -70,6 +70,7 @@ public class LoadingView extends View {
         paint.setAntiAlias(true);
         dotTotalWidth=dotCount*dotRadius*2+dotSpace*(dotCount-1);
         handler=new AnimHandler(this);
+        handler.sendEmptyMessage(1);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class LoadingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.d("LoadingView", "onDraw");
+        Log.d("LoadingView", "onDraw"+this.getVisibility());
         if (viewHeight==0||viewWidth==0){
             viewHeight=getHeight();
             viewWidth=getWidth();

@@ -1,5 +1,6 @@
 package com.example.weizhenbin.wangebug.modules.code.controllers;
 
+import com.example.weizhenbin.wangebug.base.App;
 import com.example.weizhenbin.wangebug.base.DataResult;
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
@@ -7,9 +8,14 @@ import com.example.weizhenbin.wangebug.modules.code.entity.ProjectListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.ProjectTreeDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.SearchHotKeyDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.SystemTreeDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.TBSearchHistoryKeyBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.TBSearchHistoryKeyBean_;
 import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper;
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.CodeApi;
 
+import java.util.List;
+
+import io.objectbox.Box;
 import rx.Observer;
 
 /**
@@ -218,5 +224,38 @@ public class CodeController {
                         }
                     }
                 });
+    }
+
+
+    /**
+     * 保存单个
+     * */
+    public static void saveSearchHistoryKey(String key){
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+        TBSearchHistoryKeyBean tbSearchHistoryKeyBean= tbSearchHistoryKeyBeanBox.query().equal(TBSearchHistoryKeyBean_.key,key).build().findFirst();
+        if (tbSearchHistoryKeyBean!=null){
+            tbSearchHistoryKeyBean.setKey(key);
+            tbSearchHistoryKeyBeanBox.put(tbSearchHistoryKeyBean);
+        }else {
+            tbSearchHistoryKeyBeanBox.put(new TBSearchHistoryKeyBean(key));
+        }
+    }
+
+    /**
+     * 删除单个
+     * */
+    public static void removeSearchHistoryKey(long id){
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+        tbSearchHistoryKeyBeanBox.remove(id);
+
+    }
+    /**清除*/
+    public static void cleanSearchHistoryKey(){
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+        tbSearchHistoryKeyBeanBox.removeAll();
+    }
+    public static List<TBSearchHistoryKeyBean> getSearchHistoryKeysByTop10(){
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+       return tbSearchHistoryKeyBeanBox.query().orderDesc(TBSearchHistoryKeyBean_.id).build().find(0,10);
     }
 }

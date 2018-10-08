@@ -77,13 +77,6 @@ public class YiYuanPicFragment extends BaseFragment {
 
     private void getData(){
         JokeController.getYiYuanPicData(page,new DataResultAdapter<YiYuanPicBean>(){
-            @Override
-            public void onStart() {
-                super.onStart();
-                if (page==1){
-                    srlRefresh.setRefreshing(true);
-                }
-            }
 
             @Override
             public void onSuccess(YiYuanPicBean yiYuanPicBean) {

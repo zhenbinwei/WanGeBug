@@ -124,13 +124,6 @@ public class ProjectListFragment extends BaseFragment {
             return;
         }
         CodeController.getProjectListData(page,id,new DataResultAdapter<ProjectListDataBean>(){
-            @Override
-            public void onStart() {
-                super.onStart();
-                if (page==0) {
-                    srlRefresh.setRefreshing(true);
-                }
-            }
 
             @Override
             public void onSuccess(ProjectListDataBean projectListDataBean) {

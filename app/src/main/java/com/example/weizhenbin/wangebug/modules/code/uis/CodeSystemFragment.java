@@ -47,12 +47,6 @@ public class CodeSystemFragment extends BaseFragment{
     private void getData() {
         CodeController.getSystemTreeData(new DataResultAdapter<SystemTreeDataBean>(){
             @Override
-            public void onStart() {
-                super.onStart();
-                    srlRefresh.setRefreshing(true);
-            }
-
-            @Override
             public void onSuccess(SystemTreeDataBean systemTreeDataBean) {
                 super.onSuccess(systemTreeDataBean);
                 srlRefresh.setRefreshing(false);

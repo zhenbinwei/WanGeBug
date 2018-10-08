@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -16,7 +15,7 @@ import com.example.weizhenbin.wangebug.eventbus.EventCode;
 import com.example.weizhenbin.wangebug.eventbus.MessageEvent;
 import com.example.weizhenbin.wangebug.modules.todo.controllers.TodoController;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
-import com.example.weizhenbin.wangebug.modules.todo.uis.TodoDoneActivity;
+import com.example.weizhenbin.wangebug.modules.todo.uis.TodoDetailActivity;
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoEditActivity;
 import com.example.weizhenbin.wangebug.tools.DateTool;
 import com.example.weizhenbin.wangebug.tools.DialogTool;
@@ -34,13 +33,8 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                Log.d(TAG, "点击了");
                 if (data!=null) {
-                    if (data.get(position).isDone()){
-                        TodoDoneActivity.startActivity(mContext,data.get(position));
-                    }else {
-                        TodoEditActivity.startActivity(mContext, data.get(position));
-                    }
+                    TodoDetailActivity.startActivity(mContext,data.get(position).getUuid());
                 }
             }
         });
@@ -49,7 +43,7 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
             public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, final int position) {
                 String[] items;
                 if (todoStatus==-1||todoStatus==0){
-                    items=new String[]{mContext.getString(R.string.done_string),mContext.getString(R.string.del_string)};
+                    items=new String[]{mContext.getString(R.string.done_string),mContext.getString(R.string.edit_string),mContext.getString(R.string.del_string)};
                     DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -70,6 +64,12 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                                     if (data==null){
                                         return;
                                     }
+                                    TodoEditActivity.startActivity(mContext, data.get(position));
+                                    break;
+                                case 2:
+                                    if (data==null){
+                                        return;
+                                    }
                                     TBTodoBean delWhere=new TBTodoBean();
                                     delWhere.setUuid(data.get(position).getUuid());
                                     TodoController.delTodo(data.get(position).getUuid());
@@ -79,7 +79,7 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                         }
                     });
                 }else {
-                    items=new String[]{mContext.getString(R.string.del_string)};
+                    items=new String[]{mContext.getString(R.string.del_string),mContext.getString(R.string.edit_string)};
                     DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -92,6 +92,12 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                                     delWhere.setUuid(data.get(position).getUuid());
                                     TodoController.delTodo(data.get(position).getUuid());
                                     EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,data.get(position)));
+                                    break;
+                                case 1:
+                                    if (data==null){
+                                        return;
+                                    }
+                                    TodoEditActivity.startActivity(mContext, data.get(position));
                                     break;
                             }
                         }
@@ -124,11 +130,11 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
             helper.setGone(R.id.tv_done_time,true);
             helper.setText(R.id.tv_done_time, item.getTodoDoneTimeStr());
         }
-        if (item.getIsTodoRemind()==null||item.getIsTodoRemind()==0){
+        if (item.getIsTodoRemind()==0){
             helper.setGone(R.id.tv_remind_time,false);
         }else {
             helper.setGone(R.id.tv_remind_time,true);
-            helper.setText(R.id.tv_remind_time, item.getTodoRemindTimeStr());
+            helper.setText(R.id.tv_remind_time, item.getTodoRemindDateStr()+" "+item.getTodoRemindTimeStr());
         }
         helper.addOnClickListener(R.id.ll_item);
         helper.addOnLongClickListener(R.id.ll_item);

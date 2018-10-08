@@ -139,7 +139,7 @@ public class TestActivity extends BaseActivity {
 
     private void setAlarmTime(Context context, long triggerAtMillis) {
         AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(AlarmReceiver.action);
+        Intent intent = new Intent(AlarmReceiver.ACTION_KEY);
         intent.putExtra("key","测试");
         PendingIntent sender = PendingIntent.getBroadcast(
                 context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);

@@ -12,6 +12,7 @@ import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.modules.news.controllers.NewController;
 import com.example.weizhenbin.wangebug.modules.news.entity.YiYuanNewsChannelBean;
 import com.example.weizhenbin.wangebug.views.TitleBar;
+import com.example.weizhenbin.wangebug.views.emptyview.EmptyView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class NewsFragment extends BaseFragment {
     List<BaseFragment> fragments=new ArrayList<>();
     List<YiYuanNewsChannelBean.ShowapiResBodyBean.ChannelListBean> channelListBeen;
     TitleBar tbTitle;
-
+    EmptyView evEmpty;
 
     @Override
     protected int getContentViewLayoutId() {
@@ -40,7 +41,7 @@ public class NewsFragment extends BaseFragment {
         initEvent();
         setData();
         if (channelListBeen==null||channelListBeen.isEmpty()) {
-            getChannleData();
+            getChannelData();
         }
     }
 
@@ -49,13 +50,20 @@ public class NewsFragment extends BaseFragment {
 
     }
 
-    private void getChannleData() {
+    private void getChannelData() {
         NewController.getNewsChannelData(new DataResultAdapter<YiYuanNewsChannelBean>(){
+            @Override
+            public void onStart() {
+                super.onStart();
+                evEmpty.setVisibility(View.VISIBLE);
+                evEmpty.loading(true);
+            }
             @Override
             public void onSuccess(YiYuanNewsChannelBean yiYuanNewsChannelBean) {
                 super.onSuccess(yiYuanNewsChannelBean);
                 if (yiYuanNewsChannelBean!=null&&yiYuanNewsChannelBean.getShowapi_res_code()==0){
                     if (yiYuanNewsChannelBean.getShowapi_res_body()!=null&&yiYuanNewsChannelBean.getShowapi_res_body().getChannelList()!=null){
+                        evEmpty.setVisibility(View.GONE);
                         channelListBeen=yiYuanNewsChannelBean.getShowapi_res_body().getChannelList();
                         int size=channelListBeen.size();
                         fragments.add(NewsListFragment.getFragment("","全部"));
@@ -64,8 +72,20 @@ public class NewsFragment extends BaseFragment {
                            fragments.add(NewsListFragment.getFragment(bean.getChannelId(),bean.getName()));
                         }
                         pageAdapter.notifyDataSetChanged();
+                    }else {
+                        evEmpty.setVisibility(View.VISIBLE);
+                        evEmpty.emptyData();
                     }
+                }else {
+                    evEmpty.setVisibility(View.VISIBLE);
+                    evEmpty.emptyData();
                 }
+            }
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                evEmpty.setVisibility(View.VISIBLE);
+                evEmpty.emptyData();
             }
         });
     }
@@ -78,6 +98,8 @@ public class NewsFragment extends BaseFragment {
         vpNews=view.findViewById(R.id.vp_news);
         tlNewsType=view.findViewById(R.id.tl_news_type);
         tbTitle=view.findViewById(R.id.tb_title);
+        evEmpty=view.findViewById(R.id.ev_empty);
+        evEmpty.setProgressBarVisibility(View.VISIBLE);
     }
 
     private void initEvent() {
@@ -87,6 +109,12 @@ public class NewsFragment extends BaseFragment {
                 if(getActivity() instanceof IOpenMenuHandler){
                     ((IOpenMenuHandler) getActivity()).openMenu();
                 }
+            }
+        });
+        evEmpty.setAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getChannelData();
             }
         });
     }

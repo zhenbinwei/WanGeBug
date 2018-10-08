@@ -17,4 +17,8 @@ public final class PreferencesConfig {
     public static final String KEY_OPEN_HIDE_TAB="OPEN_HIDE_TAB";
 
 
+    /**
+     * 开启通知声音提醒
+     * */
+    public static final String KEY_OPEN_NOTIFICATION_SOUND="OPEN_NOTIFICATION_SOUND";
 }

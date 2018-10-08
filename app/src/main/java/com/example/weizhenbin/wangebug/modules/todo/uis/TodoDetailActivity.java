@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.modules.todo.controllers.TodoController;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 
@@ -16,7 +17,7 @@ import com.example.weizhenbin.wangebug.views.TitleBar;
  * Created by weizhenbin on 2018/9/21.
  */
 
-public class TodoDoneActivity extends BaseActivity {
+public class TodoDetailActivity extends BaseActivity {
     private TitleBar tbTitle;
     private TextView tvDoneTime;
     private TextView tvTitle;
@@ -24,6 +25,8 @@ public class TodoDoneActivity extends BaseActivity {
 
 
     private TBTodoBean tbTodoBean;
+
+
 
     private void initViews() {
         tbTitle = findViewById(R.id.tb_title);
@@ -38,8 +41,8 @@ public class TodoDoneActivity extends BaseActivity {
         setContentView(R.layout.activity_todo_done);
         initViews();
         Intent intent=getIntent();
-        if (intent.hasExtra("todo")&&intent.getSerializableExtra("todo") instanceof TBTodoBean){
-            tbTodoBean= (TBTodoBean) intent.getSerializableExtra("todo");
+        if (intent.hasExtra("uuid")){
+            tbTodoBean= TodoController.getTodoBean(intent.getStringExtra("uuid"));
         }
         initData();
         initEvent();
@@ -63,10 +66,9 @@ public class TodoDoneActivity extends BaseActivity {
     }
 
 
-    public static void startActivity(Context context, TBTodoBean tbTodoBean){
-        Intent intent=new Intent(context,TodoDoneActivity.class);
-        intent.putExtra("todo",tbTodoBean);
+    public static void startActivity(Context context, String uuid){
+        Intent intent=new Intent(context,TodoDetailActivity.class);
+        intent.putExtra("uuid",uuid);
         context.startActivity(intent);
     }
-
 }

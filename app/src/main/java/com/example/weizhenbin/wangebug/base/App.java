@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.image.glide.GlideImageLoader;
-import com.example.weizhenbin.wangebug.modules.todo.entity.MyObjectBox;
+import com.example.weizhenbin.wangebug.modules.MyObjectBox;
 import com.example.weizhenbin.wangebug.views.floatingwindow.TodoFloatingWindowManager;
 
 import java.util.ArrayList;

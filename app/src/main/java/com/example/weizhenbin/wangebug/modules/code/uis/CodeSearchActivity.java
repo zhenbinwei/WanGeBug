@@ -120,6 +120,8 @@ public class CodeSearchActivity extends BaseActivity {
         rvDataList.addItemDecoration(itemDecoration);
         listAdapter.bindToRecyclerView(rvDataList);
         listAdapter.disableLoadMoreIfNotFullPage();
+        listAdapter.emptyData(false);
+        listAdapter.setEmptyText(getString(R.string.input_key_string));
     }
 
     private void getData(String key) {
@@ -127,8 +129,8 @@ public class CodeSearchActivity extends BaseActivity {
             @Override
             public void onStart() {
                 super.onStart();
-                if (page==0){
-                    srlRefresh.setRefreshing(true);
+                if (page==0&&datasBeen.isEmpty()){
+                    listAdapter.loading(true);
                 }
             }
 
@@ -155,6 +157,7 @@ public class CodeSearchActivity extends BaseActivity {
                         }
                     }else {
                         listAdapter.loadMoreEnd();
+                        listAdapter.emptyData();
                     }
                 }
             }
@@ -231,6 +234,7 @@ public class CodeSearchActivity extends BaseActivity {
                    editText.setText(name);
                    editText.setSelection(name.length());
                    search();
+                   hideAssistLayout();
                 }
                 return false;
             }
