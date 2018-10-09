@@ -70,8 +70,9 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                                     if (data==null){
                                         return;
                                     }
-                                    TBTodoBean delWhere=new TBTodoBean();
-                                    delWhere.setUuid(data.get(position).getUuid());
+                                    if (data.get(position).getIsTodoRemind()==1){
+                                        TodoController.cancelAlarm(mContext,data.get(position).getUuid());
+                                    }
                                     TodoController.delTodo(data.get(position).getUuid());
                                     EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,data.get(position)));
                                     break;
@@ -88,8 +89,9 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                                     if (data==null){
                                         return;
                                     }
-                                    TBTodoBean delWhere=new TBTodoBean();
-                                    delWhere.setUuid(data.get(position).getUuid());
+                                    if (data.get(position).getIsTodoRemind()==1){
+                                        TodoController.cancelAlarm(mContext,data.get(position).getUuid());
+                                    }
                                     TodoController.delTodo(data.get(position).getUuid());
                                     EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,data.get(position)));
                                     break;

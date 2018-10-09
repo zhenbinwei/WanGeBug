@@ -151,22 +151,22 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
 
     private void saveOrUpdateTodo() {
         if (TextUtils.isEmpty(tbTodoBean.getUuid())) {
-            if (!setAlarm()){
-                return;
-            }
             long todoCreateTime = System.currentTimeMillis();
             tbTodoBean.setUuid(UUIDTool.getUUID());
             tbTodoBean.setTodoCreateTime(todoCreateTime);
             tbTodoBean.setTodoCreateTimeStr(DateTool.getDateToString(todoCreateTime, "yyyy-MM-dd HH:mm"));
-            TodoController.saveTodo(tbTodoBean);
-            EventBusHandler.post(new MessageEvent(EventCode.ADD_TODO_CODE,tbTodoBean));
-        }else {
             if (!setAlarm()){
                 return;
             }
+            TodoController.saveTodo(tbTodoBean);
+            EventBusHandler.post(new MessageEvent(EventCode.ADD_TODO_CODE,tbTodoBean));
+        }else {
             long todoUpdateTime = System.currentTimeMillis();
             tbTodoBean.setTodoLastUpdateDate(todoUpdateTime);
             tbTodoBean.setTodoLastUpdateDateStr(DateTool.getDateToString(todoUpdateTime, "yyyy-MM-dd HH:mm"));
+            if (!setAlarm()){
+                return;
+            }
             TodoController.updateTodoByUuid(tbTodoBean,tbTodoBean.getUuid());
             EventBusHandler.post(new MessageEvent(EventCode.UPDATE_TODO_CODE,tbTodoBean));
         }
