@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.weizhenbin.wangebug.base.UrlTypeEnum;
 import com.example.weizhenbin.wangebug.base.WebActivity;
 import com.example.weizhenbin.wangebug.image.DefImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
@@ -43,7 +44,8 @@ public class CodeHomeBannerAdapter extends AutoScrollerAdapter {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WebActivity.startActivity(container.getContext(),data.get(newPosition).getUrl());
+                    BannerDataBean.DataBean dataBean= data.get(newPosition);
+                    WebActivity.startActivity(container.getContext(),dataBean.getUrl(),dataBean.getTitle(), UrlTypeEnum.code);
                 }
             });
         }

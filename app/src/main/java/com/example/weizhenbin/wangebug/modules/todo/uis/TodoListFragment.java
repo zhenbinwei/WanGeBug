@@ -92,11 +92,6 @@ public class TodoListFragment extends BaseFragment {
         Observable.create(new Observable.OnSubscribe<List<TBTodoBean>>() {
             @Override
             public void call(Subscriber<? super List<TBTodoBean>> subscriber) {
-
-                TBTodoBean where=new TBTodoBean();
-                if (todoStatus!=-1) {
-                    where.setTodoStatus(todoStatus);
-                }
                List<TBTodoBean> beanList= TodoController.getTodoList(todoStatus,page,pageCount);
                 subscriber.onNext(beanList);
             }

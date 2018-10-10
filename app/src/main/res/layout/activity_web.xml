@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftSrc="@drawable/back"
+        app:rightSrc="@drawable/more"
         app:titleSize="16sp"
         app:titleColor="#fff"
         android:background="@color/colorPrimary"/>

@@ -104,6 +104,9 @@ public class LoadingView extends View {
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
         Log.d("LoadingView", "onVisibilityChanged"+visibility);
+        if (handler==null){
+            return;
+        }
         if (visibility==VISIBLE){
             //显示的启动动画
             handler.removeCallbacksAndMessages(null);

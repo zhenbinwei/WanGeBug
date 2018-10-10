@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseMultipleAdapter;
+import com.example.weizhenbin.wangebug.base.UrlTypeEnum;
 import com.example.weizhenbin.wangebug.base.WebActivity;
 import com.example.weizhenbin.wangebug.image.DefImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
@@ -43,7 +44,8 @@ public class CodeArticleListAdapter extends BaseMultipleAdapter<ArticleListDataB
         setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                WebActivity.startActivity(context,data.get(position).getLink());
+                ArticleListDataBean.DataBean.DatasBean datasBean=   data.get(position);
+                WebActivity.startActivity(context,datasBean.getLink(),datasBean.getTitle(), UrlTypeEnum.code);
             }
         });
     }

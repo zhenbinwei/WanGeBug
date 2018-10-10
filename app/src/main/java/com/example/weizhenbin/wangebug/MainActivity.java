@@ -14,6 +14,7 @@ import android.view.View;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler;
 import com.example.weizhenbin.wangebug.modules.code.uis.CodeFragment;
+import com.example.weizhenbin.wangebug.modules.collect.uis.CollectListActivity;
 import com.example.weizhenbin.wangebug.modules.news.uis.NewsFragment;
 import com.example.weizhenbin.wangebug.modules.recreation.uis.RecreationFragment;
 import com.example.weizhenbin.wangebug.modules.settings.SettingsActivity;
@@ -216,8 +217,6 @@ public class MainActivity extends BaseActivity
                     }
                 },500);
                 break;
-            case R.id.nav_share:
-                break;
             case R.id.nav_settings:
                 SettingsActivity.startActivity(MainActivity.this);
                 drawer.postDelayed(new Runnable() {
@@ -227,7 +226,14 @@ public class MainActivity extends BaseActivity
                     }
                 },500);
                 break;
-            case R.id.nav_about:
+            case R.id.nav_collect:
+                CollectListActivity.startActivity(MainActivity.this);
+                drawer.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawer.closeDrawer(GravityCompat.START,false);
+                    }
+                },500);
                 break;
         }
         return true;

@@ -23,17 +23,13 @@
                 android:icon="@drawable/todo"
                 android:title="@string/todo_string" />
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/share"
-                android:title="@string/share_string" />
+                android:id="@+id/nav_collect"
+                android:icon="@drawable/collect"
+                android:title="@string/collect_list_string" />
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/settings"
                 android:title="@string/settings_string" />
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/about"
-                android:title="@string/about_string" />
         </menu>
     </item>
 

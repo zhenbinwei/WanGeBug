@@ -57,9 +57,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             cbHideTabOpen.setChecked(false);
         }
         if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_NOTIFICATION_SOUND,false)){
-            cbHideTabOpen.setChecked(true);
+            cbTodoNotificationSoundOpen.setChecked(true);
         }else {
-            cbHideTabOpen.setChecked(false);
+            cbTodoNotificationSoundOpen.setChecked(false);
         }
     }
 

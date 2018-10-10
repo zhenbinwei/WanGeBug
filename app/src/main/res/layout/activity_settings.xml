@@ -106,4 +106,14 @@
         android:textSize="14sp"
         android:gravity="center_vertical"
         />
+    <TextView
+        android:id="@+id/tv_about"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/about_string"
+        android:paddingLeft="16dp"
+        android:textSize="14sp"
+        android:gravity="center_vertical"
+        />
 </LinearLayout>
