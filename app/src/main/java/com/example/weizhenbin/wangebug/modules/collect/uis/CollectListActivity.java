@@ -14,10 +14,16 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.eventbus.EventBusHandler;
+import com.example.weizhenbin.wangebug.eventbus.EventCode;
+import com.example.weizhenbin.wangebug.eventbus.MessageEvent;
 import com.example.weizhenbin.wangebug.modules.collect.adapters.CollectListAdapter;
 import com.example.weizhenbin.wangebug.modules.collect.controllers.CollectController;
 import com.example.weizhenbin.wangebug.modules.collect.entity.TBCollectBean;
 import com.example.weizhenbin.wangebug.views.TitleBar;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +53,7 @@ public class CollectListActivity extends BaseActivity {
         initData();
         initEvent();
         getData();
+        EventBusHandler.register(this);
     }
 
     private void initEvent() {
@@ -163,4 +170,39 @@ public class CollectListActivity extends BaseActivity {
         context.startActivity(new Intent(context,CollectListActivity.class));
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event){
+        if (event.code== EventCode.ADD_COLLECT_CODE){
+           if (event.msg instanceof TBCollectBean){
+               addCollect((TBCollectBean) event.msg);
+           }
+        }else if (event.code==EventCode.CANCEL_COLLECT_CODE){
+            removeCollect((String) event.msg);
+        }
+    }
+
+
+    private void addCollect(TBCollectBean bean){
+        beanList.add(0,bean);
+        listAdapter.notifyItemInserted(0);
+    }
+
+    private void removeCollect(String title){
+        for (int i = 0; i < beanList.size(); i++) {
+            TBCollectBean bean=beanList.get(i);
+            if (bean.getTitle().equals(title)){
+                beanList.remove(i);
+                listAdapter.notifyItemRemoved(i);
+            }
+        }
+        if (beanList.isEmpty()){
+            listAdapter.emptyData(false);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBusHandler.unregister(this);
+    }
 }

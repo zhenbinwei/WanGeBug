@@ -53,5 +53,9 @@
     <string name="open_notification_sound_hint_string">开启通知声音</string>
     <string name="warn_string">应用数据存于本地,切勿轻易清除应用数据</string>
     <string name="collect_string">收藏</string>
+    <string name="cancel_collect_string">取消收藏</string>
     <string name="collect_list_string">收藏夹</string>
+    <string name="browser_open_string">浏览器打开</string>
+    <string name="copy_link_string">复制链接</string>
+    <string name="copy_success_string">复制成功</string>
 </resources>

@@ -222,6 +222,9 @@ public class TodoListFragment extends BaseFragment {
                 break;
             }
         }
+        if (beanList.isEmpty()){
+            listAdapter.emptyData(false);
+        }
     }
 
     public void updateTodo(TBTodoBean tbTodoBean){

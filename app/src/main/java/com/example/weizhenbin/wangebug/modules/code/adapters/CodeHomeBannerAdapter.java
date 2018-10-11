@@ -1,5 +1,6 @@
 package com.example.weizhenbin.wangebug.modules.code.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.modules.code.entity.BannerDataBean;
 import com.example.weizhenbin.wangebug.views.autoscrolllayout.AutoScrollerAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,9 +23,26 @@ import java.util.List;
 public class CodeHomeBannerAdapter extends AutoScrollerAdapter {
 
     private List<BannerDataBean.DataBean> data;
-    public CodeHomeBannerAdapter(List<BannerDataBean.DataBean> data) {
+    private List<ImageView> imageViews=new ArrayList<>();
+    private Context context;
+    public CodeHomeBannerAdapter(Context context,List<BannerDataBean.DataBean> data) {
         this.data=data;
+        this.context=context;
+        initViews(data);
     }
+
+    private void initViews(List<BannerDataBean.DataBean> data){
+        if (data==null||data.isEmpty()){
+            return;
+        }
+        imageViews.clear();
+        for (int i = 0; i < data.size(); i++) {
+            ImageView imageView=new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageViews.add(imageView);
+        }
+    }
+
 
     @Override
     public int getReadCount() {
@@ -36,10 +55,10 @@ public class CodeHomeBannerAdapter extends AutoScrollerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull final ViewGroup container, int position) {
-        ImageView imageView=new ImageView(container.getContext());
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ImageView imageView = null;
         if (getReadCount()>0) {
             final int newPosition = position % getReadCount();
+            imageView=imageViews.get(newPosition);
             ImageLoader.getImageLoader().imageLoader(container.getContext(),imageView,data.get(newPosition).getImagePath(), DefImageConfig.smallImage());
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -48,6 +67,9 @@ public class CodeHomeBannerAdapter extends AutoScrollerAdapter {
                     WebActivity.startActivity(container.getContext(),dataBean.getUrl(),dataBean.getTitle(), UrlTypeEnum.code);
                 }
             });
+        }
+        if (imageView==null){
+            imageView=new ImageView(context);
         }
         container.addView(imageView);
         return imageView;

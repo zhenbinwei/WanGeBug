@@ -47,12 +47,12 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                     DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            if (data==null){
+                                return;
+                            }
+                            TBTodoBean todoBean=data.get(position);
                             switch (which){
                                 case 0:
-                                    if (data==null){
-                                        return;
-                                    }
-                                    TBTodoBean todoBean=data.get(position);
                                     todoBean.setIsDone(true);
                                     long doneTime=System.currentTimeMillis();
                                     todoBean.setTodoDoneTime(doneTime);
@@ -61,20 +61,14 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                                     EventBusHandler.post(new MessageEvent(EventCode.DONE_TODO_CODE,data.get(position)));
                                     break;
                                 case 1:
-                                    if (data==null){
-                                        return;
-                                    }
-                                    TodoEditActivity.startActivity(mContext, data.get(position));
+                                    TodoEditActivity.startActivity(mContext, todoBean);
                                     break;
                                 case 2:
-                                    if (data==null){
-                                        return;
+                                    if (todoBean.getIsTodoRemind()==1){
+                                        TodoController.cancelAlarm(mContext,todoBean.getUuid());
                                     }
-                                    if (data.get(position).getIsTodoRemind()==1){
-                                        TodoController.cancelAlarm(mContext,data.get(position).getUuid());
-                                    }
-                                    TodoController.delTodo(data.get(position).getUuid());
-                                    EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,data.get(position)));
+                                    TodoController.delTodo(todoBean.getUuid());
+                                    EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,todoBean));
                                     break;
                             }
                         }
@@ -84,22 +78,20 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                     DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            if (data==null){
+                                return;
+                            }
+                            TBTodoBean todoBean=data.get(position);
                             switch (which){
                                 case 0:
-                                    if (data==null){
-                                        return;
+                                    if (todoBean.getIsTodoRemind()==1){
+                                        TodoController.cancelAlarm(mContext,todoBean.getUuid());
                                     }
-                                    if (data.get(position).getIsTodoRemind()==1){
-                                        TodoController.cancelAlarm(mContext,data.get(position).getUuid());
-                                    }
-                                    TodoController.delTodo(data.get(position).getUuid());
+                                    TodoController.delTodo(todoBean.getUuid());
                                     EventBusHandler.post(new MessageEvent(EventCode.DEL_TODO_CODE,data.get(position)));
                                     break;
                                 case 1:
-                                    if (data==null){
-                                        return;
-                                    }
-                                    TodoEditActivity.startActivity(mContext, data.get(position));
+                                    TodoEditActivity.startActivity(mContext, todoBean);
                                     break;
                             }
                         }

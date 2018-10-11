@@ -105,7 +105,7 @@ public class CodeHomeFragment extends BaseFragment {
                 super.onSuccess(bannerDataBean);
                 if (bannerDataBean!=null&&bannerDataBean.getErrorCode()==0){
                     if (bannerDataBean.getData()!=null&&!bannerDataBean.getData().isEmpty()){
-                        autoScrollerLayout.setPagerAdapter(new CodeHomeBannerAdapter(bannerDataBean.getData()));
+                        autoScrollerLayout.setPagerAdapter(new CodeHomeBannerAdapter(getContext(),bannerDataBean.getData()));
                     }else {
                         listAdapter.removeHeaderView(bannerHeader);
                     }

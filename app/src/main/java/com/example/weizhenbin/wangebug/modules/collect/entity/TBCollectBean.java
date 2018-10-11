@@ -33,6 +33,12 @@ public class TBCollectBean {
     public TBCollectBean() {
     }
 
+    public long getId() {
+        return id;
+    }
+
+
+
     public String getTitle() {
         return title;
     }

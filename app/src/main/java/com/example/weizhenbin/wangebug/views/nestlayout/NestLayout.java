@@ -26,7 +26,7 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
 
     TitleBar titleBar;
 
-    int titleBarHeighet;
+    int titleBarHeight;
     public NestLayout(@NonNull Context context) {
         this(context,null);
     }
@@ -38,7 +38,7 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
     public NestLayout(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         nestedScrollingParentHelper=new NestedScrollingParentHelper(this);
-        titleBarHeighet=getResources().getDimensionPixelSize(R.dimen.title_bar_height);
+        titleBarHeight =getResources().getDimensionPixelSize(R.dimen.title_bar_height);
     }
 
     @Override
@@ -58,8 +58,7 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
             int childWidthSize = getMeasuredWidth();
             int childHeightSize = getMeasuredHeight();
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, MeasureSpec.EXACTLY);
-            /**按照比例改变高度值*/
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeightSize + titleBarHeighet, MeasureSpec.EXACTLY);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeightSize + titleBarHeight, MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -118,17 +117,17 @@ public class NestLayout extends FrameLayout implements NestedScrollingParent2{
                 }
             }
             //往上滑
-            if (dy>0&&getScrollY()< titleBarHeighet){
+            if (dy>0&&getScrollY()< titleBarHeight){
 
-                if (getScrollY()+dy>titleBarHeighet){
-                    scrollBy(0, titleBarHeighet-getScrollY());
-                    consumed[1] = titleBarHeighet-getScrollY();
+                if (getScrollY()+dy> titleBarHeight){
+                    scrollBy(0, titleBarHeight -getScrollY());
+                    consumed[1] = titleBarHeight -getScrollY();
                 }else {
                     scrollBy(0, dy);
                     consumed[1] = dy;
                 }
             }
-            float alpha=1-(getScrollY()/titleBarHeighet);
+            float alpha=1-(getScrollY()/ titleBarHeight);
             if (alpha<0.4){
                 alpha=0;
             }

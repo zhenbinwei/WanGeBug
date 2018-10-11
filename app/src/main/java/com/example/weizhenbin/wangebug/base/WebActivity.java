@@ -3,6 +3,7 @@ package com.example.weizhenbin.wangebug.base;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -11,6 +12,9 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.eventbus.EventBusHandler;
+import com.example.weizhenbin.wangebug.eventbus.EventCode;
+import com.example.weizhenbin.wangebug.eventbus.MessageEvent;
 import com.example.weizhenbin.wangebug.modules.collect.controllers.CollectController;
 import com.example.weizhenbin.wangebug.modules.collect.entity.TBCollectBean;
 import com.example.weizhenbin.wangebug.tools.PhoneTool;
@@ -27,9 +31,10 @@ public class WebActivity extends BaseActivity {
     WebViewLayout wbLayout;
     String url;
     TitleBar titleBar;
-    String[] items=new String[]{"收藏","分享"};
+    String[] items;
     String mTitle;
     UrlTypeEnum urlTypeEnum;
+    boolean isCollect=false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +48,13 @@ public class WebActivity extends BaseActivity {
     }
 
     private void initData() {
+        items=new String[]{getString(R.string.collect_string),getString(R.string.share_string),getString(R.string.browser_open_string)};
         url=getIntent().getStringExtra("Url");
         mTitle=getIntent().getStringExtra("title");
         urlTypeEnum= (UrlTypeEnum) getIntent().getSerializableExtra("UrlType");
         wbLayout.setUrl(url);
         titleBar.setTitle(mTitle);
+        isCollect=CollectController.isExistByTitle(mTitle);
     }
 
     private void initViews(){
@@ -73,20 +80,38 @@ public class WebActivity extends BaseActivity {
         titleBar.setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isCollect){
+                    items[0]=getString(R.string.cancel_collect_string);
+                }else {
+                    items[0]=getString(R.string.collect_string);
+                }
                 new ListPopupWindow(WebActivity.this,items).setItemListener(new ListPopupWindow.IItemListener() {
                     @Override
                     public void onItemClick(int position) {
                         switch (position){
                             case 0:
-                                TBCollectBean tbCollectBean=new TBCollectBean();
-                                tbCollectBean.setTitle(mTitle);
-                                tbCollectBean.setUrl(url);
-                                tbCollectBean.setKey(UUIDTool.getUUID());
-                                tbCollectBean.setCollectTime(System.currentTimeMillis());
-                                tbCollectBean.setType(urlTypeEnum.getTypeValue());
-                                CollectController.addCollect(tbCollectBean);
+                                if (isCollect){
+                                    CollectController.removeCollectByTitle(mTitle);
+                                    isCollect=false;
+                                    EventBusHandler.post(new MessageEvent(EventCode.CANCEL_COLLECT_CODE,mTitle));
+                                }else {
+                                    TBCollectBean tbCollectBean = new TBCollectBean();
+                                    tbCollectBean.setTitle(mTitle);
+                                    tbCollectBean.setUrl(url);
+                                    tbCollectBean.setKey(UUIDTool.getUUID());
+                                    tbCollectBean.setCollectTime(System.currentTimeMillis());
+                                    tbCollectBean.setType(urlTypeEnum.getTypeValue());
+                                    CollectController.addCollect(tbCollectBean);
+                                    isCollect=true;
+                                    EventBusHandler.post(new MessageEvent(EventCode.ADD_COLLECT_CODE,tbCollectBean));
+                                }
                                 break;
                             case 1:
+                                break;
+                            case 2:
+                                Uri uri = Uri.parse(url);
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
                                 break;
                         }
 

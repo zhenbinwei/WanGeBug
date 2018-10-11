@@ -3,9 +3,7 @@ package com.example.weizhenbin.wangebug.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,19 +21,14 @@ public class ListPopupWindow extends PopupWindow {
 
     private ListView listView;
     private ArrayAdapter arrayAdapter;
-    private CardView cardView;
     private IItemListener listener;
     public ListPopupWindow(Context context,String[] items) {
-        listView=new ListView(context);
-        cardView=new CardView(context);
-        cardView.setRadius(2);
-        cardView.setCardBackgroundColor(Color.WHITE);
-        cardView.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT));
-        cardView.addView(listView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        setContentView(cardView);
+        View view=View.inflate(context,R.layout.list_popupwindow_layout,null);
+        initViews(view);
+        setContentView(view);
         arrayAdapter=new ArrayAdapter<String>(context, R.layout.list_popupwindow_item,items);
         listView.setAdapter(arrayAdapter);
-        setWidth(PhoneTool.dip2px(80));
+        setWidth(PhoneTool.dip2px(88));
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         setFocusable(true);
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -48,6 +41,10 @@ public class ListPopupWindow extends PopupWindow {
                 }
             }
         });
+    }
+
+    private void initViews(View view) {
+        listView=view.findViewById(R.id.lv);
     }
 
 
