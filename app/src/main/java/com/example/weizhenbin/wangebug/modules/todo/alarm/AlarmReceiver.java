@@ -77,7 +77,7 @@ public class AlarmReceiver extends BroadcastReceiver{
         if (!TextUtils.isEmpty(content)) {
             builder.setContentText(content);//通知内容
         }
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setSmallIcon(R.mipmap.logo_t);
         //利用PendingIntent来包装我们的intent对象,使其延迟跳转
         PendingIntent intentPend = PendingIntent.getActivity(context, number, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(intentPend);
