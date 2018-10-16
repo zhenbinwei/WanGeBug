@@ -5,10 +5,13 @@ import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.image.glide.GlideImageLoader;
 import com.example.weizhenbin.wangebug.modules.MyObjectBox;
 import com.example.weizhenbin.wangebug.views.floatingwindow.TodoFloatingWindowManager;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +55,20 @@ public class App extends Application {
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(),  cb);*/
         addLifecycleCallback();
+        initObjectBox();
+        initBugly();
+    }
+
+    private void initObjectBox() {
         boxStore = MyObjectBox.builder().androidContext(App.this).build();
         new AndroidObjectBrowser(boxStore).start(this);
+    }
+
+    private void initBugly() {
+        Beta.upgradeDialogLayoutId= R.layout.bugly_custom_update_dialog;
+        Beta.tipsDialogLayoutId=R.layout.bugly_custom_dialog;
+        Beta.dialogFullScreen=true;
+        Bugly.init(getApplicationContext(), "2e1751ae2e", true);
     }
 
     public BoxStore getBoxStore() {

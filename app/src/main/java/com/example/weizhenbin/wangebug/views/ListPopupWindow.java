@@ -28,7 +28,7 @@ public class ListPopupWindow extends PopupWindow {
         setContentView(view);
         arrayAdapter=new ArrayAdapter<String>(context, R.layout.list_popupwindow_item,items);
         listView.setAdapter(arrayAdapter);
-        setWidth(PhoneTool.dip2px(88));
+        setWidth(PhoneTool.dip2px(100));
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         setFocusable(true);
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

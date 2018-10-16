@@ -25,6 +25,7 @@ import com.example.weizhenbin.wangebug.tools.DialogTool;
 import com.example.weizhenbin.wangebug.tools.UUIDTool;
 import com.example.weizhenbin.wangebug.tools.interfaces.IDatePickerResult;
 import com.example.weizhenbin.wangebug.tools.interfaces.ITimePickerResult;
+import com.example.weizhenbin.wangebug.views.CustomDialog;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 
 import static com.example.weizhenbin.wangebug.R.id.tb_title;
@@ -133,12 +134,12 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         if (!tbTodoBean.isEmpty()){
-            DialogTool.showAlertDialog(TodoEditActivity.this, null, getString(R.string.save_todo_remind_string), getString(R.string.save_string), new DialogInterface.OnClickListener() {
+            DialogTool.showAlertDialog(TodoEditActivity.this, null, getString(R.string.save_todo_remind_string), getString(R.string.save_string), new CustomDialog.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     saveOrUpdateTodo();
                 }
-            }, getString(R.string.cancel_string), new DialogInterface.OnClickListener() {
+            }, getString(R.string.cancel_string), new CustomDialog.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();

@@ -21,6 +21,7 @@ import com.example.weizhenbin.wangebug.eventbus.MessageEvent;
 import com.example.weizhenbin.wangebug.modules.collect.controllers.CollectController;
 import com.example.weizhenbin.wangebug.modules.collect.entity.TBCollectBean;
 import com.example.weizhenbin.wangebug.tools.DialogTool;
+import com.example.weizhenbin.wangebug.views.CustomDialog;
 import com.example.weizhenbin.wangebug.views.remindbar.RemindBar;
 
 import java.util.List;
@@ -49,7 +50,7 @@ public class CollectListAdapter extends BaseSimpleAdapter<TBCollectBean,BaseView
             @Override
             public boolean onItemChildLongClick(BaseQuickAdapter adapter, final View view, final int position) {
                 String[] items=new String[]{mContext.getString(R.string.del_string),mContext.getString(R.string.copy_link_string)};
-                DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
+                DialogTool.showListAlertDialog(mContext, items, new CustomDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (data==null){

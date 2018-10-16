@@ -19,6 +19,7 @@ import com.example.weizhenbin.wangebug.modules.todo.uis.TodoDetailActivity;
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoEditActivity;
 import com.example.weizhenbin.wangebug.tools.DateTool;
 import com.example.weizhenbin.wangebug.tools.DialogTool;
+import com.example.weizhenbin.wangebug.views.CustomDialog;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                 String[] items;
                 if (todoStatus==-1||todoStatus==0){
                     items=new String[]{mContext.getString(R.string.done_string),mContext.getString(R.string.edit_string),mContext.getString(R.string.del_string)};
-                    DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
+                    DialogTool.showListAlertDialog(mContext, items, new CustomDialog.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (data==null){
@@ -75,7 +76,7 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                     });
                 }else {
                     items=new String[]{mContext.getString(R.string.del_string),mContext.getString(R.string.edit_string)};
-                    DialogTool.showListAlertDialog(mContext, items, new DialogInterface.OnClickListener() {
+                    DialogTool.showListAlertDialog(mContext, items, new CustomDialog.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (data==null){

@@ -20,6 +20,7 @@ import com.example.weizhenbin.wangebug.tools.permission.IFloattingWindowPermissi
 import com.example.weizhenbin.wangebug.tools.permission.PermissionTool;
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig;
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool;
+import com.example.weizhenbin.wangebug.views.CustomDialog;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 import com.example.weizhenbin.wangebug.views.floatingwindow.TodoFloatingWindowManager;
 
@@ -142,7 +143,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                  TodoFloatingWindowManager.getManager().showFloatingWindow();
             }else {
                 //引导权限申请
-                DialogTool.showAlertDialog(SettingsActivity.this, getString(R.string.permission_request_string), getString(R.string.floating_window_permission_request_describe_string), getString(R.string.open_string), new DialogInterface.OnClickListener() {
+                DialogTool.showAlertDialog(SettingsActivity.this, getString(R.string.permission_request_string), getString(R.string.floating_window_permission_request_describe_string), getString(R.string.open_string), new CustomDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         PermissionTool.with(SettingsActivity.this).setiFloattingWindowPermissionGrantResult(new IFloattingWindowPermissionGrantResult() {
@@ -160,7 +161,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                             }
                         }).requestFloattingWindowPermission();
                     }
-                }, getString(R.string.cancel_string), new DialogInterface.OnClickListener() {
+                }, getString(R.string.cancel_string), new CustomDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         cbTodoOpen.setChecked(false);

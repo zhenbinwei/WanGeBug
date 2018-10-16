@@ -1,9 +1,8 @@
 package com.example.weizhenbin.wangebug.tools;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+
+import com.example.weizhenbin.wangebug.views.CustomDialog;
 
 /**
  * Created by weizhenbin on 2018/9/4.
@@ -11,18 +10,18 @@ import android.content.DialogInterface;
 
 public class DialogTool {
 
-    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr, DialogInterface.OnClickListener onPositiveClickListener, String negativeButtonStr, DialogInterface.OnClickListener onNegativeClickListener,boolean cancelable){
-        Dialog alertDialog = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
-                .setTitle(title)
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr, CustomDialog.OnClickListener onPositiveClickListener, String negativeButtonStr, CustomDialog.OnClickListener onNegativeClickListener,boolean cancelable){
+
+        CustomDialog customDialog=new CustomDialog.Builder(context).setTitle(title)
                 .setMessage(content)
                 .setPositiveButton(positiveButtonStr, onPositiveClickListener)
                 .setNegativeButton(negativeButtonStr, onNegativeClickListener)
                 .create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.setCancelable(cancelable);
-        alertDialog.show();
+        customDialog.setCanceledOnTouchOutside(false);
+        customDialog.setCancelable(cancelable);
+        customDialog.show();
     }
-    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr, DialogInterface.OnClickListener onPositiveClickListener, String negativeButtonStr, DialogInterface.OnClickListener onNegativeClickListener){
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr, CustomDialog.OnClickListener onPositiveClickListener, String negativeButtonStr, CustomDialog.OnClickListener onNegativeClickListener){
         showAlertDialog( context,  title,  content,  positiveButtonStr,  onPositiveClickListener,  negativeButtonStr,  onNegativeClickListener,true);
     }
     /**
@@ -38,10 +37,10 @@ public class DialogTool {
     /**
      * 用于提示 确认操作
      * */
-    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr,DialogInterface.OnClickListener onPositiveClickListener,boolean cancelable){
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr,CustomDialog.OnClickListener onPositiveClickListener,boolean cancelable){
         showAlertDialog(context,title,content,positiveButtonStr,onPositiveClickListener,null,null,cancelable);
     }
-    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr,DialogInterface.OnClickListener onPositiveClickListener){
+    public static void showAlertDialog(Context context, String title, String content, String positiveButtonStr,CustomDialog.OnClickListener onPositiveClickListener){
         showAlertDialog( context,  title,  content,  positiveButtonStr, onPositiveClickListener,true);
     }
     /**
@@ -65,14 +64,12 @@ public class DialogTool {
 
 
 
-    public static void showListAlertDialog(Context context,String title,String[] items,DialogInterface.OnClickListener onClickListener){
-        Dialog alertDialog = new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT)
-                .setTitle(title)
-                .setItems(items, onClickListener)
-                .create();
-        alertDialog.show();
+    public static void showListAlertDialog(Context context,String title,String[] items,CustomDialog.OnClickListener onClickListener){
+        CustomDialog customDialog=new CustomDialog.Builder(context).setItems(items,onClickListener).create();
+        customDialog.show();
+
     }
-    public static void showListAlertDialog(Context context,String[] items,DialogInterface.OnClickListener onClickListener){
+    public static void showListAlertDialog(Context context,String[] items,CustomDialog.OnClickListener onClickListener){
         showListAlertDialog(context,null,items,onClickListener);
     }
 

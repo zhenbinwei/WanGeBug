@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.example.weizhenbin.wangebug.modules.todo.alarm.AlarmReceiver;
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoDetailActivity;
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig;
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool;
+import com.example.weizhenbin.wangebug.views.CustomDialog;
 import com.example.weizhenbin.wangebug.views.MyTextView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow;
@@ -122,7 +124,33 @@ public class TestActivity extends BaseActivity {
                 });*/
 
               // setAlarmTime(TestActivity.this,System.currentTimeMillis()+15*1000);
-                notification();
+              //  notification();
+               // CrashReport.testJavaCrash();
+
+              /*  DialogTool.showAlertDialog(TestActivity.this, "测试", "测试", "取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }, "确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });*/
+              //  new CustomDialog(TestActivity.this).show();
+                new CustomDialog.Builder(TestActivity.this).setItems(new String[]{"测试1", "测试2"}, new CustomDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create().show();
+           /*  new CustomDialog.Builder(TestActivity.this).setMessage("测试").setPositiveBtnStr("确定", new CustomDialog.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialog, int which) {
+
+                 }
+             }).create().show();*/
             }
         });
 
@@ -194,7 +222,7 @@ public class TestActivity extends BaseActivity {
         builder.setTicker("todo");
         builder.setContentTitle("测试");
         builder.setContentText("测试");//通知内容
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setSmallIcon(R.mipmap.logo_t);
         //利用PendingIntent来包装我们的intent对象,使其延迟跳转
         PendingIntent intentPend = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(intentPend);
