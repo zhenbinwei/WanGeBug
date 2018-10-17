@@ -60,4 +60,25 @@
     <string name="copy_success_string">复制成功</string>
     <string name="check_version_string">检查新版本</string>
     <string name="new_version_string">有新版本 (%1$s)</string>
+    <string name="version_string">玩个Bug V%1$s</string>
+    <string name="project_brief_string">项目简介</string>
+    <string name="project_content_string">项目内容</string>
+    <string name="project_brief_content_string">本项目提供一些Android开发的学习内容，
+        内容来源鸿洋的玩Android项目，以及一些资讯类和娱乐类的内容，仅作为开发学习。</string>
+    <string name="project_content_detail_string">
+        技术模块内容来自鸿洋的玩Android项目\n
+        http://www.wanandroid.com \n
+        资讯模块内容来自阿里云市场付费开放Api \n
+        https://market.aliyun.com/products/57126001/cmapi011150.html#sku=yuncode515000003 \n
+        娱乐模块内容来自万维易源付费开放Api \n
+        https://www.showapi.com/api/view/255
+    </string>
+    <string name="developer_string">开发者</string>
+    <string name="developer_info_string">
+        一名热爱开发的普通Android应用开发 \n
+        邮箱：709287882@qq.com \n
+        CSDN博客地址：https://blog.csdn.net/u011453163 (比较懒)
+    </string>
+    <string name="copyright_string">版权声明</string>
+    <string name="copyright_content_string">本项目所有内容仅供学习，不做任何商业用途</string>
 </resources>
