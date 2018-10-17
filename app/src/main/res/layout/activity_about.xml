@@ -60,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_project_content"
                 android:text="@string/project_content_detail_string"
                 android:textSize="14sp"
                 android:lineSpacingExtra="4dp"
