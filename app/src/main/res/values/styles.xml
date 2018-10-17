@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowAnimationStyle">@style/animfade</item>
+        <item name="android:windowAnimationStyle">@style/AnimFade</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -41,19 +41,25 @@
     </style>
 
     <!-- 界面切换动画 -->
-    <style name="animfade" parent="@android:style/Animation.Activity">
+    <style name="AnimFade" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
     </style>
+    <!-- window动画 -->
+    <style name="WindowFadeInOutAnim">
+        <item name="android:windowEnterAnimation">@anim/window_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/window_fade_out</item>
+    </style>
+
 
     <style name="CheckBox" parent="AppTheme">
         <item name="colorControlNormal">@color/colorGray6</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
-    <style name="dialog" parent="@android:style/Theme.Dialog">
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <!--边框-->
         <item name="android:windowIsFloating">true</item>

@@ -58,4 +58,6 @@
     <string name="browser_open_string">浏览器打开</string>
     <string name="copy_link_string">复制链接</string>
     <string name="copy_success_string">复制成功</string>
+    <string name="check_version_string">检查新版本</string>
+    <string name="new_version_string">有新版本 (%1$s)</string>
 </resources>

@@ -3,7 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:padding="8dp"
     android:id="@+id/ll_item"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@color/colorWhite"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="wrap_content">
     <TextView
         android:id="@+id/tv_title"

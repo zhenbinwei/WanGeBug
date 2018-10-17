@@ -92,6 +92,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent"
             />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".modules.settings.AboutActivity">
+        </activity>
         <service
             android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"

@@ -10,23 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftSrc="@drawable/back"
-        app:rightSrc="@drawable/search"
         app:titleSize="16sp"
         app:titleColor="@color/colorWhite"
+        app:title="@string/about_string"
         android:background="@color/colorPrimary"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srl_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_data_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
-    <include layout="@layout/search_assist_layout"/>
-    </RelativeLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:src="@mipmap/logo_round"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content" />
 </LinearLayout>

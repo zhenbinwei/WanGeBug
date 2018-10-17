@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         app:leftSrc="@drawable/back"
         app:titleSize="16sp"
-        app:titleColor="#fff"
+        app:titleColor="@color/colorWhite"
         app:title="@string/settings_string"
         android:background="@color/colorPrimary"/>
     <TextView
@@ -104,16 +104,29 @@
         android:text="@string/clean_cache_string"
         android:paddingLeft="16dp"
         android:textSize="14sp"
+        android:textColor="@color/colorGray6"
+        android:gravity="center_vertical"
+        />
+    <TextView
+        android:id="@+id/tv_check_version"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/check_version_string"
+        android:paddingLeft="16dp"
+        android:textColor="@color/colorGray6"
+        android:textSize="14sp"
         android:gravity="center_vertical"
         />
     <TextView
         android:id="@+id/tv_about"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="?android:attr/selectableItemBackground"
         android:text="@string/about_string"
         android:paddingLeft="16dp"
         android:textSize="14sp"
+        android:textColor="@color/colorGray6"
         android:gravity="center_vertical"
+        android:background="?android:attr/selectableItemBackground"
         />
 </LinearLayout>

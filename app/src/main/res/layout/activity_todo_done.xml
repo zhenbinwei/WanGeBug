@@ -13,7 +13,7 @@
         android:background="@color/colorPrimary"
         app:leftSrc="@drawable/back"
         app:title="@string/event_string"
-        app:titleColor="#fff"
+        app:titleColor="@color/colorWhite"
         app:titleSize="16sp" />
 
     <ScrollView

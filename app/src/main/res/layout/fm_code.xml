@@ -23,7 +23,7 @@
                 app:leftSrc="@drawable/menu"
                 app:rightSrc="@drawable/search"
                 app:title="@string/code_string"
-                app:titleColor="#fff"
+                app:titleColor="@color/colorWhite"
                 app:titleSize="16sp" />
 
             <android.support.v4.view.ViewPager

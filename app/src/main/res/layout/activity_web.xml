@@ -11,7 +11,7 @@
         app:leftSrc="@drawable/back"
         app:rightSrc="@drawable/more"
         app:titleSize="16sp"
-        app:titleColor="#fff"
+        app:titleColor="@color/colorWhite"
         android:background="@color/colorPrimary"/>
 <com.example.weizhenbin.wangebug.views.WebViewLayout
     android:id="@+id/wb_layout"

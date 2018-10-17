@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         app:leftSrc="@drawable/back"
         app:titleSize="16sp"
-        app:titleColor="#fff"
+        app:titleColor="@color/colorWhite"
         app:rightSrc="@drawable/done"
         app:title="@string/todo_string"
         android:background="@color/colorPrimary"/>

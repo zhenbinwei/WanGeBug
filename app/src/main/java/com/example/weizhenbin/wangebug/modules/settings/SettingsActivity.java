@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.text.format.Formatter;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,6 +24,8 @@ import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool;
 import com.example.weizhenbin.wangebug.views.CustomDialog;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 import com.example.weizhenbin.wangebug.views.floatingwindow.TodoFloatingWindowManager;
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.beta.UpgradeInfo;
 
 
 /**
@@ -37,6 +40,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     AppCompatCheckBox cbTodoNotificationSoundOpen;
     TitleBar tbTitle;
     TextView tvCleanCache;
+    TextView tvCheckVersion;
+    TextView tvAbout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +49,28 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         initViews();
         initEvent();
         initStatus();
+        initData();
     }
 
+    private void initData() {
+        initVersionInfo();
+    }
+
+    /**
+     * 初始化版本信息
+     * */
+    private void initVersionInfo() {
+        UpgradeInfo upgradeInfo = Beta.getUpgradeInfo();
+        if (upgradeInfo == null) {
+            return;
+        }
+        String sizeStr=  Formatter.formatShortFileSize(SettingsActivity.this,upgradeInfo.fileSize);
+        tvCheckVersion.setText(getString(R.string.new_version_string,sizeStr));
+    }
+
+    /**
+     * 初始化状态
+     * */
     private void initStatus() {
         if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW,false)){
             cbTodoOpen.setChecked(true);
@@ -75,6 +100,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         });
         tvCleanCache.setOnClickListener(this);
         cbTodoNotificationSoundOpen.setOnClickListener(this);
+        tvCheckVersion.setOnClickListener(this);
+        tvAbout.setOnClickListener(this);
     }
 
     private void initViews() {
@@ -83,6 +110,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         tbTitle=findViewById(R.id.tb_title);
         tvCleanCache=findViewById(R.id.tv_clean_cache);
         cbTodoNotificationSoundOpen=findViewById(R.id.cb_todo_notification_sound_open);
+        tvCheckVersion=findViewById(R.id.tv_check_version);
+        tvAbout=findViewById(R.id.tv_about);
     }
 
 
@@ -112,6 +141,13 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             }else {
                 PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_NOTIFICATION_SOUND, false);
             }
+        }else if (v==tvCheckVersion){
+            Beta.checkUpgrade();
+        }else if (v==tvAbout){
+            AboutActivity.startActivity(this);
+          /*  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            getWindow().setWindowAnimations(R.style.WindowFadeInOutAnim);
+            recreate();*/
         }
     }
 

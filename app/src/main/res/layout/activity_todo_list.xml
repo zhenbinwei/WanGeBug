@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         app:leftSrc="@drawable/back"
         app:titleSize="16sp"
-        app:titleColor="#fff"
+        app:titleColor="@color/colorWhite"
         app:title="@string/todo_string"
         android:background="@color/colorPrimary"/>
     <android.support.v4.view.ViewPager

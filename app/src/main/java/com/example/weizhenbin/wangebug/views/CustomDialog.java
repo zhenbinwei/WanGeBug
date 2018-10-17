@@ -18,7 +18,7 @@ import com.example.weizhenbin.wangebug.R;
  */
 public class CustomDialog extends Dialog {
     protected CustomDialog(@NonNull Context context, final Builder builder) {
-        super(context, R.style.dialog);
+        super(context, R.style.CustomDialog);
 
         if (builder==null){
             throw  new NullPointerException("builder 不能为空");

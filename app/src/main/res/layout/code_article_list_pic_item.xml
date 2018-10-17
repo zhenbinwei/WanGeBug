@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/ll_item"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@color/colorWhite"
+    android:foreground="?android:attr/selectableItemBackground"
     android:padding="8dp">
 <RelativeLayout
     android:layout_width="match_parent"
