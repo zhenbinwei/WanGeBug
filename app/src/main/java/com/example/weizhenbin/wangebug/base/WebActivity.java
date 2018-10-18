@@ -50,11 +50,13 @@ public class WebActivity extends BaseActivity {
     private void initData() {
         items=new String[]{getString(R.string.collect_string),getString(R.string.share_string),getString(R.string.browser_open_string)};
         url=getIntent().getStringExtra("Url");
-        mTitle=getIntent().getStringExtra("title");
+        mTitle=getIntent().getStringExtra("Title");
         urlTypeEnum= (UrlTypeEnum) getIntent().getSerializableExtra("UrlType");
+        if (urlTypeEnum==null){
+            urlTypeEnum=UrlTypeEnum.unknown;
+        }
         wbLayout.setUrl(url);
         titleBar.setTitle(mTitle);
-        isCollect=CollectController.isExistByTitle(mTitle);
     }
 
     private void initViews(){
@@ -69,6 +71,7 @@ public class WebActivity extends BaseActivity {
                     titleBar.setTitle(title);
                     mTitle=title;
                 }
+                isCollect=CollectController.isExistByTitle(mTitle);
             }
         });
         titleBar.setLeftOnClickListener(new View.OnClickListener() {
@@ -132,7 +135,7 @@ public class WebActivity extends BaseActivity {
         Intent intent=new Intent(context,WebActivity.class);
         intent.putExtra("Url",url);
         intent.putExtra("UrlType",urlTypeEnum);
-        intent.putExtra("title",title);
+        intent.putExtra("Title",title);
         context.startActivity(intent);
     }
 

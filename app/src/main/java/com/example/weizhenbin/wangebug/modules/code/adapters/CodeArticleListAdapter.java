@@ -60,7 +60,11 @@ public class CodeArticleListAdapter extends BaseMultipleAdapter<ArticleListDataB
                 }else {
                     helper.setText(R.id.tv_title,Html.fromHtml(item.getTitle()));
                 }
-                helper.setText(R.id.tv_chapterName,item.getChapterName());
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                    helper.setText(R.id.tv_chapterName, Html.fromHtml(item.getChapterName(),FROM_HTML_MODE_COMPACT));
+                }else {
+                    helper.setText(R.id.tv_chapterName,Html.fromHtml(item.getChapterName()));
+                }
                 helper.setText(R.id.tv_niceDate,item.getNiceDate());
                 ImageView imageView=helper.getView(R.id.iv_envelopePic);
                 if (TextUtils.isEmpty(item.getEnvelopePic())){
@@ -78,7 +82,11 @@ public class CodeArticleListAdapter extends BaseMultipleAdapter<ArticleListDataB
                 }else {
                     helper.setText(R.id.tv_title,Html.fromHtml(item.getTitle()));
                 }
-                helper.setText(R.id.tv_chapterName,item.getChapterName());
+                if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                    helper.setText(R.id.tv_chapterName, Html.fromHtml(item.getChapterName(),FROM_HTML_MODE_COMPACT));
+                }else {
+                    helper.setText(R.id.tv_chapterName,Html.fromHtml(item.getChapterName()));
+                }
                 helper.setText(R.id.tv_niceDate,item.getNiceDate());
                 helper.addOnClickListener(R.id.ll_item);
                 break;
