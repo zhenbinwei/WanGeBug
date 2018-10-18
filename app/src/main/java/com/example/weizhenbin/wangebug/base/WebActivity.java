@@ -123,6 +123,9 @@ public class WebActivity extends BaseActivity {
     }
 
     public static void startActivity(Context context,String url,String title,UrlTypeEnum urlTypeEnum){
+        if(context==null){
+            return;
+        }
         if (TextUtils.isEmpty(url)){
             return;
         }
@@ -132,6 +135,11 @@ public class WebActivity extends BaseActivity {
         intent.putExtra("title",title);
         context.startActivity(intent);
     }
+
+    public static void startActivity (Context context,String url){
+          startActivity(context,url,null,null);
+    }
+
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
