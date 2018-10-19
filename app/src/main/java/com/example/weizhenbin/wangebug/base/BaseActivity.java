@@ -25,4 +25,12 @@ public class BaseActivity extends AppCompatActivity {
             }*/
         }
     }
+
+   /* @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction()==MotionEvent.ACTION_DOWN) {
+            Log.d("BaseActivity", "event.getX():" + event.getX());
+        }
+        return super.onTouchEvent(event);
+    }*/
 }
