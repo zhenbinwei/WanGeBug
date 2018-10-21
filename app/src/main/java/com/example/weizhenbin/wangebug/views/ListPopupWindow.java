@@ -43,6 +43,12 @@ public class ListPopupWindow extends PopupWindow {
         });
     }
 
+
+    @Override
+    public int getHeight() {
+       return arrayAdapter.getCount()*PhoneTool.dip2px(44);
+    }
+
     private void initViews(View view) {
         listView=view.findViewById(R.id.lv);
     }
