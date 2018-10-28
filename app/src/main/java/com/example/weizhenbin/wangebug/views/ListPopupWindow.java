@@ -3,6 +3,8 @@ package com.example.weizhenbin.wangebug.views;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -28,9 +30,10 @@ public class ListPopupWindow extends PopupWindow {
         setContentView(view);
         arrayAdapter=new ArrayAdapter<String>(context, R.layout.list_popupwindow_item,items);
         listView.setAdapter(arrayAdapter);
-        setWidth(PhoneTool.dip2px(100));
+        setWidth(PhoneTool.dip2px(120));
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         setFocusable(true);
+        setTouchable(true);
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -41,7 +44,16 @@ public class ListPopupWindow extends PopupWindow {
                 }
             }
         });
+        setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.d("ListPopupWindow", "onTouch");
+                return false;
+            }
+        });
     }
+
+
 
 
     @Override
@@ -53,6 +65,10 @@ public class ListPopupWindow extends PopupWindow {
         listView=view.findViewById(R.id.lv);
     }
 
+    @Override
+    public void showAsDropDown(View anchor) {
+        super.showAsDropDown(anchor);
+    }
 
     public interface IItemListener{
         void onItemClick(int position);

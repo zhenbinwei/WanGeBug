@@ -40,6 +40,6 @@
         android:paddingBottom="4dp"
         android:text="@string/retry_string"
         android:textSize="14sp"
-        android:background="?android:attr/selectableItemBackground"
+        android:background="@drawable/click_pressed_white"
         android:layout_marginTop="16dp" />
 </LinearLayout>

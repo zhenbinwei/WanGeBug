@@ -25,7 +25,7 @@
      android:visibility="gone"
      android:padding="8dp"
      android:textColor="@color/colorAccent"
-     android:background="?android:attr/selectableItemBackground"
+     android:background="@drawable/click_pressed_white"
      android:textSize="14sp"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content" />

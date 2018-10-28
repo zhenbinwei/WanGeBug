@@ -1,7 +1,6 @@
 package com.example.weizhenbin.wangebug.modules.todo.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,8 +17,8 @@ import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoDetailActivity;
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoEditActivity;
 import com.example.weizhenbin.wangebug.tools.DateTool;
-import com.example.weizhenbin.wangebug.tools.DialogTool;
-import com.example.weizhenbin.wangebug.views.CustomDialog;
+import com.example.weizhenbin.wangebug.views.ListPopupWindow;
+import com.example.weizhenbin.wangebug.views.ListShortcutActionLayout;
 
 import java.util.List;
 
@@ -45,14 +44,15 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                 String[] items;
                 if (todoStatus==-1||todoStatus==0){
                     items=new String[]{mContext.getString(R.string.done_string),mContext.getString(R.string.edit_string),mContext.getString(R.string.del_string)};
-                    DialogTool.showListAlertDialog(mContext, items, new CustomDialog.OnClickListener() {
+
+                    new ListShortcutActionLayout.Builder(mContext).setItems(items).setAnchor(view).setiItemListener(new ListPopupWindow.IItemListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onItemClick(int position) {
                             if (data==null){
                                 return;
                             }
                             TBTodoBean todoBean=data.get(position);
-                            switch (which){
+                            switch (position){
                                 case 0:
                                     todoBean.setIsDone(true);
                                     long doneTime=System.currentTimeMillis();
@@ -73,17 +73,19 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                                     break;
                             }
                         }
-                    });
+                    }).build().show();
                 }else {
                     items=new String[]{mContext.getString(R.string.del_string),mContext.getString(R.string.edit_string)};
-                    DialogTool.showListAlertDialog(mContext, items, new CustomDialog.OnClickListener() {
+
+
+                    new ListShortcutActionLayout.Builder(mContext).setItems(items).setAnchor(view).setiItemListener(new ListPopupWindow.IItemListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onItemClick(int position) {
                             if (data==null){
                                 return;
                             }
                             TBTodoBean todoBean=data.get(position);
-                            switch (which){
+                            switch (position){
                                 case 0:
                                     if (todoBean.getIsTodoRemind()==1){
                                         TodoController.cancelAlarm(mContext,todoBean.getUuid());
@@ -96,7 +98,9 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
                                     break;
                             }
                         }
-                    });
+                    }).build().show();
+
+
                 }
 
 

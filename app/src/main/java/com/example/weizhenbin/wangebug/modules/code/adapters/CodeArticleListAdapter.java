@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,8 +16,6 @@ import com.example.weizhenbin.wangebug.base.WebActivity;
 import com.example.weizhenbin.wangebug.image.DefImageConfig;
 import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
-import com.example.weizhenbin.wangebug.tools.TouchTool;
-import com.example.weizhenbin.wangebug.views.ListPopupWindow;
 
 import java.util.List;
 
@@ -50,22 +46,6 @@ public class CodeArticleListAdapter extends BaseMultipleAdapter<ArticleListDataB
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleListDataBean.DataBean.DatasBean datasBean=   data.get(position);
                 WebActivity.startActivity(context,datasBean.getLink(),datasBean.getTitle(), UrlTypeEnum.code);
-            }
-        });
-        setOnItemChildLongClickListener(new OnItemChildLongClickListener() {
-            @Override
-            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
-                Log.d("CodeArticleListAdapter", "长按");
-
-                ListPopupWindow listPopupWindow=  new ListPopupWindow(mContext,new String[]{"测试1","测试2"});
-                if (TouchTool.downY>listPopupWindow.getHeight()){
-                    Log.d("CodeArticleListAdapter", "listPopupWindow.getHeight():" + listPopupWindow.getHeight());
-                    listPopupWindow.showAtLocation(view,Gravity.NO_GRAVITY, (int)TouchTool.downX-listPopupWindow.getWidth(),(int)TouchTool.downY-listPopupWindow.getHeight());
-                }else {
-                    listPopupWindow.showAtLocation(view, Gravity.NO_GRAVITY, (int) TouchTool.downX - listPopupWindow.getWidth(), (int) TouchTool.downY);
-                }
-
-                return true;
             }
         });
     }
