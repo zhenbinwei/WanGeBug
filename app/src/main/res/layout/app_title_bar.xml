@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/rl_left"
         android:minWidth="46dp"
-        android:background="@drawable/click_pressed_white"
+        android:background="@drawable/click_pressed_translate"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
     </RelativeLayout>
@@ -23,7 +23,7 @@
         android:id="@+id/rl_right"
         android:visibility="gone"
         android:minWidth="46dp"
-        android:background="@drawable/click_pressed_white"
+        android:background="@drawable/click_pressed_translate"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
 </LinearLayout>

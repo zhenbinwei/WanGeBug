@@ -47,12 +47,12 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
 
                     new ListShortcutActionLayout.Builder(mContext).setItems(items).setAnchor(view).setiItemListener(new ListPopupWindow.IItemListener() {
                         @Override
-                        public void onItemClick(int position) {
+                        public void onItemClick(int which) {
                             if (data==null){
                                 return;
                             }
                             TBTodoBean todoBean=data.get(position);
-                            switch (position){
+                            switch (which){
                                 case 0:
                                     todoBean.setIsDone(true);
                                     long doneTime=System.currentTimeMillis();
@@ -80,12 +80,12 @@ public class TodoListAdapter extends BaseSimpleAdapter<TBTodoBean,BaseViewHolder
 
                     new ListShortcutActionLayout.Builder(mContext).setItems(items).setAnchor(view).setiItemListener(new ListPopupWindow.IItemListener() {
                         @Override
-                        public void onItemClick(int position) {
+                        public void onItemClick(int which) {
                             if (data==null){
                                 return;
                             }
                             TBTodoBean todoBean=data.get(position);
-                            switch (position){
+                            switch (which){
                                 case 0:
                                     if (todoBean.getIsTodoRemind()==1){
                                         TodoController.cancelAlarm(mContext,todoBean.getUuid());

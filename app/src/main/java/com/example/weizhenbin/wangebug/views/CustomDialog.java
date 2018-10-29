@@ -5,13 +5,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.weizhenbin.wangebug.R;
+import com.example.weizhenbin.wangebug.tools.PhoneTool;
 
 /**
  * Created by weizhenbin on 2018/10/16.
@@ -112,6 +117,22 @@ public class CustomDialog extends Dialog {
     }
 
 
+    @Override
+    public void show() {
+        super.show();
+        Window window=getWindow();
+        if (window==null){
+            return;
+        }
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.gravity = Gravity.CENTER;
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        getWindow().getDecorView().setPadding(PhoneTool.dip2px(30), 0, PhoneTool.dip2px(30), 0);
+
+        getWindow().setAttributes(layoutParams);
+    }
 
     public static class Builder{
 

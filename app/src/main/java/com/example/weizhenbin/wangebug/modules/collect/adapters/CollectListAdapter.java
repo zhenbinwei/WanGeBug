@@ -52,12 +52,12 @@ public class CollectListAdapter extends BaseSimpleAdapter<TBCollectBean,BaseView
 
                 new ListShortcutActionLayout.Builder(mContext).setAnchor(view).setItems(items).setiItemListener(new ListPopupWindow.IItemListener() {
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(int which) {
                         if (data==null){
                             return;
                         }
                         TBCollectBean tbCollectBean=data.get(position);
-                        switch (position){
+                        switch (which){
                             case 0:
                                 CollectController.removeCollectByTitle(tbCollectBean.getTitle());
                                 EventBusHandler.post(new MessageEvent(EventCode.CANCEL_COLLECT_CODE,tbCollectBean.getTitle()));

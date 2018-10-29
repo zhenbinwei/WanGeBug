@@ -139,18 +139,19 @@ public class TestActivity extends BaseActivity {
                     }
                 });*/
               //  new CustomDialog(TestActivity.this).show();
-                new CustomDialog.Builder(TestActivity.this).setItems(new String[]{"测试1", "测试2"}, new CustomDialog.OnClickListener() {
+             /*   new CustomDialog.Builder(TestActivity.this).setItems(new String[]{"测试1", "测试2"}, new CustomDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                }).create().show();
+                }).create().show();*/
            /*  new CustomDialog.Builder(TestActivity.this).setMessage("测试").setPositiveBtnStr("确定", new CustomDialog.OnClickListener() {
                  @Override
                  public void onClick(DialogInterface dialog, int which) {
 
                  }
              }).create().show();*/
+           new android.app.AlertDialog.Builder(TestActivity.this).setMessage("测试").create().show();
             }
         });
 
@@ -163,6 +164,12 @@ public class TestActivity extends BaseActivity {
                // remindBar.remove();
                // Box<Note>   notesBox = ((App) getApplication()).getBoxStore().boxFor(Note.class);
                // notesBox.
+                new CustomDialog.Builder(TestActivity.this).setItems(new String[]{"测试1", "测试2"}, new CustomDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create().show();
 
             }
         });

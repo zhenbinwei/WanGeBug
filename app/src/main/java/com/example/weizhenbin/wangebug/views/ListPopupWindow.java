@@ -71,7 +71,7 @@ public class ListPopupWindow extends PopupWindow {
     }
 
     public interface IItemListener{
-        void onItemClick(int position);
+        void onItemClick(int which);
     }
 
     public ListPopupWindow setItemListener(IItemListener listener) {
