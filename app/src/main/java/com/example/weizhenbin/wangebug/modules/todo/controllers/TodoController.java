@@ -8,6 +8,7 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.example.weizhenbin.wangebug.base.App;
+import com.example.weizhenbin.wangebug.base.DataResult;
 import com.example.weizhenbin.wangebug.modules.todo.alarm.AlarmReceiver;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBAlarmMapBean;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBAlarmMapBean_;
@@ -17,6 +18,11 @@ import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean_;
 import java.util.List;
 
 import io.objectbox.Box;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by weizhenbin on 18/9/8.
@@ -75,7 +81,40 @@ public class TodoController {
     }
 
 
+     public static void asynGetTodoList(final int todoStatus, final int page, final int pageCount, final DataResult<List<TBTodoBean>> dataResult){
+        if (dataResult!=null){
+            dataResult.onStart();
+        }
+         Observable.create(new Observable.OnSubscribe<List<TBTodoBean>>() {
+             @Override
+             public void call(Subscriber<? super List<TBTodoBean>> subscriber) {
+                 List<TBTodoBean> beanList= TodoController.getTodoList(todoStatus,page,pageCount);
+                 subscriber.onNext(beanList);
+             }
+         }).observeOn(AndroidSchedulers.mainThread())
+                 .subscribeOn(Schedulers.io())
+                 .subscribe(new Observer<List<TBTodoBean>>() {
+                     @Override
+                     public void onCompleted() {
 
+                     }
+
+                     @Override
+                     public void onError(Throwable e) {
+                         if (dataResult!=null){
+                             dataResult.onError(e);
+                         }
+                     }
+                     @Override
+                     public void onNext(List<TBTodoBean> todoBeen) {
+
+                         if (dataResult!=null){
+                             dataResult.onSuccess(todoBeen);
+                         }
+
+                     }
+                 });
+     }
 
 
     /**

@@ -5,8 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,13 +15,14 @@ import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.weizhenbin.wangebug.base.BaseActivity;
+import com.example.weizhenbin.wangebug.image.ImageLoadListenerAdapter;
+import com.example.weizhenbin.wangebug.image.ImageLoader;
 import com.example.weizhenbin.wangebug.modules.todo.alarm.AlarmReceiver;
-import com.example.weizhenbin.wangebug.modules.todo.uis.TodoDetailActivity;
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig;
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool;
-import com.example.weizhenbin.wangebug.views.CustomDialog;
 import com.example.weizhenbin.wangebug.views.MyTextView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView;
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow;
@@ -164,12 +165,13 @@ public class TestActivity extends BaseActivity {
                // remindBar.remove();
                // Box<Note>   notesBox = ((App) getApplication()).getBoxStore().boxFor(Note.class);
                // notesBox.
-                new CustomDialog.Builder(TestActivity.this).setItems(new String[]{"测试1", "测试2"}, new CustomDialog.OnClickListener() {
+            /*    new CustomDialog.Builder(TestActivity.this).setItems(new String[]{"测试1", "测试2"}, new CustomDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
-                }).create().show();
+                }).create().show();*/
+                notification();
 
             }
         });
@@ -194,7 +196,7 @@ public class TestActivity extends BaseActivity {
 
 
     private void notification(){
-        NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationChannel channel ;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -212,14 +214,14 @@ public class TestActivity extends BaseActivity {
                 manager.createNotificationChannel(channel);
             }
         }
-        NotificationCompat.Builder builder ;
+        final NotificationCompat.Builder builder ;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             builder= new NotificationCompat.Builder(this,"1");
         }else {
             builder= new NotificationCompat.Builder(this);
         }
 
-        Intent intent = new Intent(this, TodoDetailActivity.class);//将要跳转的界面
+        Intent intent = new Intent(this, TestActivity.class);//将要跳转的界面
         builder.setAutoCancel(true);//点击后消失
         if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_NOTIFICATION_SOUND,false)){
             builder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
@@ -230,6 +232,7 @@ public class TestActivity extends BaseActivity {
         builder.setContentTitle("测试");
         builder.setContentText("测试");//通知内容
         builder.setSmallIcon(R.mipmap.logo_t);
+      //  builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
         //利用PendingIntent来包装我们的intent对象,使其延迟跳转
         PendingIntent intentPend = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         builder.setContentIntent(intentPend);
@@ -237,6 +240,18 @@ public class TestActivity extends BaseActivity {
         if (manager!=null) {
             manager.notify(0, builder.build());
         }
+
+         String url="http://s03.alpha.lmbang.com/M00/01/AF/wKgBA1e1bpaAUv8NAACR-Ryp7hI556.jpg!c160x160";
+        ImageLoader.getImageLoader().loadBitmap(this,url,new ImageLoadListenerAdapter(){
+            @Override
+            public void onLoadSuccess(Bitmap bitmap, String url) {
+                super.onLoadSuccess(bitmap, url);
+                Log.d("TestActivity", "bitmap:" + bitmap);
+                Toast.makeText(TestActivity.this,"图片下载成功",Toast.LENGTH_LONG).show();
+                builder.setLargeIcon(bitmap);
+                manager.notify(0, builder.build());
+            }
+        });
     }
 
 

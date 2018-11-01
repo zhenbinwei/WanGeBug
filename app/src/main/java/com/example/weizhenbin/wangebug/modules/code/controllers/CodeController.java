@@ -16,7 +16,11 @@ import com.example.weizhenbin.wangebug.net.retrofit.apiservice.CodeApi;
 import java.util.List;
 
 import io.objectbox.Box;
+import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by weizhenbin on 2018/8/24.
@@ -198,6 +202,42 @@ public class CodeController {
                 });
     }
 
+    public static void getSearchHistoryData(final DataResult<List<TBSearchHistoryKeyBean>> dataResult){
+        if (dataResult!=null){
+            dataResult.onStart();
+        }
+        Observable.create(new Observable.OnSubscribe<List<TBSearchHistoryKeyBean>>() {
+            @Override
+            public void call(Subscriber<? super List<TBSearchHistoryKeyBean>> subscriber) {
+              /*  List<TBTodoBean> beanList= TodoController.getTodoList(todoStatus,page,pageCount);
+                subscriber.onNext(beanList);*/
+                List<TBSearchHistoryKeyBean> keyBeans=getSearchHistoryKeysByTop10();
+                subscriber.onNext(keyBeans);
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<TBSearchHistoryKeyBean>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (dataResult!=null){
+                            dataResult.onError(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(List<TBSearchHistoryKeyBean> keyBeans) {
+                       if(dataResult!=null){
+                           dataResult.onSuccess(keyBeans);
+                       }
+                    }
+                });
+    }
+
     public static void getSearchHotKeyData(final DataResult<SearchHotKeyDataBean> dataResult) {
         if (dataResult != null) {
             dataResult.onStart();
@@ -232,13 +272,8 @@ public class CodeController {
      * */
     public static void saveSearchHistoryKey(String key){
         Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
-        TBSearchHistoryKeyBean tbSearchHistoryKeyBean= tbSearchHistoryKeyBeanBox.query().equal(TBSearchHistoryKeyBean_.key,key).build().findFirst();
-        if (tbSearchHistoryKeyBean!=null){
-            tbSearchHistoryKeyBean.setKey(key);
-            tbSearchHistoryKeyBeanBox.put(tbSearchHistoryKeyBean);
-        }else {
-            tbSearchHistoryKeyBeanBox.put(new TBSearchHistoryKeyBean(key));
-        }
+        tbSearchHistoryKeyBeanBox.query().equal(TBSearchHistoryKeyBean_.key,key).build().remove();
+        tbSearchHistoryKeyBeanBox.put(new TBSearchHistoryKeyBean(key));
     }
 
     /**
@@ -249,6 +284,14 @@ public class CodeController {
         tbSearchHistoryKeyBeanBox.remove(id);
 
     }
+    /**
+     * 删除单个
+     * */
+    public static void removeSearchHistoryKey(String key){
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+        tbSearchHistoryKeyBeanBox.query().equal(TBSearchHistoryKeyBean_.key,key).build().remove();
+
+    }
     /**清除*/
     public static void cleanSearchHistoryKey(){
         Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
@@ -256,6 +299,6 @@ public class CodeController {
     }
     public static List<TBSearchHistoryKeyBean> getSearchHistoryKeysByTop10(){
         Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
-       return tbSearchHistoryKeyBeanBox.query().orderDesc(TBSearchHistoryKeyBean_.id).build().find(0,10);
+       return tbSearchHistoryKeyBeanBox.query().orderDesc(TBSearchHistoryKeyBean_.id).build().find();
     }
 }

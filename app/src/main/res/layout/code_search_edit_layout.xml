@@ -24,7 +24,7 @@
     <ImageView
         android:src="@drawable/del"
         android:id="@+id/iv_clean"
-        android:background="@drawable/click_pressed_white"
+        android:background="@drawable/click_pressed_translate"
         android:padding="8dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"

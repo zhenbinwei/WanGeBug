@@ -13,18 +13,13 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseFragment;
+import com.example.weizhenbin.wangebug.base.DataResultAdapter;
 import com.example.weizhenbin.wangebug.modules.todo.adapters.TodoListAdapter;
 import com.example.weizhenbin.wangebug.modules.todo.controllers.TodoController;
 import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by weizhenbin on 18/9/9.
@@ -89,64 +84,54 @@ public class TodoListFragment extends BaseFragment {
     }
 
     private void getData() {
-        Observable.create(new Observable.OnSubscribe<List<TBTodoBean>>() {
+        TodoController.asynGetTodoList(todoStatus,page,pageCount,new DataResultAdapter<List<TBTodoBean>>(){
             @Override
-            public void call(Subscriber<? super List<TBTodoBean>> subscriber) {
-               List<TBTodoBean> beanList= TodoController.getTodoList(todoStatus,page,pageCount);
-                subscriber.onNext(beanList);
+            public void onSuccess(List<TBTodoBean> tbTodoBeans) {
+                super.onSuccess(tbTodoBeans);
+                srlRefresh.setRefreshing(false);
+                if (tbTodoBeans!=null){
+                    if (page==1){
+                        beanList.clear();
+                    }
+                    beanList.addAll(tbTodoBeans);
+                    if(page==1){
+                        listAdapter.setNewData(beanList);
+                    }else {
+                        listAdapter.notifyDataSetChanged();
+                    }
+                    if (tbTodoBeans.isEmpty()){
+                        if (page==1){
+                            listAdapter.emptyData(false);
+                        }else {
+                            listAdapter.loadMoreComplete();
+                        }
+                    }else if (tbTodoBeans.size()<pageCount){
+                        listAdapter.loadMoreEnd();
+                    }else {
+                        listAdapter.loadMoreComplete();
+                        page++;
+                    }
+                }else {
+                    if (page==1){
+                        listAdapter.emptyData();
+                    }else {
+                        listAdapter.loadMoreFail();
+                    }
+                }
             }
-        }).observeOn(AndroidSchedulers.mainThread())
-          .subscribeOn(Schedulers.io())
-          .subscribe(new Observer<List<TBTodoBean>>() {
-              @Override
-              public void onCompleted() {
 
-              }
-
-              @Override
-              public void onError(Throwable e) {
-                  srlRefresh.setRefreshing(false);
-                  if (page==1){
-                      listAdapter.emptyData();
-                  }else {
-                      listAdapter.loadMoreFail();
-                  }
-              }
-
-              @Override
-              public void onNext(List<TBTodoBean> todoBeen) {
-                  srlRefresh.setRefreshing(false);
-                  if (todoBeen!=null){
-                      if (page==1){
-                          beanList.clear();
-                      }
-                      beanList.addAll(todoBeen);
-                      if(page==1){
-                          listAdapter.setNewData(beanList);
-                      }else {
-                          listAdapter.notifyDataSetChanged();
-                      }
-                      if (todoBeen.isEmpty()){
-                          if (page==1){
-                              listAdapter.emptyData(false);
-                          }else {
-                              listAdapter.loadMoreComplete();
-                          }
-                      }else if (todoBeen.size()<pageCount){
-                          listAdapter.loadMoreEnd();
-                      }else {
-                          listAdapter.loadMoreComplete();
-                          page++;
-                      }
-                  }else {
-                      if (page==1){
-                          listAdapter.emptyData();
-                      }else {
-                          listAdapter.loadMoreFail();
-                      }
-                  }
-              }
-          });
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                srlRefresh.setRefreshing(false);
+                listAdapter.loadMoreComplete();
+                if (page==1){
+                    listAdapter.emptyData();
+                }else {
+                    listAdapter.loadMoreFail();
+                }
+            }
+        });
     }
 
     private void initViews(View view) {

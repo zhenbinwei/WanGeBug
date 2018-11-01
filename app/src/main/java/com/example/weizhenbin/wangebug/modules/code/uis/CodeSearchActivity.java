@@ -2,12 +2,9 @@ package com.example.weizhenbin.wangebug.modules.code.uis;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,7 +12,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,19 +23,20 @@ import com.example.weizhenbin.wangebug.R;
 import com.example.weizhenbin.wangebug.base.BaseActivity;
 import com.example.weizhenbin.wangebug.base.DataResultAdapter;
 import com.example.weizhenbin.wangebug.modules.code.adapters.CodeArticleListAdapter;
+import com.example.weizhenbin.wangebug.modules.code.adapters.CodeSearchHistoryAdapter;
 import com.example.weizhenbin.wangebug.modules.code.adapters.CodeSearchHotKeyFlowAdapter;
 import com.example.weizhenbin.wangebug.modules.code.controllers.CodeController;
 import com.example.weizhenbin.wangebug.modules.code.entity.ArticleListDataBean;
 import com.example.weizhenbin.wangebug.modules.code.entity.SearchHotKeyDataBean;
+import com.example.weizhenbin.wangebug.modules.code.entity.TBSearchHistoryKeyBean;
 import com.example.weizhenbin.wangebug.tools.SoftKeyboardTool;
+import com.example.weizhenbin.wangebug.views.LinearRecyclerView;
 import com.example.weizhenbin.wangebug.views.TitleBar;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
 /**
  * Created by weizhenbin on 2018/8/31.
@@ -49,21 +46,22 @@ public class CodeSearchActivity extends BaseActivity {
     TitleBar titleBar;
     LinearLayout llAssist;
     SwipeRefreshLayout srlRefresh;
-    RecyclerView rvDataList;
+    LinearRecyclerView rvDataList,rvHistoryDataList;
     CodeArticleListAdapter listAdapter;
+    CodeSearchHistoryAdapter searchHistoryAdapter;
     int page=0;
     List<ArticleListDataBean.DataBean.DatasBean> datasBeen=new ArrayList<>();
     List<SearchHotKeyDataBean.DataBean> hotkeyDatas;
+    List<TBSearchHistoryKeyBean> historyKeyBeans=new ArrayList<>();
     String key;
     TagFlowLayout tflHotKey;
     TextView tvClean;
-    TranslateAnimation showAnim,hideAnim;
 
 
     View titleBarCenter;
     ImageView ivClean;
     EditText editText;
-
+    LinearLayout llHotKey,llHistoryKey;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,15 +70,9 @@ public class CodeSearchActivity extends BaseActivity {
         initData();
         initEvent();
         getSearchHotKeyData();
-        initAnim();
+        getSearchHistoryData();
     }
 
-    private void initAnim() {
-        hideAnim=new TranslateAnimation(RELATIVE_TO_SELF,0,RELATIVE_TO_SELF,0,RELATIVE_TO_SELF,0,RELATIVE_TO_SELF,-1);
-        showAnim=new TranslateAnimation(RELATIVE_TO_SELF,0,RELATIVE_TO_SELF,0,RELATIVE_TO_SELF,-1,RELATIVE_TO_SELF,0);
-        hideAnim.setDuration(200);
-        showAnim.setDuration(200);
-    }
 
     private void getSearchHotKeyData() {
         CodeController.getSearchHotKeyData(new DataResultAdapter<SearchHotKeyDataBean>(){
@@ -89,39 +81,53 @@ public class CodeSearchActivity extends BaseActivity {
                 super.onSuccess(searchHotKeyDataBean);
                 if (searchHotKeyDataBean!=null&&searchHotKeyDataBean.getData()!=null){
                     if (!searchHotKeyDataBean.getData().isEmpty()){
+                        llHotKey.setVisibility(View.VISIBLE);
                         hotkeyDatas=searchHotKeyDataBean.getData();
                         tflHotKey.setAdapter(new CodeSearchHotKeyFlowAdapter(hotkeyDatas));
+                    }else {
+                        llHotKey.setVisibility(View.GONE);
                     }
                 }
             }
         });
     }
 
+    private void getSearchHistoryData(){
+        CodeController.getSearchHistoryData(new DataResultAdapter<List<TBSearchHistoryKeyBean>>(){
+            @Override
+            public void onSuccess(List<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeans) {
+                super.onSuccess(tbSearchHistoryKeyBeans);
+                if (tbSearchHistoryKeyBeans!=null&&!tbSearchHistoryKeyBeans.isEmpty()){
+                    historyKeyBeans.clear();
+                    llHistoryKey.setVisibility(View.VISIBLE);
+                    historyKeyBeans.addAll(tbSearchHistoryKeyBeans);
+                    searchHistoryAdapter.notifyDataSetChanged();
+                }else {
+                    llHistoryKey.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+    }
     private void showAssistLayout(){
-        if (llAssist.getVisibility()==View.GONE){
-            llAssist.startAnimation(showAnim);
-            llAssist.setVisibility(View.VISIBLE);
-        }
+      llAssist.setVisibility(View.VISIBLE);
+      getSearchHistoryData();
     }
     private void hideAssistLayout(){
-        if (llAssist.getVisibility()==View.VISIBLE){
-            llAssist.startAnimation(hideAnim);
-            llAssist.setVisibility(View.GONE);
-        }
+        llAssist.setVisibility(View.GONE);
     }
 
     private void initData() {
         listAdapter=new CodeArticleListAdapter(this,datasBeen);
         rvDataList.setAdapter(listAdapter);
-        rvDataList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        DividerItemDecoration itemDecoration=new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        Drawable drawable=getResources().getDrawable(R.drawable.divider_line);
-        itemDecoration.setDrawable(drawable);
-        rvDataList.addItemDecoration(itemDecoration);
         listAdapter.bindToRecyclerView(rvDataList);
         listAdapter.disableLoadMoreIfNotFullPage();
         listAdapter.emptyData(false);
         listAdapter.setEmptyText(getString(R.string.input_key_string));
+
+        searchHistoryAdapter=new CodeSearchHistoryAdapter(this,historyKeyBeans);
+        rvHistoryDataList.setAdapter(searchHistoryAdapter);
     }
 
     private void getData(String key) {
@@ -173,7 +179,6 @@ public class CodeSearchActivity extends BaseActivity {
         titleBar.setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideAssistLayout();
                search();
             }
         });
@@ -181,7 +186,6 @@ public class CodeSearchActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH){
-                    hideAssistLayout();
                     search();
                     return true;
                 }
@@ -203,7 +207,8 @@ public class CodeSearchActivity extends BaseActivity {
         tvClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                 CodeController.cleanSearchHistoryKey();
+                 llHistoryKey.setVisibility(View.GONE);
             }
         });
         ivClean.setOnClickListener(new View.OnClickListener() {
@@ -212,17 +217,10 @@ public class CodeSearchActivity extends BaseActivity {
                editText.setText("");
             }
         });
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAssistLayout();
-            }
-        });
         rvDataList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                hideAssistLayout();
                 SoftKeyboardTool.hideSoftKeyboard(CodeSearchActivity.this);
             }
         });
@@ -234,7 +232,6 @@ public class CodeSearchActivity extends BaseActivity {
                    editText.setText(name);
                    editText.setSelection(name.length());
                    search();
-                   hideAssistLayout();
                 }
                 return false;
             }
@@ -256,19 +253,44 @@ public class CodeSearchActivity extends BaseActivity {
                     ivClean.setVisibility(View.VISIBLE);
                 }else {
                     ivClean.setVisibility(View.INVISIBLE);
+                    showAssistLayout();
                 }
             }
         });
+        searchHistoryAdapter.setiDataCallback(new CodeSearchHistoryAdapter.IDataCallback() {
+            @Override
+            public void onClickItem(int position) {
+                String name= historyKeyBeans.get(position).getKey();
+                editText.setText(name);
+                editText.setSelection(name.length());
+                search();
+            }
+
+            @Override
+            public void onDelItem(int position) {
+                CodeController.removeSearchHistoryKey(historyKeyBeans.get(position).getKey());
+                historyKeyBeans.remove(position);
+                searchHistoryAdapter.notifyItemRemoved(position);
+                if (historyKeyBeans.isEmpty()){
+                    llHistoryKey.setVisibility(View.GONE);
+                }
+            }
+
+        });
     }
+
+
 
     private void search() {
         SoftKeyboardTool.hideSoftKeyboard(CodeSearchActivity.this);
+        hideAssistLayout();
         page=0;
         key=editText.getText().toString();
         if (TextUtils.isEmpty(key.trim())){
             srlRefresh.setRefreshing(false);
             return;
         }
+        CodeController.saveSearchHistoryKey(key);
         getData(key);
     }
 
@@ -283,6 +305,9 @@ public class CodeSearchActivity extends BaseActivity {
         tflHotKey=findViewById(R.id.tfl_hot_key);
         tvClean=findViewById(R.id.tv_clean);
         llAssist=findViewById(R.id.ll_assist);
+        llHistoryKey=findViewById(R.id.ll_history_key);
+        llHotKey=findViewById(R.id.ll_hot_key);
+        rvHistoryDataList=findViewById(R.id.rv_history_data_list);
     }
 
 

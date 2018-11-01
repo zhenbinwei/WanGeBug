@@ -31,8 +31,8 @@ public class CodeSearchHotKeyFlowAdapter extends TagAdapter<SearchHotKeyDataBean
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.search_hot_key_list_item_tag_layout,parent,false);
         TextView tvTagName=view.findViewById(R.id.tv_tag_name);
         tvTagName.setText(dataBean.getName());
-        int index=colorRandom.nextInt(4);
-        tvTagName.setTextColor(colors[index]);
+       /* int index=colorRandom.nextInt(4);
+        tvTagName.setTextColor(colors[index]);*/
         return view;
     }
 
