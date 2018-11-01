@@ -54,9 +54,9 @@ public class App extends Application {
         };
         //x5内核初始化接口
         QbSdk.initX5Environment(getApplicationContext(),  cb);*/
+        initBugly();
         addLifecycleCallback();
         initObjectBox();
-        initBugly();
     }
 
     private void initObjectBox() {

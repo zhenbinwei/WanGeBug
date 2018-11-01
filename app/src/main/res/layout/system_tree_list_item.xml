@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_margin="8dp"
+    android:layout_margin="@dimen/main_spacing"
     android:background="@drawable/click_pressed_white"
     android:layout_height="wrap_content">
     <TextView
