@@ -1,0 +1,158 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:4178421429784682061",
+      "lastPropertyId": "2:3108234264626627917",
+      "name": "TBSearchHistoryKeyBean",
+      "properties": [
+        {
+          "id": "1:6539333427312625489",
+          "name": "id"
+        },
+        {
+          "id": "2:3108234264626627917",
+          "name": "key"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:474628818231024646",
+      "lastPropertyId": "6:4972798153506926905",
+      "name": "TBCollectBean",
+      "properties": [
+        {
+          "id": "1:2797936944560550527",
+          "name": "id"
+        },
+        {
+          "id": "2:4334256292061298111",
+          "name": "title"
+        },
+        {
+          "id": "3:8887088647974887584",
+          "name": "url"
+        },
+        {
+          "id": "4:2660394601176606125",
+          "name": "type"
+        },
+        {
+          "id": "5:4833030963457003679",
+          "name": "collectTime"
+        },
+        {
+          "id": "6:4972798153506926905",
+          "name": "key"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:4246930513806708499",
+      "lastPropertyId": "3:8657610846349962459",
+      "name": "TBAlarmMapBean",
+      "properties": [
+        {
+          "id": "1:8549073910499546419",
+          "name": "id"
+        },
+        {
+          "id": "2:6257095100282542769",
+          "name": "number"
+        },
+        {
+          "id": "3:8657610846349962459",
+          "name": "key"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:2465437733748828807",
+      "lastPropertyId": "16:5025266274182237938",
+      "name": "TBTodoBean",
+      "properties": [
+        {
+          "id": "1:6759305346015354270",
+          "name": "id"
+        },
+        {
+          "id": "2:304943173486339656",
+          "name": "uuid"
+        },
+        {
+          "id": "3:8450447630568448772",
+          "name": "todoCreateTime"
+        },
+        {
+          "id": "4:6112715877421342251",
+          "name": "todoCreateTimeStr"
+        },
+        {
+          "id": "5:1727683392730563583",
+          "name": "todoTitle"
+        },
+        {
+          "id": "6:7341880464136092107",
+          "name": "todoContent"
+        },
+        {
+          "id": "7:5017969901540554793",
+          "name": "todoStatus"
+        },
+        {
+          "id": "8:843386015246145904",
+          "name": "todoDoneTime"
+        },
+        {
+          "id": "9:2497855845650697810",
+          "name": "todoDoneTimeStr"
+        },
+        {
+          "id": "10:1179318036918290197",
+          "name": "isTodoRemind"
+        },
+        {
+          "id": "11:3963714803550495231",
+          "name": "todoRemindTime"
+        },
+        {
+          "id": "12:2196503131097542552",
+          "name": "todoRemindTimeStr"
+        },
+        {
+          "id": "13:8209670541310342836",
+          "name": "todoRemindDate"
+        },
+        {
+          "id": "14:4165742843504232008",
+          "name": "todoRemindDateStr"
+        },
+        {
+          "id": "15:3612477588934116807",
+          "name": "todoLastUpdateDate"
+        },
+        {
+          "id": "16:5025266274182237938",
+          "name": "todoLastUpdateDateStr"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "4:2465437733748828807",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
