@@ -9,16 +9,16 @@ import com.example.weizhenbin.wangebug.base.App;
 public class PhoneTool {
 
     public static  int getScreenHeight(){
-        return App.app.getResources().getDisplayMetrics().heightPixels;
+        return App.Companion.getApp().getResources().getDisplayMetrics().heightPixels;
     }
     public static  int getScreenWidth(){
-        return App.app.getResources().getDisplayMetrics().widthPixels;
+        return App.Companion.getApp().getResources().getDisplayMetrics().widthPixels;
     }
 
 
     public static int dip2px(float dpValue) {
 
-        final float scale = App.app.getResources().getDisplayMetrics().density;
+        final float scale = App.Companion.getApp().getResources().getDisplayMetrics().density;
 
         return (int) (dpValue * scale +0.5f);
 
@@ -26,7 +26,7 @@ public class PhoneTool {
 
     public static int px2dip(float pxValue) {
 
-        final float scale = App.app.getResources().getDisplayMetrics().density;
+        final float scale = App.Companion.getApp().getResources().getDisplayMetrics().density;
 
         return (int) (pxValue / scale +0.5f);
 

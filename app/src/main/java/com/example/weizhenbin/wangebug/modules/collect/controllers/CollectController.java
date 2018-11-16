@@ -19,22 +19,22 @@ public class CollectController {
 
 
     public static void addCollect(TBCollectBean tbCollectBean){
-        Box<TBCollectBean> tbCollectBeanBox = App.app.getBoxStore().boxFor(TBCollectBean.class);
+        Box<TBCollectBean> tbCollectBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBCollectBean.class);
         tbCollectBeanBox.put(tbCollectBean);
     }
 
 
     public static void removeCollect(long id){
-        Box<TBCollectBean> tbCollectBeanBox = App.app.getBoxStore().boxFor(TBCollectBean.class);
+        Box<TBCollectBean> tbCollectBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBCollectBean.class);
         tbCollectBeanBox.remove(id);
     }
 
     public static void removeCollectByTitle(String title){
-        Box<TBCollectBean> tbCollectBeanBox = App.app.getBoxStore().boxFor(TBCollectBean.class);
+        Box<TBCollectBean> tbCollectBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBCollectBean.class);
         tbCollectBeanBox.query().equal(TBCollectBean_.title,title).build().remove();
     }
     public static List<TBCollectBean> getCollectList(int page,int pageCount){
-        Box<TBCollectBean> tbCollectBeanBox = App.app.getBoxStore().boxFor(TBCollectBean.class);
+        Box<TBCollectBean> tbCollectBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBCollectBean.class);
         return tbCollectBeanBox.query().orderDesc(TBCollectBean_.id).build().find((page-1)*pageCount,pageCount);
     }
 
@@ -46,7 +46,7 @@ public class CollectController {
         if (TextUtils.isEmpty(title)){
             return false;
         }
-        Box<TBCollectBean> tbCollectBeanBox = App.app.getBoxStore().boxFor(TBCollectBean.class);
+        Box<TBCollectBean> tbCollectBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBCollectBean.class);
         TBCollectBean tbCollectBean= tbCollectBeanBox.query().equal(TBCollectBean_.title,title).build().findFirst();
         if (tbCollectBean!=null){
             return true;

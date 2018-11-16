@@ -88,7 +88,7 @@ public class FloatingWindow implements View.OnTouchListener{
 
     private Context context;
     public FloatingWindow() {
-        context= App.app.getApplicationContext();
+        context= App.Companion.getApp().getApplicationContext();
         initWindowManager(context);
         baseView=new FloatingContentView(context);
         contentView= (ViewGroup) LayoutInflater.from(context).inflate(R.layout.floating_window_layout,baseView,false);

@@ -92,7 +92,7 @@ public class CodeSystemTreeAdapter extends BaseSimpleAdapter<SystemTreeDataBean.
         public void updateDrawState(TextPaint ds) {
             super.updateDrawState(ds);
             ds.setUnderlineText(false);
-            ds.setColor(App.app.getResources().getColor(R.color.colorGray5));
+            ds.setColor(App.Companion.getApp().getResources().getColor(R.color.colorGray5));
         }
 
         @Override

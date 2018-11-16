@@ -36,7 +36,7 @@ public class TodoController {
      * 存储todo
      * */
     public static long saveTodo(TBTodoBean tbTodoBean){
-        Box<TBTodoBean> todoBeanBox = App.app.getBoxStore().boxFor(TBTodoBean.class);
+        Box<TBTodoBean> todoBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBTodoBean.class);
        return todoBeanBox.put(tbTodoBean);
 
     }
@@ -53,7 +53,7 @@ public class TodoController {
      * 获取todo列表
      * */
     public static List<TBTodoBean> getTodoList(int todoStatus,int page,int pageCount){
-        Box<TBTodoBean> todoBeanBox = App.app.getBoxStore().boxFor(TBTodoBean.class);
+        Box<TBTodoBean> todoBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBTodoBean.class);
         if (todoStatus==-1){
             return todoBeanBox.query().orderDesc(TBTodoBean_.id).build().find((page-1)*pageCount,pageCount);
         }else {
@@ -62,7 +62,7 @@ public class TodoController {
     }
 
     public static TBTodoBean getTodoBean(String uuid){
-        Box<TBTodoBean> todoBeanBox = App.app.getBoxStore().boxFor(TBTodoBean.class);
+        Box<TBTodoBean> todoBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBTodoBean.class);
        return todoBeanBox.query().equal(TBTodoBean_.uuid,uuid).build().findFirst();
     }
 
@@ -71,7 +71,7 @@ public class TodoController {
      * 修改todo
      * */
     public static long updateTodoByUuid(TBTodoBean todoBean,String uuid){
-        Box<TBTodoBean> todoBeanBox = App.app.getBoxStore().boxFor(TBTodoBean.class);
+        Box<TBTodoBean> todoBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBTodoBean.class);
         TBTodoBean tbTodoBean= todoBeanBox.query().equal(TBTodoBean_.uuid,uuid).build().findFirst();
         if (tbTodoBean!=null) {
             tbTodoBean.update(todoBean);
@@ -121,7 +121,7 @@ public class TodoController {
      * 删除todo
      * */
      public static long delTodo(String uuid){
-         Box<TBTodoBean> todoBeanBox = App.app.getBoxStore().boxFor(TBTodoBean.class);
+         Box<TBTodoBean> todoBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBTodoBean.class);
         return todoBeanBox.query().equal(TBTodoBean_.uuid,uuid).build().remove();
      }
 
@@ -130,7 +130,7 @@ public class TodoController {
       * 获取闹钟个数
       * */
      public static long getRemindCount(){
-         Box<TBTodoBean> todoBeanBox = App.app.getBoxStore().boxFor(TBTodoBean.class);
+         Box<TBTodoBean> todoBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBTodoBean.class);
          return todoBeanBox.query().equal(TBTodoBean_.isTodoRemind,1).build().count();
      }
 
@@ -219,7 +219,7 @@ public class TodoController {
       * 添加alarm映射
       * */
      public static void addAlarmMap(TBAlarmMapBean tbAlarmMapBean){
-         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.app.getBoxStore().boxFor(TBAlarmMapBean.class);
+         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBAlarmMapBean.class);
          if (!TextUtils.isEmpty(tbAlarmMapBean.getKey())){
              TBAlarmMapBean alarmMapBean= tbAlarmMapBeanBox.query().equal(TBAlarmMapBean_.key,tbAlarmMapBean.getKey()).build().findFirst();
              if (alarmMapBean==null) {
@@ -229,7 +229,7 @@ public class TodoController {
      }
 
      public static int isExistAlarmMap(String uuid){
-         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.app.getBoxStore().boxFor(TBAlarmMapBean.class);
+         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBAlarmMapBean.class);
          if (TextUtils.isEmpty(uuid)){
              return 0;
          }
@@ -245,7 +245,7 @@ public class TodoController {
       * */
 
      public static long getLastId(){
-         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.app.getBoxStore().boxFor(TBAlarmMapBean.class);
+         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBAlarmMapBean.class);
          TBAlarmMapBean alarmMapBean=tbAlarmMapBeanBox.query().orderDesc(TBAlarmMapBean_.id).build().findFirst();
          if (alarmMapBean!=null){
              return alarmMapBean.getId();
@@ -255,7 +255,7 @@ public class TodoController {
      }
 
      public static long getIdByKey(String key){
-         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.app.getBoxStore().boxFor(TBAlarmMapBean.class);
+         Box<TBAlarmMapBean> tbAlarmMapBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBAlarmMapBean.class);
 
          TBAlarmMapBean alarmMapBean= tbAlarmMapBeanBox.query().equal(TBAlarmMapBean_.key,key).build().findFirst();
          if (alarmMapBean!=null){

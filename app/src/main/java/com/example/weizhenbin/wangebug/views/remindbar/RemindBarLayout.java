@@ -43,7 +43,7 @@ public final class RemindBarLayout {
                     + "Please provide a valid view.");
         }
         parent.setLayoutTransition(new LayoutTransition());
-        remindBarLayout = LayoutInflater.from(App.app.getApplicationContext()).inflate(R.layout.remind_bar_layout, parent, false);
+        remindBarLayout = LayoutInflater.from(App.Companion.getApp().getApplicationContext()).inflate(R.layout.remind_bar_layout, parent, false);
         tvMsg = remindBarLayout.findViewById(R.id.tv_msg);
         tvAction = remindBarLayout.findViewById(R.id.tv_action);
         handler=new RemindBarHandler(this);

@@ -51,8 +51,8 @@ public class TodoFloatingWindowManager extends AppStatusListener implements View
 
     private TodoFloatingWindowManager() {
         floatingWindow=new FloatingWindow();
-        App.app.addAppStatusListener(this);
-        View view=View.inflate(App.app.getApplicationContext(), R.layout.floating_window_todo_edit_view,null);
+        App.Companion.getApp().addAppStatusListener(this);
+        View view=View.inflate(App.Companion.getApp().getApplicationContext(), R.layout.floating_window_todo_edit_view,null);
         floatingWindow.addRealContentView(view);
         tbTodoBean=new TBTodoBean();
         assignViews(view);

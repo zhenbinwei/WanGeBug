@@ -271,7 +271,7 @@ public class CodeController {
      * 保存单个
      * */
     public static void saveSearchHistoryKey(String key){
-        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
         tbSearchHistoryKeyBeanBox.query().equal(TBSearchHistoryKeyBean_.key,key).build().remove();
         tbSearchHistoryKeyBeanBox.put(new TBSearchHistoryKeyBean(key));
     }
@@ -280,7 +280,7 @@ public class CodeController {
      * 删除单个
      * */
     public static void removeSearchHistoryKey(long id){
-        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
         tbSearchHistoryKeyBeanBox.remove(id);
 
     }
@@ -288,17 +288,17 @@ public class CodeController {
      * 删除单个
      * */
     public static void removeSearchHistoryKey(String key){
-        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
         tbSearchHistoryKeyBeanBox.query().equal(TBSearchHistoryKeyBean_.key,key).build().remove();
 
     }
     /**清除*/
     public static void cleanSearchHistoryKey(){
-        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
         tbSearchHistoryKeyBeanBox.removeAll();
     }
     public static List<TBSearchHistoryKeyBean> getSearchHistoryKeysByTop10(){
-        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.app.getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
+        Box<TBSearchHistoryKeyBean> tbSearchHistoryKeyBeanBox = App.Companion.getApp().getBoxStore().boxFor(TBSearchHistoryKeyBean.class);
        return tbSearchHistoryKeyBeanBox.query().orderDesc(TBSearchHistoryKeyBean_.id).build().find();
     }
 }
