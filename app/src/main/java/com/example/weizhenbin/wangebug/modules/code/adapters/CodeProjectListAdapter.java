@@ -38,7 +38,7 @@ public class CodeProjectListAdapter extends BaseSimpleAdapter<ProjectListDataBea
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (data!=null){
                     ProjectListDataBean.DataBean.DatasBean datasBean=data.get(position);
-                    WebActivity.startActivity(context,datasBean.getLink(),datasBean.getTitle(), UrlTypeEnum.code);
+                    WebActivity.Companion.startActivity(context,datasBean.getLink(),datasBean.getTitle(), UrlTypeEnum.CODE);
                    // WebActivity.requestPermission(context,"https://github.com/caiyonglong/Notepad/issues");
                 }
             }

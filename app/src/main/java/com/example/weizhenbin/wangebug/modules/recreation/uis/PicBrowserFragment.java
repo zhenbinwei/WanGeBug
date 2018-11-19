@@ -23,7 +23,7 @@ import com.example.weizhenbin.wangebug.views.TouchImageView;
 public class PicBrowserFragment extends BaseFragment {
 
     @Override
-    protected void loadData() {
+    public void loadData() {
 
     }
 
@@ -83,7 +83,7 @@ public class PicBrowserFragment extends BaseFragment {
     }
 
     @Override
-    protected void initFragment(View view) {
+    public void initFragment(View view) {
         this.view=view;
         final TouchImageView touchImageView=view.findViewById(R.id.tiv_pic);
         ImageView ivGif=view.findViewById(R.id.iv_gif);

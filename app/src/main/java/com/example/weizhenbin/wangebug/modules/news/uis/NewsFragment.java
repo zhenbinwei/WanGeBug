@@ -36,7 +36,7 @@ public class NewsFragment extends BaseFragment {
     }
 
     @Override
-    protected void initFragment(View view) {
+    public void initFragment(View view) {
         initViews(view);
         initEvent();
         setData();
@@ -46,7 +46,7 @@ public class NewsFragment extends BaseFragment {
     }
 
     @Override
-    protected void loadData() {
+    public void loadData() {
 
     }
 

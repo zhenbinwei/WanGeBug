@@ -36,7 +36,7 @@ public class YiYuanPicFragment extends BaseFragment {
     }
 
     @Override
-    protected void initFragment(View view) {
+    public void initFragment(View view) {
         initViews(view);
         initData();
         initEvent();
@@ -132,14 +132,14 @@ public class YiYuanPicFragment extends BaseFragment {
     }
 
     @Override
-    protected void loadData() {
+    public void loadData() {
         if (contentListBeen.isEmpty()) {
             getData();
         }
     }
 
     @Override
-    protected String getPageTitle() {
+    public String getPageTitle() {
         return "图片";
     }
 }

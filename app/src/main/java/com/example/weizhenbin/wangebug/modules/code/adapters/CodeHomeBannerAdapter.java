@@ -64,7 +64,7 @@ public class CodeHomeBannerAdapter extends AutoScrollerAdapter {
                 @Override
                 public void onClick(View v) {
                     BannerDataBean.DataBean dataBean= data.get(newPosition);
-                    WebActivity.startActivity(container.getContext(),dataBean.getUrl(),dataBean.getTitle(), UrlTypeEnum.code);
+                    WebActivity.Companion.startActivity(container.getContext(),dataBean.getUrl(),dataBean.getTitle(), UrlTypeEnum.CODE);
                 }
             });
         }

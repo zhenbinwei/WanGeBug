@@ -45,7 +45,7 @@ public class CodeArticleListAdapter extends BaseMultipleAdapter<ArticleListDataB
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleListDataBean.DataBean.DatasBean datasBean=   data.get(position);
-                WebActivity.startActivity(context,datasBean.getLink(),datasBean.getTitle(), UrlTypeEnum.code);
+                WebActivity.Companion.startActivity(context,datasBean.getLink(),datasBean.getTitle(), UrlTypeEnum.CODE);
             }
         });
     }

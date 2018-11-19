@@ -134,7 +134,7 @@ public class AboutActivity extends BaseActivity {
 
         @Override
         public void onClick(View widget) {
-            WebActivity.startActivity(context,url);
+            WebActivity.Companion.startActivity(context,url);
         }
     }
 

@@ -29,7 +29,7 @@ public class RecreationFragment extends BaseFragment {
     }
 
     @Override
-    protected void initFragment(View view) {
+    public void initFragment(View view) {
         initViews(view);
         initEvent();
         if (fragments.isEmpty()) {
@@ -39,7 +39,7 @@ public class RecreationFragment extends BaseFragment {
     }
 
     @Override
-    protected void loadData() {
+    public void loadData() {
 
     }
 

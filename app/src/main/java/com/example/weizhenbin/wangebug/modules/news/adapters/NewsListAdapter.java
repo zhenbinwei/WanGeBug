@@ -47,7 +47,7 @@ public class NewsListAdapter extends BaseMultipleAdapter<YiYuanNewsBean.ShowapiR
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 YiYuanNewsBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean contentlistBean=data.get(position);
 
-                WebActivity.startActivity(context,contentlistBean.getLink(),contentlistBean.getTitle(), UrlTypeEnum.news);
+                WebActivity.Companion.startActivity(context,contentlistBean.getLink(),contentlistBean.getTitle(), UrlTypeEnum.NEWS);
             }
         });
     }

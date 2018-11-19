@@ -55,7 +55,7 @@ public class NewsListFragment extends BaseFragment {
     }
 
     @Override
-    protected void initFragment(View view) {
+    public void initFragment(View view) {
         initViews(view);
         initData();
         initEvent();
@@ -178,14 +178,14 @@ public class NewsListFragment extends BaseFragment {
     }
 
     @Override
-    protected void loadData() {
+    public void loadData() {
         if (contentListBeen.isEmpty()) {
             getData();
         }
     }
 
     @Override
-    protected String getPageTitle() {
+    public String getPageTitle() {
         if (TextUtils.isEmpty(channelName)){
             return "全部";
         }
