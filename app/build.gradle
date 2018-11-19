@@ -22,11 +22,14 @@ android {
             }
         }
     }
-  /*  signingConfigs {
+    signingConfigs {
         debug {
             storeFile file("../weizhenbin_key.jks")
+            storePassword "wzhb901123"
+            keyAlias "key0"
+            keyPassword "wzhb901123"
         }
-    }*/
+    }
 }
 
 dependencies {

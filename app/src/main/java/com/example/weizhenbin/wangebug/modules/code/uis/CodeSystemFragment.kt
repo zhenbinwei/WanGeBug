@@ -47,9 +47,9 @@ class CodeSystemFragment : BaseFragment() {
                 super.onSuccess(systemTreeDataBean)
                 srlRefresh.isRefreshing = false
                 if (systemTreeDataBean != null && systemTreeDataBean.errorCode == 0) {
-                    if (systemTreeDataBean.data != null) {
+                    if (systemTreeDataBean.data?.isEmpty() != null) {
                         dataBeen.clear()
-                        dataBeen.addAll(systemTreeDataBean.data)
+                        dataBeen.addAll(systemTreeDataBean.data!!)
                         listAdapter.notifyDataSetChanged()
                     }
                 } else {

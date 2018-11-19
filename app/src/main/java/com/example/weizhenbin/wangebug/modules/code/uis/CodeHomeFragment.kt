@@ -100,7 +100,7 @@ class CodeHomeFragment : BaseFragment() {
                 super.onSuccess(bannerDataBean)
                 if (bannerDataBean != null && bannerDataBean.errorCode == 0) {
                     if (bannerDataBean.data != null && !bannerDataBean.data!!.isEmpty()) {
-                        autoScrollerLayout.setPagerAdapter(CodeHomeBannerAdapter(context, bannerDataBean.data))
+                        autoScrollerLayout.setPagerAdapter(CodeHomeBannerAdapter(context!!, bannerDataBean.data))
                     } else {
                         listAdapter.removeHeaderView(bannerHeader)
                     }
@@ -131,7 +131,7 @@ class CodeHomeFragment : BaseFragment() {
         if (context == null) {
             return
         }
-        listAdapter = CodeArticleListAdapter(context, datasBeen)
+        listAdapter = CodeArticleListAdapter(context!!, datasBeen)
         rvDataList.adapter = listAdapter
         rvDataList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val itemDecoration = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)

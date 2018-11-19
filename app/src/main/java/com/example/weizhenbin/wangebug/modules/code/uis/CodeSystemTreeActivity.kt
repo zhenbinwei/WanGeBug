@@ -41,10 +41,10 @@ class CodeSystemTreeActivity : BaseActivity() {
         index = intent.getIntExtra("index", 0)
         if (dataBean != null) {
             if (dataBean!!.children != null) {
-                val size = dataBean!!.children.size
+                val size = dataBean!!.children!!.size
                 for (i in 0 until size) {
-                    val bean = dataBean!!.children[i]
-                    fragments.add(CodeSystemTreeChildrenFragment.getFragment(bean.id, bean.name))
+                    val bean = dataBean!!.children!![i]
+                    fragments.add(CodeSystemTreeChildrenFragment.getFragment(bean.id, bean.name?:""))
                 }
                 pageAdapter!!.notifyDataSetChanged()
             }

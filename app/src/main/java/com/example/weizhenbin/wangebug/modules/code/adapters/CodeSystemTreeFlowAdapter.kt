@@ -13,7 +13,7 @@ import com.zhy.view.flowlayout.TagAdapter
  * Created by weizhenbin on 2018/8/30.
  */
 
-class CodeSystemTreeFlowAdapter(datas: List<SystemTreeDataBean.DataBean.ChildrenBean>) : TagAdapter<SystemTreeDataBean.DataBean.ChildrenBean>(datas) {
+class CodeSystemTreeFlowAdapter(datas: List<SystemTreeDataBean.DataBean.ChildrenBean>?) : TagAdapter<SystemTreeDataBean.DataBean.ChildrenBean>(datas) {
 
     override fun getView(parent: FlowLayout, position: Int, childrenBean: SystemTreeDataBean.DataBean.ChildrenBean): View {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.system_tree_list_item_tag_layout, parent, false)

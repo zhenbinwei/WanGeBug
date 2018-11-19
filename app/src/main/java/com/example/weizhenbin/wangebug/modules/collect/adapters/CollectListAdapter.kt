@@ -35,7 +35,10 @@ class CollectListAdapter(context: Context?, data: List<TBCollectBean>?) : BaseSi
                 return@OnItemChildClickListener
             }
             val datasBean = data[position]
-            WebActivity.startActivity(context, datasBean.url, datasBean.title, UrlTypeEnum.getValueFromType(datasBean.type))
+            datasBean.url?.let {
+
+                WebActivity.startActivity(context, it, datasBean.title, UrlTypeEnum.getValueFromType(datasBean.type))
+            }
         }
         onItemChildLongClickListener = OnItemChildLongClickListener { _, view, position ->
             val items = arrayOf(mContext.getString(R.string.del_string), mContext.getString(R.string.copy_link_string))
@@ -47,10 +50,17 @@ class CollectListAdapter(context: Context?, data: List<TBCollectBean>?) : BaseSi
                 val tbCollectBean = data[position]
                 when (which) {
                     0 -> {
-                        CollectController.removeCollectByTitle(tbCollectBean.title)
-                        EventBusHandler.post(MessageEvent(EventCode.CANCEL_COLLECT_CODE, tbCollectBean.title))
+                        tbCollectBean.title?.let {
+                            CollectController.removeCollectByTitle(it)
+                            EventBusHandler.post(MessageEvent(EventCode.CANCEL_COLLECT_CODE, it))
+                        }
+
                     }
-                    1 -> copyLike(view, tbCollectBean.url)
+                    1 -> {
+                        tbCollectBean.url?.let {
+                            copyLike(view,it)
+                        }
+                    }
                 }
             }).build().show()
             true

@@ -24,19 +24,20 @@ object CodeController {
 
     fun getArticleListData(page: Int, cid: String?, dataResult: DataResult<ArticleListDataBean>?) {
         dataResult?.onStart()
-        HttpHelper.getHttpHelper().getApi(CodeApi::class.java).getArticleList(page.toString() + "", cid).compose(HttpHelper.setThread()).subscribe(object : Observer<ArticleListDataBean> {
-            override fun onCompleted() {
+            HttpHelper.getApi(CodeApi::class.java).getArticleList(page.toString(), cid).compose(HttpHelper.setThread()).subscribe(object : Observer<ArticleListDataBean> {
+                override fun onCompleted() {
 
-            }
+                }
 
-            override fun onError(e: Throwable) {
-                dataResult?.onError(e)
-            }
+                override fun onError(e: Throwable) {
+                    dataResult?.onError(e)
+                }
 
-            override fun onNext(s: ArticleListDataBean) {
-                dataResult?.onSuccess(s)
-            }
-        })
+                override fun onNext(s: ArticleListDataBean) {
+                    dataResult?.onSuccess(s)
+                }
+            })
+
     }
 
     fun getArticleListData(page: Int, dataResult: DataResult<ArticleListDataBean>) {
@@ -45,7 +46,7 @@ object CodeController {
 
     fun getBannerData(dataResult: DataResult<BannerDataBean>?) {
         dataResult?.onStart()
-        HttpHelper.getHttpHelper().getApi(CodeApi::class.java).banner.compose(HttpHelper.setThread()).subscribe(object : Observer<BannerDataBean> {
+        HttpHelper.getApi(CodeApi::class.java).banner.compose(HttpHelper.setThread()).subscribe(object : Observer<BannerDataBean> {
             override fun onCompleted() {
 
             }
@@ -63,7 +64,7 @@ object CodeController {
 
     fun getProjectTreeData(dataResult: DataResult<ProjectTreeDataBean>?) {
         dataResult?.onStart()
-        HttpHelper.getHttpHelper().getApi(CodeApi::class.java).projectTree.compose(HttpHelper.setThread()).subscribe(object : Observer<ProjectTreeDataBean> {
+        HttpHelper.getApi(CodeApi::class.java).projectTree.compose(HttpHelper.setThread()).subscribe(object : Observer<ProjectTreeDataBean> {
             override fun onCompleted() {
 
             }
@@ -80,7 +81,7 @@ object CodeController {
 
     fun getProjectListData(page: Int, cid: String, dataResult: DataResult<ProjectListDataBean>?) {
         dataResult?.onStart()
-        HttpHelper.getHttpHelper().getApi(CodeApi::class.java).getProjectList(page.toString() + "", cid).compose(HttpHelper.setThread()).subscribe(object : Observer<ProjectListDataBean> {
+        HttpHelper.getApi(CodeApi::class.java).getProjectList(page.toString() + "", cid).compose(HttpHelper.setThread()).subscribe(object : Observer<ProjectListDataBean> {
             override fun onCompleted() {
 
             }
@@ -98,7 +99,7 @@ object CodeController {
 
     fun getSystemTreeData(dataResult: DataResult<SystemTreeDataBean>?) {
         dataResult?.onStart()
-        HttpHelper.getHttpHelper().getApi(CodeApi::class.java).systemTree.compose(HttpHelper.setThread()).subscribe(object : Observer<SystemTreeDataBean> {
+        HttpHelper.getApi(CodeApi::class.java).systemTree.compose(HttpHelper.setThread()).subscribe(object : Observer<SystemTreeDataBean> {
             override fun onCompleted() {
 
             }
@@ -115,7 +116,7 @@ object CodeController {
 
     fun getSearchData(page: Int, key: String, dataResult: DataResult<ArticleListDataBean>?) {
         dataResult?.onStart()
-        HttpHelper.getHttpHelper().getApi(CodeApi::class.java).getSearchData(page.toString() + "", key).compose(HttpHelper.setThread()).subscribe(object : Observer<ArticleListDataBean> {
+        HttpHelper.getApi(CodeApi::class.java).getSearchData(page.toString() + "", key).compose(HttpHelper.setThread()).subscribe(object : Observer<ArticleListDataBean> {
             override fun onCompleted() {
 
             }
@@ -156,7 +157,7 @@ object CodeController {
 
     fun getSearchHotKeyData(dataResult: DataResult<SearchHotKeyDataBean>?) {
         dataResult?.onStart()
-        HttpHelper.getHttpHelper().getApi(CodeApi::class.java).searchHotKeyData.compose(HttpHelper.setThread()).subscribe(object : Observer<SearchHotKeyDataBean> {
+        HttpHelper.getApi(CodeApi::class.java).searchHotKeyData.compose(HttpHelper.setThread()).subscribe(object : Observer<SearchHotKeyDataBean> {
             override fun onCompleted() {
 
             }

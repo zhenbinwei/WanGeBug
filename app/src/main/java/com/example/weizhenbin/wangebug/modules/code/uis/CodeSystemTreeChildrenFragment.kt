@@ -95,7 +95,7 @@ class CodeSystemTreeChildrenFragment : BaseFragment() {
         if (context == null) {
             return
         }
-        listAdapter = CodeArticleListAdapter(context, datasBeen)
+        listAdapter = CodeArticleListAdapter(context!!, datasBeen)
         rvDataList.adapter = listAdapter
         rvDataList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val itemDecoration = DividerItemDecoration(context!!, DividerItemDecoration.VERTICAL)

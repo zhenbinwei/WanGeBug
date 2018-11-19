@@ -78,7 +78,7 @@ class CodeSearchActivity : BaseActivity() {
             override fun onSuccess(t: SearchHotKeyDataBean?) {
                 super.onSuccess(t)
                 if (t != null && t.data != null) {
-                    if (!t.data.isEmpty()) {
+                    if (!t.data!!.isEmpty()) {
                         llHotKey.visibility = View.VISIBLE
                         hotkeyDatas = t.data
                         tflHotKey.adapter = CodeSearchHotKeyFlowAdapter(hotkeyDatas)
@@ -194,7 +194,7 @@ class CodeSearchActivity : BaseActivity() {
             if (hotkeyDatas != null) {
                 val name = hotkeyDatas!![position].name
                 editText.setText(name)
-                editText.setSelection(name.length)
+                editText.setSelection(name?.length?:0)
                 search()
             }
             false
