@@ -32,7 +32,7 @@ class TodoListFragment : BaseFragment() {
     override val contentViewLayoutId: Int
         get() = R.layout.fm_todo_list
 
-    override var pageTitle: String = ""
+    override var pageTitle: String? = ""
         get() = when (todoStatus) {
             0 -> "未完成"
             1 -> "已完成"

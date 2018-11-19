@@ -29,9 +29,9 @@ class CodeProjectFragment : BaseFragment() {
         get() = R.layout.fm_code_project
 
 
-    override var pageTitle: String
+    override var pageTitle: String?
         get() = "首页"
-        set(value: String) {
+        set(value) {
             super.pageTitle = value
         }
 
@@ -65,7 +65,7 @@ class CodeProjectFragment : BaseFragment() {
                         val size = dataBeanList!!.size
                         for (i in 0 until size) {
                             val bean = dataBeanList!![i]
-                            fragments.add(ProjectListFragment.getFragment(bean.id.toString() + "", bean.name))
+                            fragments.add(ProjectListFragment.getFragment(bean.id.toString() + "", bean?.name))
                         }
                         pageAdapter!!.notifyDataSetChanged()
                     }

@@ -26,8 +26,8 @@ class CodeSystemTreeChildrenFragment : BaseFragment() {
      var datasBeen: MutableList<ArticleListDataBean.DataBean.DatasBean> = ArrayList()
      var cid: Int = 0
 
-    override var pageTitle: String = ""
-        set(value: String) {
+    override var pageTitle: String? = ""
+        set(value) {
             super.pageTitle = value
         }
 

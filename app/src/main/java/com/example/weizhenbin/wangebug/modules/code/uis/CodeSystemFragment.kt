@@ -29,9 +29,9 @@ class CodeSystemFragment : BaseFragment() {
     override val contentViewLayoutId: Int
         get() = R.layout.fm_code_system
 
-    override var pageTitle: String
+    override var pageTitle: String?
         get() = "体系"
-        set(value: String) {
+        set(value) {
             super.pageTitle = value
         }
 

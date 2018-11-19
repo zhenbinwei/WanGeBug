@@ -35,9 +35,9 @@ class CodeHomeFragment : BaseFragment() {
     override val contentViewLayoutId: Int
         get() = R.layout.fm_code_home
 
-    override var pageTitle: String
+    override var pageTitle: String?
         get() = "首页"
-        set(value: String) {
+        set(value) {
             super.pageTitle = value
         }
 
@@ -53,11 +53,11 @@ class CodeHomeFragment : BaseFragment() {
                 super.onSuccess(articleListDataBean)
                 srlRefresh.isRefreshing = false
                 if (articleListDataBean != null && articleListDataBean.errorCode == 0) {
-                    if (articleListDataBean.data != null && articleListDataBean.data!!.datas != null) {
+                    if (articleListDataBean.data != null && articleListDataBean.data?.datas != null) {
                         if (page == 0) {
                             datasBeen.clear()
                         }
-                        datasBeen.addAll(articleListDataBean.data!!.datas!!)
+                        datasBeen.addAll(articleListDataBean.data?.datas!!)
                         if (page == 0) {
                             listAdapter.setNewData(datasBeen)
                         } else {

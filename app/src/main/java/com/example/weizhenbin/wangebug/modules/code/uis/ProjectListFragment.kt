@@ -29,8 +29,8 @@ class ProjectListFragment : BaseFragment() {
     internal var contentListBeen: MutableList<ProjectListDataBean.DataBean.DatasBean> = ArrayList()
 
     private var id: String? = null
-    override var pageTitle: String =""
-         set(value: String) {
+    override var pageTitle: String? =""
+         set(value) {
             super.pageTitle = value
             field=value
         }
@@ -64,7 +64,7 @@ class ProjectListFragment : BaseFragment() {
         this.id = id
     }
 
-    private fun setName(name: String) {
+    private fun setName(name: String?) {
         this.pageTitle = name
     }
 
@@ -160,7 +160,7 @@ class ProjectListFragment : BaseFragment() {
 
     companion object {
 
-        fun getFragment(id: String, name: String): ProjectListFragment {
+        fun getFragment(id: String, name: String?): ProjectListFragment {
             val projectListFragment = ProjectListFragment()
             projectListFragment.setId(id)
             projectListFragment.setName(name)
