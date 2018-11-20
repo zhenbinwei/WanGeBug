@@ -1,12 +1,10 @@
-package com.example.weizhenbin.wangebug.modules.recreation.entity;
-
-import java.util.List;
+package com.example.weizhenbin.wangebug.modules.recreation.entity
 
 /**
  * Created by weizhenbin on 18/8/12.
  */
 
-public class TextJokeBean  {
+class TextJokeBean {
 
 
     /**
@@ -18,114 +16,32 @@ public class TextJokeBean  {
      * currentPage : 1
      */
 
-    private int allNum;
-    private int maxResult;
-    private int ret_code;
-    private int allPages;
-    private int currentPage;
-    private List<ContentlistBean> contentlist;
+    var allNum: Int = 0
+    var maxResult: Int = 0
+    var ret_code: Int = 0
+    var allPages: Int = 0
+    var currentPage: Int = 0
+    var contentlist: List<ContentlistBean>? = null
 
-    public int getAllNum() {
-        return allNum;
-    }
-
-    public void setAllNum(int allNum) {
-        this.allNum = allNum;
-    }
-
-    public int getMaxResult() {
-        return maxResult;
-    }
-
-    public void setMaxResult(int maxResult) {
-        this.maxResult = maxResult;
-    }
-
-    public int getRet_code() {
-        return ret_code;
-    }
-
-    public void setRet_code(int ret_code) {
-        this.ret_code = ret_code;
-    }
-
-    public int getAllPages() {
-        return allPages;
-    }
-
-    public void setAllPages(int allPages) {
-        this.allPages = allPages;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public List<ContentlistBean> getContentlist() {
-        return contentlist;
-    }
-
-    public void setContentlist(List<ContentlistBean> contentlist) {
-        this.contentlist = contentlist;
-    }
-
-    public static class ContentlistBean  extends JokeContentlistBaseBean{
+    class ContentlistBean : JokeContentlistBaseBean() {
         /**
          * title : 朋友总带我去一个酒吧...
          * id : 5b6fcce76e36948791c66f3e
          * ct : 2018-08-12 14:00:07.855
          * text : 朋友总带我去一个酒吧玩，我就问朋友：这家酒吧的名字为什么叫佳班？
-         朋友说：你等会！
-         只见他拿出手机拨通电话说道：喂，老婆，我现在在佳班呢，骗你天打雷劈！
+         * 朋友说：你等会！
+         * 只见他拿出手机拨通电话说道：喂，老婆，我现在在佳班呢，骗你天打雷劈！
          * type : 1
          */
 
-        private String title;
-        private String id;
-        private String ct;
-        private String text;
-
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getCt() {
-            return ct;
-        }
-
-        public void setCt(String ct) {
-            this.ct = ct;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
+        var title: String? = null
+        var id: String? = null
+        var ct: String? = null
+        var text: String? = null
 
     }
 
-    @Override
-    public String toString() {
+    override fun toString(): String {
         return "TextJokeBean{" +
                 "allNum=" + allNum +
                 ", maxResult=" + maxResult +
@@ -133,6 +49,6 @@ public class TextJokeBean  {
                 ", allPages=" + allPages +
                 ", currentPage=" + currentPage +
                 ", contentlist=" + contentlist +
-                '}';
+                '}'.toString()
     }
 }

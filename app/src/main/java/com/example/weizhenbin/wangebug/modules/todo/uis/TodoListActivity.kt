@@ -85,9 +85,12 @@ class TodoListActivity : BaseActivity() {
     }
 
     private fun addFragments() {
-        fragments.add( TodoListFragment.getFragment(-1))
-        fragments.add( TodoListFragment.getFragment(0))
-        fragments.add( TodoListFragment.getFragment(1))
+        all=TodoListFragment.getFragment(-1)
+        noDone=TodoListFragment.getFragment(0)
+        done=TodoListFragment.getFragment(1)
+        fragments.add( all)
+        fragments.add(noDone)
+        fragments.add(done)
     }
 
     private fun initViews() {

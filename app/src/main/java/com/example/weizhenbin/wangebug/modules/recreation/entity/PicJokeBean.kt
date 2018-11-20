@@ -1,12 +1,10 @@
-package com.example.weizhenbin.wangebug.modules.recreation.entity;
-
-import java.util.List;
+package com.example.weizhenbin.wangebug.modules.recreation.entity
 
 /**
  * Created by weizhenbin on 2018/8/15.
  */
 
-public class PicJokeBean {
+class PicJokeBean {
 
 
     /**
@@ -18,62 +16,14 @@ public class PicJokeBean {
      * currentPage : 1
      */
 
-    private int allNum;
-    private int maxResult;
-    private int ret_code;
-    private int allPages;
-    private int currentPage;
-    private List<ContentlistBean> contentlist;
+    var allNum: Int = 0
+    var maxResult: Int = 0
+    var ret_code: Int = 0
+    var allPages: Int = 0
+    var currentPage: Int = 0
+    var contentlist: List<ContentlistBean>? = null
 
-    public int getAllNum() {
-        return allNum;
-    }
-
-    public void setAllNum(int allNum) {
-        this.allNum = allNum;
-    }
-
-    public int getMaxResult() {
-        return maxResult;
-    }
-
-    public void setMaxResult(int maxResult) {
-        this.maxResult = maxResult;
-    }
-
-    public int getRet_code() {
-        return ret_code;
-    }
-
-    public void setRet_code(int ret_code) {
-        this.ret_code = ret_code;
-    }
-
-    public int getAllPages() {
-        return allPages;
-    }
-
-    public void setAllPages(int allPages) {
-        this.allPages = allPages;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public List<ContentlistBean> getContentlist() {
-        return contentlist;
-    }
-
-    public void setContentlist(List<ContentlistBean> contentlist) {
-        this.contentlist = contentlist;
-    }
-
-    public static class ContentlistBean extends JokeContentlistBaseBean{
+    class ContentlistBean : JokeContentlistBaseBean() {
         /**
          * title : 搞笑图片第2366期
          * id : 5b72770a6e366106504fc306
@@ -82,42 +32,10 @@ public class PicJokeBean {
          * type : 2
          */
 
-        private String title;
-        private String id;
-        private String img;
-        private String ct;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getImg() {
-            return img;
-        }
-
-        public void setImg(String img) {
-            this.img = img;
-        }
-
-        public String getCt() {
-            return ct;
-        }
-
-        public void setCt(String ct) {
-            this.ct = ct;
-        }
+        var title: String? = null
+        var id: String? = null
+        var img: String? = null
+        var ct: String? = null
 
     }
 }

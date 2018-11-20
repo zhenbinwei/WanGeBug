@@ -55,11 +55,11 @@ class TodoEditActivity : BaseActivity(), View.OnClickListener {
             tbTodoBean = intent.getSerializableExtra("todo") as TBTodoBean
             if (!TextUtils.isEmpty(tbTodoBean!!.todoContent)) {
                 edContent!!.setText(tbTodoBean!!.todoContent)
-                edContent!!.setSelection(tbTodoBean!!.todoContent.length)
+                edContent!!.setSelection(tbTodoBean!!.todoContent?.length?:0)
             }
             if (!TextUtils.isEmpty(tbTodoBean!!.todoTitle)) {
                 edTitle!!.setText(tbTodoBean!!.todoTitle)
-                edTitle!!.setSelection(tbTodoBean!!.todoTitle.length)
+                edTitle!!.setSelection(tbTodoBean!!.todoTitle?.length?:0)
             }
             if (!TextUtils.isEmpty(tbTodoBean!!.todoRemindTimeStr)) {
                 tvRemindTime!!.text = tbTodoBean!!.todoRemindTimeStr
@@ -116,6 +116,8 @@ class TodoEditActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun saveOrUpdateTodo() {
+        if (tbTodoBean==null)
+            return
         if (TextUtils.isEmpty(tbTodoBean!!.uuid)) {
             val todoCreateTime = System.currentTimeMillis()
             tbTodoBean!!.uuid = UUIDTool.getUUID()
@@ -124,7 +126,7 @@ class TodoEditActivity : BaseActivity(), View.OnClickListener {
             if (!setAlarm()) {
                 return
             }
-            TodoController.saveTodo(tbTodoBean)
+            TodoController.saveTodo(tbTodoBean!!)
             EventBusHandler.post(MessageEvent(EventCode.ADD_TODO_CODE, tbTodoBean!!))
         } else {
             val todoUpdateTime = System.currentTimeMillis()
@@ -133,7 +135,7 @@ class TodoEditActivity : BaseActivity(), View.OnClickListener {
             if (!setAlarm()) {
                 return
             }
-            TodoController.updateTodoByUuid(tbTodoBean, tbTodoBean!!.uuid)
+            TodoController.updateTodoByUuid(tbTodoBean!!, tbTodoBean!!.uuid!!)
             EventBusHandler.post(MessageEvent(EventCode.UPDATE_TODO_CODE, tbTodoBean!!))
         }
         finish()
@@ -141,7 +143,7 @@ class TodoEditActivity : BaseActivity(), View.OnClickListener {
 
     private fun setAlarm(): Boolean {
         if (isAlterRemindDate) {
-            if (tbTodoBean!!.isTodoRemind == 1) {
+            if (tbTodoBean!!.todoRemind == 1) {
                 if (tbTodoBean!!.todoRemindTime < System.currentTimeMillis()) {
                     //提醒时间小于当前时间
                     DialogTool.showAlertDialog(this@TodoEditActivity, null, getString(R.string.remind_time_invalid_string), getString(R.string.confirm_string))
@@ -168,7 +170,7 @@ class TodoEditActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         if (v === ivDelRemindTime) {
             tvRemindTime!!.text = getString(R.string.hint_time_string)
-            tbTodoBean!!.isTodoRemind = 0
+            tbTodoBean!!.todoRemind = 0
             tbTodoBean!!.todoRemindTime = -1
             tbTodoBean!!.todoRemindTimeStr = null
             tbTodoBean!!.todoRemindDate = -1
@@ -179,7 +181,7 @@ class TodoEditActivity : BaseActivity(), View.OnClickListener {
         } else if (v === tvRemindTime) {
             DateTool.showDateDialog(this@TodoEditActivity) { year, monthOfYear, dayOfMonth ->
                 isAlterRemindDate = true
-                tbTodoBean!!.isTodoRemind = 1
+                tbTodoBean!!.todoRemind = 1
                 timeStringBuilder!!.delete(0, timeStringBuilder!!.length)
                 val dateBuffer = StringBuffer()
                 dateBuffer.append(year).append("-").append(if (monthOfYear < 10) "0$monthOfYear" else monthOfYear).append("-").append(if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth)

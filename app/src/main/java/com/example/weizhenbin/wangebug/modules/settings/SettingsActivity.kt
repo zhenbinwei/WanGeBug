@@ -134,7 +134,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
     private fun closeFloatingWindow() {
         cbTodoOpen.isChecked = false
         PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)
-        TodoFloatingWindowManager.getManager().hideFloatingWindow()
+        TodoFloatingWindowManager.hideFloatingWindow()
     }
 
     private fun openFloatingWindow() {
@@ -143,7 +143,7 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
             if (PermissionTool.checkWindowPermission(this@SettingsActivity)) {
                 cbTodoOpen.isChecked = true
                 PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, true)
-                TodoFloatingWindowManager.getManager().showFloatingWindow()
+                TodoFloatingWindowManager.showFloatingWindow()
             } else {
                 //引导权限申请
                 DialogTool.showAlertDialog(this@SettingsActivity, getString(R.string.permission_request_string), getString(R.string.floating_window_permission_request_describe_string), getString(R.string.open_string), { dialog, which ->
@@ -151,23 +151,23 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
                         if (PermissionTool.checkWindowPermission(this@SettingsActivity)) {
                             cbTodoOpen.isChecked = true
                             PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, true)
-                            TodoFloatingWindowManager.getManager().showFloatingWindow()
+                            TodoFloatingWindowManager.showFloatingWindow()
                         } else {
                             cbTodoOpen.isChecked = false
                             PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)
-                            TodoFloatingWindowManager.getManager().hideFloatingWindow()
+                            TodoFloatingWindowManager.hideFloatingWindow()
                         }
                     }.requestFloattingWindowPermission()
                 }, getString(R.string.cancel_string), { dialog, which ->
                     cbTodoOpen.isChecked = false
                     PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)
-                    TodoFloatingWindowManager.getManager().hideFloatingWindow()
+                    TodoFloatingWindowManager.hideFloatingWindow()
                 }, false)
             }
         } else {
             cbTodoOpen.isChecked = true
             PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, true)
-            TodoFloatingWindowManager.getManager().showFloatingWindow()
+            TodoFloatingWindowManager.showFloatingWindow()
         }
     }
 

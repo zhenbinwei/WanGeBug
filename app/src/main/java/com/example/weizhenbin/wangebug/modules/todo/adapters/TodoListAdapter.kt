@@ -2,8 +2,6 @@ package com.example.weizhenbin.wangebug.modules.todo.adapters
 
 import android.content.Context
 import android.text.TextUtils
-import com.chad.library.adapter.base.BaseQuickAdapter.OnItemChildClickListener
-import com.chad.library.adapter.base.BaseQuickAdapter.OnItemChildLongClickListener
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.weizhenbin.wangebug.R
 import com.example.weizhenbin.wangebug.base.BaseSimpleAdapter
@@ -27,7 +25,7 @@ class TodoListAdapter(mContext: Context, data: List<TBTodoBean>?, todoStatus: In
     init {
         onItemChildClickListener = OnItemChildClickListener { _, _, position ->
             if (data != null) {
-                TodoDetailActivity.startActivity(mContext, data[position].uuid)
+                TodoDetailActivity.startActivity(mContext, data[position].uuid!!)
             }
         }
         onItemChildLongClickListener = OnItemChildLongClickListener { _, view, position ->
@@ -42,19 +40,19 @@ class TodoListAdapter(mContext: Context, data: List<TBTodoBean>?, todoStatus: In
                     val todoBean = data[position]
                     when (which) {
                         0 -> {
-                            todoBean.setIsDone(true)
+                            todoBean.isDone=true
                             val doneTime = System.currentTimeMillis()
                             todoBean.todoDoneTime = doneTime
                             todoBean.todoDoneTimeStr = DateTool.getDateToString(doneTime, "yyyy-MM-dd HH:mm")
-                            TodoController.updateTodoByUuid(todoBean, todoBean.uuid)
+                            TodoController.updateTodoByUuid(todoBean, todoBean.uuid!!)
                             EventBusHandler.post(MessageEvent(EventCode.DONE_TODO_CODE, data[position]))
                         }
                         1 -> TodoEditActivity.startActivity(mContext, todoBean)
                         2 -> {
-                            if (todoBean.isTodoRemind == 1) {
-                                TodoController.cancelAlarm(mContext, todoBean.uuid)
+                            if (todoBean.todoRemind == 1) {
+                                TodoController.cancelAlarm(mContext, todoBean.uuid!!)
                             }
-                            TodoController.delTodo(todoBean.uuid)
+                            TodoController.delTodo(todoBean.uuid!!)
                             EventBusHandler.post(MessageEvent(EventCode.DEL_TODO_CODE, todoBean))
                         }
                     }
@@ -70,10 +68,10 @@ class TodoListAdapter(mContext: Context, data: List<TBTodoBean>?, todoStatus: In
                     val todoBean = data[position]
                     when (which) {
                         0 -> {
-                            if (todoBean.isTodoRemind == 1) {
-                                TodoController.cancelAlarm(mContext, todoBean.uuid)
+                            if (todoBean.todoRemind == 1) {
+                                TodoController.cancelAlarm(mContext, todoBean.uuid!!)
                             }
-                            TodoController.delTodo(todoBean.uuid)
+                            TodoController.delTodo(todoBean.uuid!!)
                             EventBusHandler.post(MessageEvent(EventCode.DEL_TODO_CODE, data[position]))
                         }
                         1 -> TodoEditActivity.startActivity(mContext, todoBean)
@@ -107,7 +105,7 @@ class TodoListAdapter(mContext: Context, data: List<TBTodoBean>?, todoStatus: In
             helper.setGone(R.id.tv_done_time, true)
             helper.setText(R.id.tv_done_time, item.todoDoneTimeStr)
         }
-        if (item.isTodoRemind == 0) {
+        if (item.todoRemind == 0) {
             helper.setGone(R.id.tv_remind_time, false)
         } else {
             helper.setGone(R.id.tv_remind_time, true)

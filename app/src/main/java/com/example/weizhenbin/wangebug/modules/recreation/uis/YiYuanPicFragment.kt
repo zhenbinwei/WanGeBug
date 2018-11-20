@@ -50,7 +50,7 @@ class YiYuanPicFragment : BaseFragment() {
     }
 
 
-    protected fun initEvent() {
+    private fun initEvent() {
         srlRefresh.setOnRefreshListener {
             page = 1
             getData()
@@ -69,17 +69,17 @@ class YiYuanPicFragment : BaseFragment() {
                 super.onSuccess(yiYuanPicBean)
                 srlRefresh.isRefreshing = false
                 if (yiYuanPicBean != null && yiYuanPicBean.showapi_res_code == 0) {
-                    if (yiYuanPicBean.showapi_res_body != null && yiYuanPicBean.showapi_res_body.pagebean != null) {
+                    if (yiYuanPicBean.showapi_res_body != null && yiYuanPicBean.showapi_res_body!!.pagebean != null) {
                         if (page == 1) {
                             contentListBeen.clear()
                         }
-                        contentListBeen.addAll(yiYuanPicBean.showapi_res_body.pagebean.contentlist)
+                        contentListBeen.addAll(yiYuanPicBean.showapi_res_body!!.pagebean?.contentlist!!)
                         if (page == 1) {
                             listAdapter.setNewData(contentListBeen)
                         } else {
                             listAdapter.notifyDataSetChanged()
                         }
-                        if (yiYuanPicBean.showapi_res_body.pagebean.isLastPage) {
+                        if (yiYuanPicBean.showapi_res_body!!.pagebean?.isLastPage!!) {
                             listAdapter.loadMoreEnd()
                         } else {
                             listAdapter.loadMoreComplete()
