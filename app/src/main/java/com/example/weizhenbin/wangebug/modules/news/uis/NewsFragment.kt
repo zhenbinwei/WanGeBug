@@ -101,7 +101,7 @@ class NewsFragment : BaseFragment() {
                 (activity as IOpenMenuHandler).openMenu()
             }
         }
-        evEmpty.setAction { getChannelData() }
+        evEmpty.setAction (View.OnClickListener { getChannelData()  })
     }
 
 }

@@ -26,7 +26,7 @@ abstract class BaseMultipleAdapter<T : MultiItemEntity, K : BaseViewHolder>
 
     init {
         mContext = context
-        emptyView = EmptyView(context)
+        emptyView = EmptyView(context!!)
         setEmptyView(emptyView)
     }
 
@@ -38,7 +38,7 @@ abstract class BaseMultipleAdapter<T : MultiItemEntity, K : BaseViewHolder>
         emptyView?.setActionText(text)
     }
 
-    override fun setAction(clickListener: View.OnClickListener) {
+    override fun setAction(clickListener: View.OnClickListener?) {
         emptyView?.setAction(clickListener)
 
     }

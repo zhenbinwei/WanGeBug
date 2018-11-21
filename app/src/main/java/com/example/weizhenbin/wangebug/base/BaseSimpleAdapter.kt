@@ -19,7 +19,7 @@ abstract class BaseSimpleAdapter<T, K : BaseViewHolder> @JvmOverloads constructo
 
     init {
         mContext = context
-        emptyView = EmptyView(context)
+        emptyView = EmptyView(context!!)
         setEmptyView(emptyView)
     }
 
@@ -34,7 +34,7 @@ abstract class BaseSimpleAdapter<T, K : BaseViewHolder> @JvmOverloads constructo
         emptyView?.setActionText(text)
     }
 
-    override fun setAction(clickListener: View.OnClickListener) {
+    override fun setAction(clickListener: View.OnClickListener?) {
         emptyView?.setAction(clickListener)
 
     }

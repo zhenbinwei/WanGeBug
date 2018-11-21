@@ -36,14 +36,14 @@ class CodeHomeBannerAdapter(private val context: Context, private val data: List
     }
 
 
-    override fun getReadCount(): Int {
+    override fun readCount(): Int {
         return data?.size ?: 0
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         var imageView: ImageView? = null
-        if (readCount > 0) {
-            val newPosition = position % readCount
+        if (readCount() > 0) {
+            val newPosition = position % readCount()
             imageView = imageViews[newPosition]
             ImageLoader.getImageLoader().imageLoader(container.context, imageView, data!![newPosition].imagePath, DefImageConfig.smallImage())
             imageView.setOnClickListener {

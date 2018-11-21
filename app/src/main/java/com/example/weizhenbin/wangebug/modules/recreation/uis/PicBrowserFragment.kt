@@ -44,7 +44,10 @@ class PicBrowserFragment : BaseFragment() {
     }
 
     private fun initSlideExitTouch() {
-        slideExitTouch = SlideExitTouch(context)
+        if (context==null){
+            return
+        }
+        slideExitTouch = SlideExitTouch(context!!)
         slideExitTouch.setStateListener(object : SlideExitTouch.IStateListener {
             override fun onMove(offset: Int) {
                 val alpha = Math.abs(offset)
@@ -82,7 +85,7 @@ class PicBrowserFragment : BaseFragment() {
             ImageLoader.getImageLoader().loadBitmap(context, picUrl, object : ImageLoadListenerAdapter() {
                 override fun onLoadSuccess(bitmap: Bitmap, url: String) {
                     touchImageView.scaleType = ImageView.ScaleType.FIT_XY
-                    touchImageView.setImageBitmap(BitmapTool.compressFromMaxSize(bitmap, maxTexture))
+                    touchImageView.setImageBitmap(BitmapTool.compressFromMaxSize(bitmap, maxTexture)!!)
                 }
             })
         }

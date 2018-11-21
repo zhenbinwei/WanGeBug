@@ -90,10 +90,8 @@ class ProjectListFragment : BaseFragment() {
             getData()
         }
         listAdapter!!.setOnLoadMoreListener({ getData() }, rvDataList)
-        listAdapter!!.setAction {
-            page = 0
-            getData()
-        }
+        listAdapter!!.setAction (View.OnClickListener {  page = 0
+            getData()  })
     }
 
     private fun getData() {

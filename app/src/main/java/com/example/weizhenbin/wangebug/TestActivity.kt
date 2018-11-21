@@ -21,7 +21,6 @@ import com.example.weizhenbin.wangebug.image.ImageLoader
 import com.example.weizhenbin.wangebug.modules.todo.alarm.AlarmReceiver
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool
-import com.example.weizhenbin.wangebug.views.MyTextView
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView
 import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow
 
@@ -34,7 +33,6 @@ class TestActivity : BaseActivity() {
     lateinit var floatingWindow: FloatingWindow
     lateinit var fv: FloatingView
     //RemindBarLayout remindBar;
-    lateinit var myTextView: MyTextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +42,6 @@ class TestActivity : BaseActivity() {
         floatingWindow.addRealContentView(View.inflate(this@TestActivity, R.layout.floating_window_todo_edit_view, null))
         /*  remindBar=new RemindBarLayout(fv);
         remindBar.setMarginBottom(200);*/
-        myTextView = findViewById(R.id.tv_tags)
 
 
 

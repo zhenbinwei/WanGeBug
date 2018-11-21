@@ -67,7 +67,7 @@ class CodeSystemFragment : BaseFragment() {
 
     private fun initEvent() {
         srlRefresh.setOnRefreshListener { getData() }
-        listAdapter.setAction { getData() }
+        listAdapter.setAction(View.OnClickListener { getData() })
     }
 
     private fun initData() {

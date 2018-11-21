@@ -56,10 +56,10 @@ class YiYuanPicFragment : BaseFragment() {
             getData()
         }
         listAdapter.setOnLoadMoreListener({ getData() }, rvDataList)
-        listAdapter.setAction {
+        listAdapter.setAction(View.OnClickListener {
             page = 1
             getData()
-        }
+        })
     }
 
     private fun getData() {

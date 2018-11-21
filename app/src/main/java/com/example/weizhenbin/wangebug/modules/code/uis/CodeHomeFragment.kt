@@ -120,11 +120,10 @@ class CodeHomeFragment : BaseFragment() {
             getData()
         }
         listAdapter.setOnLoadMoreListener({ getData() }, rvDataList)
-        listAdapter.setAction {
+        listAdapter.setAction(View.OnClickListener {
             listAdapter.loading()
             page = 0
-            getData()
-        }
+            getData()  })
     }
 
     private fun initData() {

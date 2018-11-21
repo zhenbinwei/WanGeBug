@@ -89,7 +89,7 @@ class CodeProjectFragment : BaseFragment() {
     }
 
     private fun initEvent() {
-        evEmpty.setAction { getProjectTreeData() }
+        evEmpty.setAction (View.OnClickListener {getProjectTreeData()} )
     }
 
     private fun initViews(view: View) {

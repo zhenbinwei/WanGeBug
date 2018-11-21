@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.example.weizhenbin.wangebug.R
 import com.example.weizhenbin.wangebug.base.BaseActivity
 import com.example.weizhenbin.wangebug.eventbus.EventBusHandler
@@ -51,10 +52,10 @@ class CollectListActivity : BaseActivity() {
             getData()
         }
         listAdapter!!.setOnLoadMoreListener({ getData() }, rvDataList)
-        listAdapter!!.setAction {
+        listAdapter!!.setAction(View.OnClickListener {
             page = 1
             getData()
-        }
+        })
         tbTitle!!.setLeftOnClickListener { finish() }
     }
 

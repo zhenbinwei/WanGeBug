@@ -17,23 +17,23 @@ import com.example.weizhenbin.wangebug.tools.PhoneTool
 
 class AutoScrollerLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
 
-    private val asvpViewpage: AutoScrollerViewPager
+    private val asvpViewPage: AutoScrollerViewPager
     private val llIndicator: LinearLayout
-    private var pageAadpter: AutoScrollerAdapter? = null
+    private var pageAdapter: AutoScrollerAdapter? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.auto_scroller_layout, this)
-        asvpViewpage = findViewById(R.id.asvp_viewpage)
+        asvpViewPage = findViewById(R.id.asvp_viewpage)
         llIndicator = findViewById(R.id.ll_indicator)
         initEvent()
     }
 
     private fun initEvent() {
-        asvpViewpage.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+        asvpViewPage.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
-                if (pageAadpter != null) {
-                    if (pageAadpter!!.readCount > 0) {
-                        val newPosition = position % pageAadpter!!.readCount
+                if (pageAdapter != null) {
+                    if (pageAdapter!!.readCount() > 0) {
+                        val newPosition = position % pageAdapter!!.readCount()
                         selectIndex(newPosition)
                     }
                 }
@@ -44,12 +44,12 @@ class AutoScrollerLayout @JvmOverloads constructor(context: Context, attrs: Attr
 
     fun setPagerAdapter(pageAadpter: AutoScrollerAdapter?) {
         if (pageAadpter != null) {
-            this.pageAadpter = pageAadpter
-            asvpViewpage.adapter = pageAadpter
-            if (pageAadpter.readCount > 1) {
-                asvpViewpage.setAutoScrollAble(true)
+            this.pageAdapter = pageAadpter
+            asvpViewPage.adapter = pageAadpter
+            if (pageAadpter.readCount() > 1) {
+                asvpViewPage.setAutoScrollAble(true)
             } else {
-                asvpViewpage.setAutoScrollAble(false)
+                asvpViewPage.setAutoScrollAble(false)
             }
             addIndicator()
         }
@@ -57,7 +57,7 @@ class AutoScrollerLayout @JvmOverloads constructor(context: Context, attrs: Attr
 
     private fun addIndicator() {
         llIndicator.removeAllViews()
-        val dotCount = pageAadpter!!.readCount
+        val dotCount = pageAdapter?.readCount()?:0
         for (i in 0 until dotCount) {
             val dotImageView = ImageView(context)
             val params = LinearLayout.LayoutParams(PhoneTool.dip2px(8f), PhoneTool.dip2px(8f))

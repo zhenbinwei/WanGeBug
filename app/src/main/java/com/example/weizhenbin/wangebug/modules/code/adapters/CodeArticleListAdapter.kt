@@ -61,7 +61,7 @@ class CodeArticleListAdapter
                     imageView.visibility = View.GONE
                 } else {
                     imageView.visibility = View.VISIBLE
-                    ImageLoader.getImageLoader().imageLoader(context, imageView, item.envelopePic, DefImageConfig.smallImage())
+                    ImageLoader.getImageLoader().imageLoader(context, imageView, item.envelopePic!!, DefImageConfig.smallImage())
                 }
                 helper.addOnClickListener(R.id.ll_item)
                 helper.addOnLongClickListener(R.id.ll_item)
