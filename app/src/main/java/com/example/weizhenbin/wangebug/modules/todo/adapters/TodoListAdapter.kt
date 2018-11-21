@@ -2,6 +2,8 @@ package com.example.weizhenbin.wangebug.modules.todo.adapters
 
 import android.content.Context
 import android.text.TextUtils
+import com.chad.library.adapter.base.BaseQuickAdapter.OnItemChildClickListener
+import com.chad.library.adapter.base.BaseQuickAdapter.OnItemChildLongClickListener
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.weizhenbin.wangebug.R
 import com.example.weizhenbin.wangebug.base.BaseSimpleAdapter
@@ -13,7 +15,6 @@ import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoDetailActivity
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoEditActivity
 import com.example.weizhenbin.wangebug.tools.DateTool
-import com.example.weizhenbin.wangebug.views.ListPopupWindow
 import com.example.weizhenbin.wangebug.views.ListShortcutActionLayout
 
 /**
@@ -33,9 +34,9 @@ class TodoListAdapter(mContext: Context, data: List<TBTodoBean>?, todoStatus: In
             if (todoStatus == -1 || todoStatus == 0) {
                 items = arrayOf(mContext.getString(R.string.done_string), mContext.getString(R.string.edit_string), mContext.getString(R.string.del_string))
 
-                ListShortcutActionLayout.Builder(mContext).setItems(items).setAnchor(view).setiItemListener(ListPopupWindow.IItemListener { which ->
+                ListShortcutActionLayout.Builder(mContext).setItems(items).setAnchor(view).setiItemListener { which ->
                     if (data == null) {
-                        return@IItemListener
+                        return@setiItemListener
                     }
                     val todoBean = data[position]
                     when (which) {
@@ -56,14 +57,14 @@ class TodoListAdapter(mContext: Context, data: List<TBTodoBean>?, todoStatus: In
                             EventBusHandler.post(MessageEvent(EventCode.DEL_TODO_CODE, todoBean))
                         }
                     }
-                }).build().show()
+                }.build().show()
             } else {
                 items = arrayOf(mContext.getString(R.string.del_string), mContext.getString(R.string.edit_string))
 
 
-                ListShortcutActionLayout.Builder(mContext).setItems(items).setAnchor(view).setiItemListener(ListPopupWindow.IItemListener { which ->
+                ListShortcutActionLayout.Builder(mContext).setItems(items).setAnchor(view).setiItemListener { which ->
                     if (data == null) {
-                        return@IItemListener
+                        return@setiItemListener
                     }
                     val todoBean = data[position]
                     when (which) {
@@ -76,7 +77,7 @@ class TodoListAdapter(mContext: Context, data: List<TBTodoBean>?, todoStatus: In
                         }
                         1 -> TodoEditActivity.startActivity(mContext, todoBean)
                     }
-                }).build().show()
+                }.build().show()
 
 
             }

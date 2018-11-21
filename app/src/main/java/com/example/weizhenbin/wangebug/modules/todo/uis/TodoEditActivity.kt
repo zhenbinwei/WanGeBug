@@ -109,7 +109,7 @@ class TodoEditActivity : BaseActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
         if (!tbTodoBean!!.isEmpty) {
-            DialogTool.showAlertDialog(this@TodoEditActivity, null, getString(R.string.save_todo_remind_string), getString(R.string.save_string), { dialog, which -> saveOrUpdateTodo() }, getString(R.string.cancel_string)) { dialog, which -> finish() }
+            DialogTool.showAlertDialog(this@TodoEditActivity, null, getString(R.string.save_todo_remind_string), getString(R.string.save_string), { _, _ -> saveOrUpdateTodo() }, getString(R.string.cancel_string),{ _, _ -> finish() })
         } else {
             super.onBackPressed()
         }
@@ -120,7 +120,7 @@ class TodoEditActivity : BaseActivity(), View.OnClickListener {
             return
         if (TextUtils.isEmpty(tbTodoBean!!.uuid)) {
             val todoCreateTime = System.currentTimeMillis()
-            tbTodoBean!!.uuid = UUIDTool.getUUID()
+            tbTodoBean!!.uuid = UUIDTool.uuid
             tbTodoBean!!.todoCreateTime = todoCreateTime
             tbTodoBean!!.todoCreateTimeStr = DateTool.getDateToString(todoCreateTime, "yyyy-MM-dd HH:mm")
             if (!setAlarm()) {

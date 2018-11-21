@@ -20,7 +20,6 @@ import com.example.weizhenbin.wangebug.eventbus.EventCode
 import com.example.weizhenbin.wangebug.eventbus.MessageEvent
 import com.example.weizhenbin.wangebug.modules.collect.controllers.CollectController
 import com.example.weizhenbin.wangebug.modules.collect.entity.TBCollectBean
-import com.example.weizhenbin.wangebug.views.ListPopupWindow
 import com.example.weizhenbin.wangebug.views.ListShortcutActionLayout
 import com.example.weizhenbin.wangebug.views.remindbar.RemindBar
 import com.example.weizhenbin.wangebug.views.remindbar.RemindBar.LENGTH_SHORT
@@ -43,9 +42,9 @@ class CollectListAdapter(context: Context?, data: List<TBCollectBean>?) : BaseSi
         onItemChildLongClickListener = OnItemChildLongClickListener { _, view, position ->
             val items = arrayOf(mContext.getString(R.string.del_string), mContext.getString(R.string.copy_link_string))
 
-            ListShortcutActionLayout.Builder(mContext).setAnchor(view).setItems(items).setiItemListener(ListPopupWindow.IItemListener { which ->
+            ListShortcutActionLayout.Builder(mContext).setAnchor(view).setItems(items).setiItemListener { which ->
                 if (data == null) {
-                    return@IItemListener
+                    return@setiItemListener
                 }
                 val tbCollectBean = data[position]
                 when (which) {
@@ -62,7 +61,7 @@ class CollectListAdapter(context: Context?, data: List<TBCollectBean>?) : BaseSi
                         }
                     }
                 }
-            }).build().show()
+            }.build().show()
             true
         }
     }

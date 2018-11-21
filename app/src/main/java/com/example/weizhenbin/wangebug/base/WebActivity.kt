@@ -85,7 +85,7 @@ class WebActivity : BaseActivity() {
                         val tbCollectBean = TBCollectBean()
                         tbCollectBean.title = mTitle
                         tbCollectBean.url = url
-                        tbCollectBean.key = UUIDTool.getUUID()
+                        tbCollectBean.key = UUIDTool.uuid
                         tbCollectBean.collectTime = System.currentTimeMillis()
                         tbCollectBean.type = urlTypeEnum!!.typeValue
                         CollectController.addCollect(tbCollectBean)

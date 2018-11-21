@@ -37,7 +37,7 @@ class PicBrowserFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        maxTexture = BitmapTool.getGLESTextureLimitEqualAboveLollipop()
+        maxTexture = BitmapTool.glesTextureLimitEqualAboveLollipop
         if (arguments != null) {
             picUrl = arguments!!.getString("Url")
         }

@@ -59,17 +59,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun openFloatingWindow() {
         if (PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)) {
             if (PermissionTool.checkWindowPermission(this@MainActivity)) {
-                TodoFloatingWindowManager.showFloatingWindow()
+                TodoFloatingWindowManager.manager.showFloatingWindow()
             } else {
                 RemindBar.make(drawer, getString(R.string.no_floating_window_permission_remind_string), RemindBar.LENGTH_LONG)
                         .setAction(getString(R.string.open_string)) {
                             PermissionTool.with(this@MainActivity).setiFloattingWindowPermissionGrantResult {
                                 if (PermissionTool.checkWindowPermission(this@MainActivity)) {
                                     PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, true)
-                                    TodoFloatingWindowManager.showFloatingWindow()
+                                    TodoFloatingWindowManager.manager.showFloatingWindow()
                                 } else {
                                     PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)
-                                    TodoFloatingWindowManager.hideFloatingWindow()
+                                    TodoFloatingWindowManager.manager.hideFloatingWindow()
                                 }
                             }.requestFloattingWindowPermission()
                         }.show()

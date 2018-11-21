@@ -23,7 +23,7 @@ import java.util.*
  * Created by weizhenbin on 2018/9/17.
  */
 
-object TodoFloatingWindowManager : AppStatusListener(), View.OnClickListener {
+class TodoFloatingWindowManager private constructor(): AppStatusListener(), View.OnClickListener {
 
     private var floatingWindow: FloatingWindow? = null
 
@@ -142,7 +142,7 @@ object TodoFloatingWindowManager : AppStatusListener(), View.OnClickListener {
                 return
             }
             val todoCreateTime = System.currentTimeMillis()
-            tbTodoBean.uuid = UUIDTool.getUUID()
+            tbTodoBean.uuid = UUIDTool.uuid
             tbTodoBean.todoCreateTime = todoCreateTime
             tbTodoBean.todoCreateTimeStr = DateTool.getDateToString(todoCreateTime, "yyyy-MM-dd HH:mm")
             TodoController.saveTodo(tbTodoBean)
@@ -156,7 +156,7 @@ object TodoFloatingWindowManager : AppStatusListener(), View.OnClickListener {
         }
     }
 
-    private fun addFilterActivity(activity: Class<out Activity>?) {
+    fun addFilterActivity(activity: Class<out Activity>?) {
         if (activity == null) {
             return
         }
@@ -166,7 +166,7 @@ object TodoFloatingWindowManager : AppStatusListener(), View.OnClickListener {
         }
     }
 
-   private fun removeFilterActivity(activity: Class<out Activity>?) {
+    fun removeFilterActivity(activity: Class<out Activity>?) {
         if (activity == null) {
             return
         }
@@ -175,21 +175,11 @@ object TodoFloatingWindowManager : AppStatusListener(), View.OnClickListener {
             filterActivitys.remove(activityName)
         }
     }
+    private object SingletonHolder {
+        val holder= TodoFloatingWindowManager()
+    }
+    companion object {
 
-   /* companion object {
-
-        private var todoFloatingWindowManager: TodoFloatingWindowManager? = null
-
-        val manager: TodoFloatingWindowManager
-            get() {
-                if (todoFloatingWindowManager == null) {
-                    synchronized(TodoFloatingWindowManager::class.java) {
-                        if (todoFloatingWindowManager == null) {
-                            todoFloatingWindowManager = TodoFloatingWindowManager()
-                        }
-                    }
-                }
-                return todoFloatingWindowManager
-            }
-    }*/
+        val manager = SingletonHolder.holder
+    }
 }

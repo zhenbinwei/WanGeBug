@@ -144,7 +144,7 @@ class App : Application() {
      * 应用退出的时候
      */
     private fun onAppQuit() {
-        TodoFloatingWindowManager.cleanFloatingWindow()
+        TodoFloatingWindowManager.manager.cleanFloatingWindow()
     }
 
     /**
