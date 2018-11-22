@@ -54,54 +54,62 @@ public class GlideImageLoader implements IImageLoader {
             imageConfig=new ImageConfig.Builder().build();
         }
         RequestManager requestManager= Glide.with(context);
-        RequestBuilder requestBuilder;
-        if (imageConfig.isGif()){
-            requestBuilder= requestManager.asGif();
-        }else {
-            requestBuilder=requestManager.asBitmap();
-        }
-        requestBuilder=requestBuilder.load(url);
         RequestOptions requestOptions=new RequestOptions()
                 .error(imageConfig.getErrorDrawable())
                 .error(imageConfig.getErrorIconResId())
                 .placeholder(imageConfig.getDefDrawable())
                 .placeholder(imageConfig.getDefIconResId())
-                .override(imageConfig.getWidth(),imageConfig.getHeight())
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
-        requestBuilder=requestBuilder.apply(requestOptions);
-        requestBuilder = setListener(url, imageConfig, iImageLoadListener, requestBuilder);
-        if (!imageConfig.isGif()){
-            requestBuilder=requestBuilder.transition(withCrossFade());
-        }
-        requestBuilder.into(imageView);
-    }
-
-    private RequestBuilder setListener(final String url, ImageConfig imageConfig, final IImageLoadListener iImageLoadListener, RequestBuilder requestBuilder) {
-        if (iImageLoadListener!=null){
-            iImageLoadListener.onLoadStart(url,imageConfig.getDefDrawable());
-        }
-        final ImageConfig finalImageConfig = imageConfig;
-        requestBuilder=requestBuilder.listener(new RequestListener() {
+        if (imageConfig.isGif()){
+          RequestBuilder<com.bumptech.glide.load.resource.gif.GifDrawable>   gifRequestBuilder= requestManager.asGif();
+          if(iImageLoadListener!=null){
+             iImageLoadListener.onLoadStart(url,imageConfig.getDefDrawable());
+             final ImageConfig finalImageConfig = imageConfig;
+             gifRequestBuilder.load(url).apply(requestOptions).listener(new RequestListener<com.bumptech.glide.load.resource.gif.GifDrawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
-                if (iImageLoadListener!=null){
                     iImageLoadListener.onLoadError(url, finalImageConfig.getDefDrawable());
-                }
                 return false;
             }
 
             @Override
-            public boolean onResourceReady(Object resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
-                if (resource instanceof Bitmap){
-                if (iImageLoadListener!=null){
-                    iImageLoadListener.onLoadSuccess((Bitmap) resource,url);
-                }
-                }
+            public boolean onResourceReady(com.bumptech.glide.load.resource.gif.GifDrawable resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+                    iImageLoadListener.onLoadSuccess(resource.getFirstFrame(),url);
                 return false;
             }
-        });
-        return requestBuilder;
+        }).into(imageView);
+          }else{
+               gifRequestBuilder.load(url).apply(requestOptions).into(imageView);
+          }
+
+        }else {
+              RequestBuilder<Bitmap>   bitmapRequestBuilder= requestManager.asBitmap();
+
+               if(iImageLoadListener!=null){
+                     iImageLoadListener.onLoadStart(url,imageConfig.getDefDrawable());
+             final ImageConfig finalImageConfig = imageConfig;
+             bitmapRequestBuilder.load(url).apply(requestOptions).listener(new RequestListener<Bitmap>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+                    iImageLoadListener.onLoadError(url, finalImageConfig.getDefDrawable());
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Bitmap resource, Object model, Target target, DataSource dataSource, boolean isFirstResource) {
+                    iImageLoadListener.onLoadSuccess(resource,url);
+                return false;
+            }
+        }).into(imageView);
+               }else{
+                 bitmapRequestBuilder.load(url).apply(requestOptions).transition(withCrossFade()).into(imageView);
+               }
+
+
+        }
     }
+
+
 
     @Override
     public void loadBitmap(Context context, final String url, final IImageLoadListener iImageLoadListener) {

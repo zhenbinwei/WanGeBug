@@ -22,7 +22,7 @@ import com.example.weizhenbin.wangebug.modules.collect.controllers.CollectContro
 import com.example.weizhenbin.wangebug.modules.collect.entity.TBCollectBean
 import com.example.weizhenbin.wangebug.views.ListShortcutActionLayout
 import com.example.weizhenbin.wangebug.views.remindbar.RemindBar
-import com.example.weizhenbin.wangebug.views.remindbar.RemindBar.LENGTH_SHORT
+import com.example.weizhenbin.wangebug.views.remindbar.RemindBar.Companion.LENGTH_SHORT
 
 /**
  * Created by weizhenbin on 2018/10/10.
@@ -70,7 +70,7 @@ class CollectListAdapter(context: Context?, data: List<TBCollectBean>?) : BaseSi
         val clipboardManager = mContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("text", url)
             clipboardManager.primaryClip = clipData
-        RemindBar.make(v, mContext.getString(R.string.copy_success_string), LENGTH_SHORT).show()
+        RemindBar.make(v, mContext.getString(R.string.copy_success_string), LENGTH_SHORT)?.show()
     }
 
     override fun convert(helper: BaseViewHolder, item: TBCollectBean) {

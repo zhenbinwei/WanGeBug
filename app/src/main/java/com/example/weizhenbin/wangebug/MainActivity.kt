@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.view.MenuItem
+import android.view.View
 import com.example.weizhenbin.wangebug.base.BaseActivity
 import com.example.weizhenbin.wangebug.interfaces.IOpenMenuHandler
 import com.example.weizhenbin.wangebug.modules.code.uis.CodeFragment
@@ -18,6 +19,7 @@ import com.example.weizhenbin.wangebug.modules.news.uis.NewsFragment
 import com.example.weizhenbin.wangebug.modules.recreation.uis.RecreationFragment
 import com.example.weizhenbin.wangebug.modules.settings.SettingsActivity
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoListActivity
+import com.example.weizhenbin.wangebug.tools.permission.IFloattingWindowPermissionGrantResult
 import com.example.weizhenbin.wangebug.tools.permission.PermissionTool
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool
@@ -62,17 +64,20 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 TodoFloatingWindowManager.manager.showFloatingWindow()
             } else {
                 RemindBar.make(drawer, getString(R.string.no_floating_window_permission_remind_string), RemindBar.LENGTH_LONG)
-                        .setAction(getString(R.string.open_string)) {
-                            PermissionTool.with(this@MainActivity).setiFloattingWindowPermissionGrantResult {
-                                if (PermissionTool.checkWindowPermission(this@MainActivity)) {
-                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, true)
-                                    TodoFloatingWindowManager.manager.showFloatingWindow()
-                                } else {
-                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)
-                                    TodoFloatingWindowManager.manager.hideFloatingWindow()
+                        ?.setAction(getString(R.string.open_string), View.OnClickListener {
+                            PermissionTool.with(this@MainActivity).setiFloatingWindowPermissionGrantResult(object : IFloattingWindowPermissionGrantResult{
+                                override fun onGrantResult(isGrant: Boolean) {
+                                        if (PermissionTool.checkWindowPermission(this@MainActivity)) {
+                                            PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, true)
+                                            TodoFloatingWindowManager.manager.showFloatingWindow()
+                                        } else {
+                                            PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)
+                                            TodoFloatingWindowManager.manager.hideFloatingWindow()
+                                        }
                                 }
-                            }.requestFloattingWindowPermission()
-                        }.show()
+
+                            }) .requestFloatingWindowPermission()
+                        }) ?.show()
             }
         }
     }

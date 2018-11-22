@@ -14,6 +14,7 @@ import com.example.weizhenbin.wangebug.eventbus.EventBusHandler
 import com.example.weizhenbin.wangebug.eventbus.EventCode
 import com.example.weizhenbin.wangebug.eventbus.MessageEvent
 import com.example.weizhenbin.wangebug.tools.DialogTool
+import com.example.weizhenbin.wangebug.tools.permission.IFloattingWindowPermissionGrantResult
 import com.example.weizhenbin.wangebug.tools.permission.PermissionTool
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool
@@ -147,17 +148,19 @@ class SettingsActivity : BaseActivity(), View.OnClickListener {
             } else {
                 //引导权限申请
                 DialogTool.showAlertDialog(this@SettingsActivity, getString(R.string.permission_request_string), getString(R.string.floating_window_permission_request_describe_string), getString(R.string.open_string), { _, _ ->
-                    PermissionTool.with(this@SettingsActivity).setiFloattingWindowPermissionGrantResult {
-                        if (PermissionTool.checkWindowPermission(this@SettingsActivity)) {
-                            cbTodoOpen.isChecked = true
-                            PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, true)
-                            TodoFloatingWindowManager.manager.showFloatingWindow()
-                        } else {
-                            cbTodoOpen.isChecked = false
-                            PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)
-                            TodoFloatingWindowManager.manager.hideFloatingWindow()
+                    PermissionTool.with(this@SettingsActivity).setiFloatingWindowPermissionGrantResult(object : IFloattingWindowPermissionGrantResult{
+                        override fun onGrantResult(isGrant: Boolean) {
+                                if (PermissionTool.checkWindowPermission(this@SettingsActivity)) {
+                                    cbTodoOpen.isChecked = true
+                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, true)
+                                    TodoFloatingWindowManager.manager.showFloatingWindow()
+                                } else {
+                                    cbTodoOpen.isChecked = false
+                                    PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)
+                                    TodoFloatingWindowManager.manager.hideFloatingWindow()
+                                }
                         }
-                    }.requestFloattingWindowPermission()
+                    }) .requestFloatingWindowPermission()
                 }, getString(R.string.cancel_string), { _, _ ->
                     cbTodoOpen.isChecked = false
                     PreferencesTool.putBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)

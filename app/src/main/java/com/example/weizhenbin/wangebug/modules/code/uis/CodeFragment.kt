@@ -143,22 +143,24 @@ class CodeFragment : BaseFragment() {
 
             }
         })
-        nlContent.setiRollChange(IRollChange { dy ->
-            if (!PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_HIDE_TAB, true)) {
-                return@IRollChange
-            }
-            if (Math.abs(dy) >= 4) {
-                if (dy > 0) {
-                    //隐藏
-                    if (bnvNavigation.visibility == View.VISIBLE) {
-                        bnvNavigation.startAnimation(mHiddenAction)
-                        bnvNavigation.visibility = View.GONE
-                    }
-                } else if (dy < 0) {
-                    //显示
-                    if (bnvNavigation.visibility == View.GONE) {
-                        bnvNavigation.startAnimation(mShowAction)
-                        bnvNavigation.visibility = View.VISIBLE
+        nlContent.setiRollChange(object :IRollChange {
+            override fun onRollChange(dy: Int) {
+                if (!PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_HIDE_TAB, true)) {
+                    return
+                }
+                if (Math.abs(dy) >= 4) {
+                    if (dy > 0) {
+                        //隐藏
+                        if (bnvNavigation.visibility == View.VISIBLE) {
+                            bnvNavigation.startAnimation(mHiddenAction)
+                            bnvNavigation.visibility = View.GONE
+                        }
+                    } else if (dy < 0) {
+                        //显示
+                        if (bnvNavigation.visibility == View.GONE) {
+                            bnvNavigation.startAnimation(mShowAction)
+                            bnvNavigation.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
