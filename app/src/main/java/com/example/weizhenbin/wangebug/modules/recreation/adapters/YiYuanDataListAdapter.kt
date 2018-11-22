@@ -38,7 +38,7 @@ class YiYuanDataListAdapter(context: Context, @LayoutRes layoutResId: Int, data:
 
     override fun convert(helper: BaseViewHolder, item: YiYuanPicBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean) {
         val ivPic = helper.getView<ImageView>(R.id.iv_pic)
-        ImageLoader.getImageLoader().imageLoader(mContext, ivPic, item.image0, imageConfig)
+        ImageLoader.getImageLoader().imageLoader(mContext, ivPic, item.image0!!, imageConfig)
 
         val text = item.text?.replace("\n", "")?.trim { it <= ' ' }
 

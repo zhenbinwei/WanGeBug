@@ -41,18 +41,6 @@ class PermissionResultManager private constructor() {
     companion object {
 
          fun getManager()=SingletonHolder.holder
-
-       /* fun getManager(): PermissionResultManager {
-
-            if (manager == null) {
-                synchronized(PermissionResultManager::class.java) {
-                    if (manager == null) {
-                        manager = PermissionResultManager()
-                    }
-                }
-            }
-            return manager!!
-        }*/
     }
 
 

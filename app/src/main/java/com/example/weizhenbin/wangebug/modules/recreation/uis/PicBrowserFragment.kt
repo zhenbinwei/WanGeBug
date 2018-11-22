@@ -78,11 +78,11 @@ class PicBrowserFragment : BaseFragment() {
         if (CommonTool.isGif(picUrl)) {
             ivGif.visibility = View.VISIBLE
             touchImageView.visibility = View.GONE
-            ImageLoader.getImageLoader().imageLoader(context, ivGif, picUrl, ImageConfig.Builder().setGif(true).build())
+            ImageLoader.getImageLoader().imageLoader(context!!, ivGif, picUrl!!, ImageConfig.Builder().setGif(true).build())
         } else {
             ivGif.visibility = View.GONE
             touchImageView.visibility = View.VISIBLE
-            ImageLoader.getImageLoader().loadBitmap(context, picUrl, object : ImageLoadListenerAdapter() {
+            ImageLoader.getImageLoader().loadBitmap(context!!, picUrl!!, object : ImageLoadListenerAdapter() {
                 override fun onLoadSuccess(bitmap: Bitmap, url: String) {
                     touchImageView.scaleType = ImageView.ScaleType.FIT_XY
                     touchImageView.setImageBitmap(BitmapTool.compressFromMaxSize(bitmap, maxTexture)!!)

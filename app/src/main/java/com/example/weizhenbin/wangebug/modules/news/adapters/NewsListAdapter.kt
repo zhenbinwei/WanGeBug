@@ -63,7 +63,7 @@ class NewsListAdapter
                     ratioImageView.visibility = View.GONE
                 } else {
                     ratioImageView.visibility = View.VISIBLE
-                    ImageLoader.getImageLoader().imageLoader(mContext, ratioImageView, url, DefImageConfig.smallImage())
+                    ImageLoader.getImageLoader().imageLoader(mContext, ratioImageView, url!!, DefImageConfig.smallImage())
                 }
                 helper.addOnClickListener(R.id.ll_item)
             }
@@ -93,7 +93,7 @@ class NewsListAdapter
                                     layoutParams.rightMargin = PhoneTool.dip2px(8f)
                                 }
                             }
-                            ImageLoader.getImageLoader().imageLoader(mContext, imageView, url2, DefImageConfig.smallImage())
+                            ImageLoader.getImageLoader().imageLoader(mContext, imageView, url2!!, DefImageConfig.smallImage())
                             linearLayout.addView(imageView, layoutParams)
                         }
                     }

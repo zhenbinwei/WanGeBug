@@ -39,7 +39,7 @@ class CodeProjectListAdapter(private val context: Context, data: List<ProjectLis
             imageView.visibility = View.GONE
         } else {
             imageView.visibility = View.VISIBLE
-            ImageLoader.getImageLoader().imageLoader(context, imageView, item.envelopePic, DefImageConfig.smallImageLong())
+            ImageLoader.getImageLoader().imageLoader(context, imageView, item.envelopePic!!, DefImageConfig.smallImageLong())
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             helper.setText(R.id.tv_title, Html.fromHtml(item.title, FROM_HTML_MODE_COMPACT))

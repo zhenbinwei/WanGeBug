@@ -45,7 +45,7 @@ class CodeHomeBannerAdapter(private val context: Context, private val data: List
         if (readCount() > 0) {
             val newPosition = position % readCount()
             imageView = imageViews[newPosition]
-            ImageLoader.getImageLoader().imageLoader(container.context, imageView, data!![newPosition].imagePath, DefImageConfig.smallImage())
+            ImageLoader.getImageLoader().imageLoader(container.context, imageView, data!![newPosition].imagePath!!, DefImageConfig.smallImage())
            // Glide.with(context).asBitmap().load(data!![newPosition].imagePath).into(imageView)
             imageView.setOnClickListener {
                 val dataBean = data[newPosition]
