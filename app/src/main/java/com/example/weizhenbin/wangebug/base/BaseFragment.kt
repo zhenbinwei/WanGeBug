@@ -30,7 +30,7 @@ abstract class BaseFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         if (null != rootView) {
-            val parent = rootView!!.parent as ViewGroup
+            val parent = rootView!!.parent as? ViewGroup
             parent?.removeView(rootView)
         } else {
             rootView = inflater.inflate(contentViewLayoutId, null)

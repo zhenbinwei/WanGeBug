@@ -25,12 +25,12 @@ import com.example.weizhenbin.wangebug.views.WebViewLayout
  */
 
 class WebActivity : BaseActivity() {
-    lateinit var wbLayout: WebViewLayout
+    private lateinit var wbLayout: WebViewLayout
     lateinit var url: String
     lateinit var titleBar: TitleBar
     lateinit var items: Array<String>
     lateinit var mTitle: String
-     var urlTypeEnum: UrlTypeEnum=UrlTypeEnum.UNKNOWN;
+     var urlTypeEnum: UrlTypeEnum?=UrlTypeEnum.UNKNOWN
      var isCollect = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class WebActivity : BaseActivity() {
         items = arrayOf(getString(R.string.collect_string), getString(R.string.share_string), getString(R.string.browser_open_string))
         url = intent.getStringExtra("Url")
         mTitle = intent.getStringExtra("Title")
-        urlTypeEnum = intent.getSerializableExtra("UrlType") as UrlTypeEnum
+        urlTypeEnum = intent.getSerializableExtra("UrlType") as? UrlTypeEnum
         if (urlTypeEnum == null) {
             urlTypeEnum = UrlTypeEnum.UNKNOWN
         }
@@ -100,7 +100,7 @@ class WebActivity : BaseActivity() {
                         startActivity(intent)
                     }
                 }
-            }.showAsDropDown(v, -PhoneTool.dip2px(8f), -PhoneTool.dip2px(8f), Gravity.END)
+            }.showAsDropDown(v, -PhoneTool.dip2px(8f), -PhoneTool.dip2px(16f), Gravity.END)
         }
     }
 
@@ -126,7 +126,7 @@ class WebActivity : BaseActivity() {
                putExtra("Url", url)
                 putExtra("UrlType", urlTypeEnum)
                 putExtra("Title", title)
-                context.startActivity(this);
+                context.startActivity(this)
             }
         }
     }

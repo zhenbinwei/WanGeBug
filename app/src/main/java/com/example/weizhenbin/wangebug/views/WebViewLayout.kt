@@ -4,7 +4,10 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.view.ViewGroup
-import android.webkit.*
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.LinearLayout
 
 /**
@@ -24,7 +27,7 @@ class WebViewLayout @JvmOverloads constructor(context: Context, attrs: Attribute
         this.addView(webView, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
     }
 
-    private inner class MyWebCromeClient : WebChromeClient() {
+    private inner class MyWebChromeClient : WebChromeClient() {
         override fun onProgressChanged(view: WebView, newProgress: Int) {
             if (newProgress == 100) {
                 //加载完毕进度条消失
@@ -42,12 +45,7 @@ class WebViewLayout @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
-    private inner class MyWebViewClient : WebViewClient() {
-        override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
-            super.onReceivedError(view, request, error)
-
-        }
-    }
+    private inner class MyWebViewClient : WebViewClient()
 
     fun setUrl(url: String) {
         webView!!.loadUrl(url)
@@ -80,8 +78,9 @@ class WebViewLayout @JvmOverloads constructor(context: Context, attrs: Attribute
             //支持javascript
             val webSettings = webView!!.settings
             //  webSettings.setJavaScriptEnabled(true);
+            webSettings.javaScriptEnabled=true
             // 设置可以支持缩放
-            webSettings.setSupportZoom(true)
+           // webSettings.setSupportZoom(true)
             // 设置出现缩放工具
             webSettings.builtInZoomControls = false
             //扩大比例的缩放
@@ -89,7 +88,7 @@ class WebViewLayout @JvmOverloads constructor(context: Context, attrs: Attribute
             //自适应屏幕
             webSettings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
             webSettings.loadWithOverviewMode = true
-            webView!!.webChromeClient = MyWebCromeClient()
+            webView!!.webChromeClient = MyWebChromeClient()
             webView!!.webViewClient = MyWebViewClient()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 webSettings.mixedContentMode = webSettings.mixedContentMode

@@ -61,7 +61,7 @@ class CodeFragment : BaseFragment() {
     fun onMessageEvent(event: MessageEvent) {
         Log.d("CodeFragment", "event:$event")
         if (event.code == EventCode.HIDE_TAB_CODE) {
-            hideTab(event.msg != null && event.msg === java.lang.Boolean.valueOf(true))
+            hideTab( event.msg === java.lang.Boolean.valueOf(true))
         }
     }
 
