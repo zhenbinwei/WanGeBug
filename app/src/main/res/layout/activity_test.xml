@@ -22,16 +22,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="75dp" />
 
-    <com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView
-        android:id="@+id/fv"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:visibility="gone"
-        android:background="@color/colorPrimary"
-        android:layout_below="@+id/bt"
-        android:layout_alignParentStart="true">
 
-    </com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView>
     <com.example.weizhenbin.wangebug.views.LoadingView
         android:layout_width="300dp"
         android:visibility="gone"

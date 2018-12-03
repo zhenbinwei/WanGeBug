@@ -17,13 +17,6 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            /*  if( OSTool.isMIUI()) {
-                StatusTool.setStatusBarDarkMode(true, this);
-            }else if(OSTool.isFlyme()){
-                StatusTool.setStatusBarDarkIcon(this,true);
-            }else if(OSTool.isOPPO()){
-                StatusTool.setOPPOLightStatusBarIcon(getWindow(),true);
-            }*/
         }
     }
 

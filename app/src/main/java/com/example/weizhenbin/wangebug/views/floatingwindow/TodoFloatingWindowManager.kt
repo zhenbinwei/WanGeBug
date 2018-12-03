@@ -4,8 +4,11 @@ import android.app.Activity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.TextView
+import com.example.weizhenbin.floatingview.FloatingWindow
 import com.example.weizhenbin.wangebug.R
 import com.example.weizhenbin.wangebug.base.App
 import com.example.weizhenbin.wangebug.base.AppStatusListener
@@ -14,6 +17,7 @@ import com.example.weizhenbin.wangebug.modules.todo.entity.TBTodoBean
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoEditActivity
 import com.example.weizhenbin.wangebug.modules.todo.uis.TodoListActivity
 import com.example.weizhenbin.wangebug.tools.DateTool
+import com.example.weizhenbin.wangebug.tools.PhoneTool
 import com.example.weizhenbin.wangebug.tools.UUIDTool
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool
@@ -45,10 +49,16 @@ class TodoFloatingWindowManager private constructor(): AppStatusListener(), View
 
 
     init {
-        floatingWindow = FloatingWindow()
+        floatingWindow = FloatingWindow(App.app).apply {
+            scrollTopZoomIn=true
+            setMiniWindowIcon(R.drawable.add)
+            setDelAreaRadius(0,0)
+            setContentViewLayoutParams(FrameLayout.LayoutParams(MATCH_PARENT,PhoneTool.dip2px(280f)))
+            setMiniWindowBackground(App.app.resources.getDrawable(R.drawable.round_bg_primary))
+        }
         App.app.addAppStatusListener(this)
         val view = View.inflate(App.app.applicationContext, R.layout.floating_window_todo_edit_view, null)
-        floatingWindow!!.addRealContentView(view)
+        floatingWindow?.addRealContentView(view)
         tbTodoBean = TBTodoBean()
         assignViews(view)
         initEvent()
@@ -57,9 +67,9 @@ class TodoFloatingWindowManager private constructor(): AppStatusListener(), View
     }
 
     private fun initEvent() {
-        tvReset!!.setOnClickListener(this)
-        tvSave!!.setOnClickListener(this)
-        edContent!!.addTextChangedListener(object : TextWatcher {
+        tvReset?.setOnClickListener(this)
+        tvSave?.setOnClickListener(this)
+        edContent?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 
             }
@@ -72,7 +82,7 @@ class TodoFloatingWindowManager private constructor(): AppStatusListener(), View
                 tbTodoBean.todoContent = s.toString()
             }
         })
-        edTitle!!.addTextChangedListener(object : TextWatcher {
+        edTitle?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 
             }
@@ -89,56 +99,56 @@ class TodoFloatingWindowManager private constructor(): AppStatusListener(), View
 
     fun showFloatingWindow() {
         if (floatingWindow != null) {
-            floatingWindow!!.addFloatingWindow()
+            floatingWindow?.addFloatingWindow()
         }
     }
 
     fun hideFloatingWindow() {
         if (floatingWindow != null) {
-            floatingWindow!!.removeFloatingWindow()
+            floatingWindow?.removeFloatingWindow()
         }
     }
 
     fun cleanFloatingWindow() {
         if (floatingWindow != null) {
-            floatingWindow!!.removeFloatingWindow()
+            floatingWindow?.removeFloatingWindow()
             floatingWindow = null
         }
     }
 
     override fun onAppForeground() {
         if (floatingWindow != null && PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)) {
-            floatingWindow!!.addFloatingWindow()
+            floatingWindow?.addFloatingWindow()
         }
     }
 
     override fun onAppBackground() {
         if (floatingWindow != null) {
-            floatingWindow!!.removeFloatingWindow()
+            floatingWindow?.removeFloatingWindow()
         }
     }
 
     override fun onActivityStarted(activity: Activity?) {
         super.onActivityStarted(activity)
-        if (filterActivitys.contains(activity!!.javaClass.simpleName)) {
+        if (filterActivitys.contains(activity?.javaClass?.simpleName)) {
             if (floatingWindow != null) {
-                floatingWindow!!.removeFloatingWindow()
+                floatingWindow?.removeFloatingWindow()
             }
         } else {
             if (floatingWindow != null && PreferencesTool.getBoolean(PreferencesConfig.KEY_OPEN_FLOATING_WINDOW, false)) {
-                floatingWindow!!.addFloatingWindow()
+                floatingWindow?.addFloatingWindow()
             }
         }
     }
 
     override fun onClick(v: View) {
         if (v === tvReset) {
-            edContent!!.setText("")
-            edTitle!!.setText("")
+            edContent?.setText("")
+            edTitle?.setText("")
             tbTodoBean.reset()
         } else if (v === tvSave) {
             if (tbTodoBean.isEmpty) {
-                floatingWindow!!.zoomOutWindow()
+                floatingWindow?.zoomOutWindow()
                 return
             }
             val todoCreateTime = System.currentTimeMillis()
@@ -147,12 +157,12 @@ class TodoFloatingWindowManager private constructor(): AppStatusListener(), View
             tbTodoBean.todoCreateTimeStr = DateTool.getDateToString(todoCreateTime, "yyyy-MM-dd HH:mm")
             TodoController.saveTodo(tbTodoBean)
 
-            edContent!!.setText("")
-            edTitle!!.setText("")
+            edContent?.setText("")
+            edTitle?.setText("")
 
             tbTodoBean.reset()
 
-            floatingWindow!!.zoomOutWindow()
+            floatingWindow?.zoomOutWindow()
         }
     }
 

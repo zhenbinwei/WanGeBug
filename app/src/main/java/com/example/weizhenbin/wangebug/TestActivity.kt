@@ -15,14 +15,13 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.example.weizhenbin.floatingview.FloatingWindow
 import com.example.weizhenbin.wangebug.base.BaseActivity
 import com.example.weizhenbin.wangebug.image.ImageLoadListenerAdapter
 import com.example.weizhenbin.wangebug.image.ImageLoader
 import com.example.weizhenbin.wangebug.modules.todo.alarm.AlarmReceiver
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool
-import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingView
-import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow
 
 /**
  * Created by weizhenbin on 2018/9/11.
@@ -31,14 +30,12 @@ import com.example.weizhenbin.wangebug.views.floatingwindow.FloatingWindow
 class TestActivity : BaseActivity() {
 
     lateinit var floatingWindow: FloatingWindow
-    lateinit var fv: FloatingView
     //RemindBarLayout remindBar;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
-        floatingWindow = FloatingWindow()
-        fv = findViewById(R.id.fv)
+        floatingWindow = FloatingWindow(this)
         floatingWindow.addRealContentView(View.inflate(this@TestActivity, R.layout.floating_window_todo_edit_view, null))
         /*  remindBar=new RemindBarLayout(fv);
         remindBar.setMarginBottom(200);*/
