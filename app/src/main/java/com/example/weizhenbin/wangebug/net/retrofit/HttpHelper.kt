@@ -1,6 +1,5 @@
 package com.example.weizhenbin.wangebug.net.retrofit
 
-import android.text.TextUtils
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.CodeApi
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.NewsApi
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.RecreationApi
@@ -30,17 +29,13 @@ object HttpHelper  {
 
     fun <T> getApi(t: Class<T>): T {
 
-        if (t == CodeApi::class.java) {
-            baseUrl = CodeApi.BASE_URL
-        } else if (t == NewsApi::class.java) {
-            baseUrl = NewsApi.BASE_URL
-        } else if (t == RecreationApi::class.java) {
-            baseUrl = RecreationApi.BASE_URL
-        } else if (t == YiYuanApi::class.java) {
-            baseUrl = YiYuanApi.BASE_URL
-        }
-        if (TextUtils.isEmpty(baseUrl)) {
-            throw NullPointerException("baseUrl == null")
+        //http://fy.iciba.com/
+        baseUrl = when (t) {
+            CodeApi::class.java -> CodeApi.BASE_URL
+            NewsApi::class.java -> NewsApi.BASE_URL
+            RecreationApi::class.java -> RecreationApi.BASE_URL
+            YiYuanApi::class.java -> YiYuanApi.BASE_URL
+            else ->  throw NullPointerException("baseUrl == null")
         }
         val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl) //http://fy.iciba.com/

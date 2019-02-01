@@ -3,7 +3,7 @@ package com.example.weizhenbin.wangebug.modules.recreation.controllers
 import com.example.weizhenbin.wangebug.base.DataResult
 import com.example.weizhenbin.wangebug.modules.recreation.entity.PicJokeBean
 import com.example.weizhenbin.wangebug.modules.recreation.entity.TextJokeBean
-import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanPicBean
+import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanBSBDJBean
 import com.example.weizhenbin.wangebug.net.retrofit.HttpHelper
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.RecreationApi
 import com.example.weizhenbin.wangebug.net.retrofit.apiservice.YiYuanApi
@@ -63,14 +63,14 @@ object JokeController {
                 })
     }
 
-    fun getYiYuanPicData(page: Int, dataResult: DataResult<YiYuanPicBean>?) {
+    fun getYiYuanPicData(type:String,page: Int, dataResult: DataResult<YiYuanBSBDJBean>?) {
         dataResult?.onStart()
         val hashMap:MutableMap<String,String> =
                 hashMapOf("showapi_appid" to YiYuanApi.clienId,
                         "showapi_sign" to YiYuanApi.sign,
-                        "type" to  "10",
+                        "type" to  type,
                         "page" to  page.toString() + "")
-        HttpHelper.getApi(YiYuanApi::class.java).getData(hashMap).compose(HttpHelper.setThread()).subscribe(object : Observer<YiYuanPicBean> {
+        HttpHelper.getApi(YiYuanApi::class.java).getData(hashMap).compose(HttpHelper.setThread()).subscribe(object : Observer<YiYuanBSBDJBean> {
             override fun onCompleted() {
 
             }
@@ -79,7 +79,7 @@ object JokeController {
                 dataResult?.onError(e)
             }
 
-            override fun onNext(s: YiYuanPicBean) {
+            override fun onNext(s: YiYuanBSBDJBean) {
                 dataResult?.onSuccess(s)
             }
         })

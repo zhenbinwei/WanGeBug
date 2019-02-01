@@ -6,7 +6,7 @@ import com.example.weizhenbin.wangebug.base.YiYuanBaseBean
  * Created by weizhenbin on 2018/8/17.
  */
 
-class YiYuanPicBean : YiYuanBaseBean() {
+class YiYuanBSBDJBean : YiYuanBaseBean() {
 
     /**
      * showapi_res_error :

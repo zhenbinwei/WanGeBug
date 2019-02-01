@@ -6,32 +6,58 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.SurfaceTexture
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.support.v4.app.NotificationCompat
+import android.text.Html
 import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.util.Log
+import android.view.Surface
+import android.view.TextureView
 import android.view.View
+import android.widget.Button
+import android.widget.RelativeLayout
+import android.widget.RelativeLayout.CENTER_IN_PARENT
+import android.widget.TextView
 import android.widget.Toast
 import com.example.weizhenbin.floatingview.FloatingWindow
 import com.example.weizhenbin.wangebug.base.BaseActivity
 import com.example.weizhenbin.wangebug.image.ImageLoadListenerAdapter
 import com.example.weizhenbin.wangebug.image.ImageLoader
 import com.example.weizhenbin.wangebug.modules.todo.alarm.AlarmReceiver
+import com.example.weizhenbin.wangebug.tools.PhoneTool
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesConfig
 import com.example.weizhenbin.wangebug.tools.preferences.PreferencesTool
+import com.example.weizhenbin.wangebug.views.video.VideoLayout
+import kotlin.math.min
 
 /**
  * Created by weizhenbin on 2018/9/11.
  */
 
-class TestActivity : BaseActivity() {
+class TestActivity : BaseActivity(),MediaPlayer.OnPreparedListener {
+
 
     lateinit var floatingWindow: FloatingWindow
     //RemindBarLayout remindBar;
 
+    lateinit var textureView: TextureView
+    lateinit var btPlay:Button
+    lateinit var btPause:Button
+    lateinit var btStop:Button
+    lateinit var mediaPlayer: MediaPlayer
+    var multiple=1.0
+    var isPrepared=false
+    var surfaceTexture:SurfaceTexture?=null
+    var mSurface:Surface?=null
+    var videoLayout:VideoLayout?=null
+
+    var tvTest:TextView?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
@@ -39,9 +65,12 @@ class TestActivity : BaseActivity() {
         floatingWindow.addRealContentView(View.inflate(this@TestActivity, R.layout.floating_window_todo_edit_view, null))
         /*  remindBar=new RemindBarLayout(fv);
         remindBar.setMarginBottom(200);*/
-
-
-
+        videoLayout=findViewById(R.id.video_layout)
+        textureView=findViewById(R.id.video_view)
+        btPlay=findViewById(R.id.bt_play)
+        btStop=findViewById(R.id.bt_stop)
+        btPause=findViewById(R.id.bt_pause)
+        tvTest=findViewById(R.id.tv_test)
         findViewById<View>(R.id.bt).setOnClickListener {
             //fv.zoomIn(fv.getWidth()/2,fv.getHeight()/2,50,null);
             //  Log.d("TestActivity", "CAMERA:" + PermissionTool.checkPermission(TestActivity.this, Manifest.permission.CAMERA));
@@ -159,6 +188,96 @@ class TestActivity : BaseActivity() {
                 }).create().show();*/
             notification()
         }
+
+
+      /*  mediaPlayer= MediaPlayer()
+        textureView.surfaceTextureListener=object : TextureView.SurfaceTextureListener{
+            override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
+
+                Log.d("TestActivity","onSurfaceTextureSizeChanged:$width,height:$height")
+
+            }
+
+            override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {
+              //  Log.d("TestActivity","onSurfaceTextureUpdated 宽${mediaPlayer.videoWidth} 高：${mediaPlayer.videoHeight}")
+
+            }
+
+            override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
+                mediaPlayer.apply {
+                    if (isPlaying){
+                        pause()
+                    }
+                }
+                return false
+            }
+
+            override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
+                mediaPlayer.apply {
+                    if (surfaceTexture==null){
+                        surfaceTexture=surface
+                        if (mSurface==null){
+                            mSurface=Surface(surfaceTexture)
+                        }
+                            setSurface(mSurface)
+                            setDataSource("http://mvideo.spriteapp.cn/video/2018/1211/d64da792-fcfb-11e8-8daa-d4ae5296039d_wpc.mp4")
+                            prepareAsync()
+                            setOnPreparedListener(this@TestActivity)
+                    }else {
+                        textureView.surfaceTexture = surfaceTexture
+                        start()
+                    }
+                }
+            }
+
+        }
+        btPause.setOnClickListener {
+            pause()
+        }
+
+        btPlay.setOnClickListener {
+            play()
+        }*/
+        tvTest?.text=Html.fromHtml("<font color=\"red\" size='24'>你好</font>")
+    }
+
+
+    //播放
+   private fun play(){
+       if (!mediaPlayer.isPlaying){
+           mediaPlayer.start()
+       }
+    }
+
+    //暂停
+   private fun pause(){
+      if (mediaPlayer.isPlaying){
+          mediaPlayer.pause()
+      }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        Log.d("TestActivity","onConfigurationChanged 高: ${PhoneTool.dip2px(newConfig?.screenHeightDp?.toFloat()?:0f)} 宽：${PhoneTool.dip2px(newConfig?.screenWidthDp?.toFloat()?:0f)}")
+        Log.d("TestActivity","onConfigurationChanged 高2: ${PhoneTool.screenHeight} 宽2： ${PhoneTool.screenWidth}")
+        videoLayout?.changeSize()
+    }
+
+    override fun onPrepared(mp: MediaPlayer?) {
+      /*  isPrepared=true
+        mp?.apply {
+            start()
+            changeSize()
+        }*/
+    }
+
+
+    fun changeSize(){
+        multiple= min(textureView.width.toDouble()/mediaPlayer.videoWidth.toDouble(),textureView.height.toDouble()/mediaPlayer.videoHeight.toDouble())
+        var textTextureParams:RelativeLayout.LayoutParams= RelativeLayout.LayoutParams((mediaPlayer.videoWidth*multiple).toInt(),(mediaPlayer.videoHeight*multiple).toInt())
+        textTextureParams.addRule(CENTER_IN_PARENT)
+        textureView.layoutParams= textTextureParams
+        textureView.requestLayout()
     }
 
     private fun getStrings(text: String): Array<String> {

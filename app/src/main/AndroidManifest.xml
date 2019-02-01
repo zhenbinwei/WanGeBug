@@ -40,6 +40,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".TestActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            >
+        </activity>
+        <activity
             android:screenOrientation="portrait"
             android:theme="@style/TranslucentFullScreenTheme"
             android:name=".modules.recreation.uis.PicBrowserActivity"/>
@@ -68,10 +73,6 @@
         <activity
             android:name=".tools.permission.PermissionEmptyActivity"
             android:theme="@style/TranslucentFullScreenTheme"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".TestActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity

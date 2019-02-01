@@ -1,6 +1,6 @@
 package com.example.weizhenbin.wangebug.net.retrofit.apiservice
 
-import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanPicBean
+import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanBSBDJBean
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
 import rx.Observable
@@ -13,7 +13,7 @@ interface YiYuanApi {
 
 
     @GET("255-1")
-    fun getData(@QueryMap hashMap: MutableMap<String, String>): Observable<YiYuanPicBean>
+    fun getData(@QueryMap hashMap: MutableMap<String, String>): Observable<YiYuanBSBDJBean>
 
     companion object {
         val BASE_URL = "http://route.showapi.com/"

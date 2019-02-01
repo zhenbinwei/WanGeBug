@@ -9,7 +9,7 @@ import com.example.weizhenbin.wangebug.R
 import com.example.weizhenbin.wangebug.base.BaseSimpleAdapter
 import com.example.weizhenbin.wangebug.image.ImageConfig
 import com.example.weizhenbin.wangebug.image.ImageLoader
-import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanPicBean
+import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanBSBDJBean
 import com.example.weizhenbin.wangebug.modules.recreation.uis.PicBrowserActivity
 import java.util.*
 
@@ -17,7 +17,7 @@ import java.util.*
  * Created by weizhenbin on 2018/8/17.
  */
 
-class YiYuanDataListAdapter(context: Context, @LayoutRes layoutResId: Int, data: List<YiYuanPicBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean>?) : BaseSimpleAdapter<YiYuanPicBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean, BaseViewHolder>(context, layoutResId, data) {
+class YiYuanDataListAdapter(context: Context, @LayoutRes layoutResId: Int, data: List<YiYuanBSBDJBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean>?) : BaseSimpleAdapter<YiYuanBSBDJBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean, BaseViewHolder>(context, layoutResId, data) {
     private  val imageConfig: ImageConfig
 
 
@@ -36,7 +36,7 @@ class YiYuanDataListAdapter(context: Context, @LayoutRes layoutResId: Int, data:
         onItemChildClickListener = OnItemChildClickListener { _, _, position -> PicBrowserActivity.startBrowserActivity(context, picList, position) }
     }
 
-    override fun convert(helper: BaseViewHolder, item: YiYuanPicBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean) {
+    override fun convert(helper: BaseViewHolder, item: YiYuanBSBDJBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean) {
         val ivPic = helper.getView<ImageView>(R.id.iv_pic)
         ImageLoader.getImageLoader().imageLoader(mContext, ivPic, item.image0!!, imageConfig)
 

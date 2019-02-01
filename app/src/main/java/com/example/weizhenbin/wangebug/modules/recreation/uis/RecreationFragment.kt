@@ -37,6 +37,7 @@ class RecreationFragment : BaseFragment() {
     }
 
     private fun addFragments() {
+        fragments.add(YiYuanVideoFragment())
         fragments.add(YiYuanPicFragment())
     }
 

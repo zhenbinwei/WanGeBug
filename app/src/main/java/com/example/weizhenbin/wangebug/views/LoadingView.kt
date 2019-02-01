@@ -7,7 +7,6 @@ import android.graphics.PaintFlagsDrawFilter
 import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import com.example.weizhenbin.wangebug.R
 import com.example.weizhenbin.wangebug.tools.PhoneTool
@@ -17,7 +16,7 @@ import com.example.weizhenbin.wangebug.tools.PhoneTool
  */
 class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
-    private var paint: Paint? = null
+    private var paint: Paint
 
     private var viewWidth: Int = 0
     private var viewHeight: Int = 0
@@ -36,7 +35,7 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     private var index: Int = 0
 
-    private var myHandler: Handler? = null
+    private var myHandler: Handler
 
     init {
         try {
@@ -50,17 +49,13 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-        init()
-    }
-
-    private fun init() {
         paint = Paint()
-        paint!!.isAntiAlias = true
+        paint.isAntiAlias = true
         dotTotalWidth = dotCount * dotRadius * 2 + dotSpace * (dotCount - 1)
         myHandler = AnimHandler(this)
-        myHandler!!.sendEmptyMessage(1)
+        myHandler.sendEmptyMessage(1)
     }
+
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val w = View.MeasureSpec.getSize(widthMeasureSpec)
@@ -70,7 +65,6 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        Log.d("LoadingView", "onDraw" + this.visibility)
         if (viewHeight == 0 || viewWidth == 0) {
             viewHeight = height
             viewWidth = width
@@ -79,9 +73,9 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
         for (i in 0 until dotCount) {
             if (i == index) {
-                paint!!.color = dotFgColor
+                paint.color = dotFgColor
             } else {
-                paint!!.color = dotBgColor
+                paint.color = dotBgColor
             }
             canvas.drawCircle((dotRadius * (2 * i + 1) + i * dotSpace + (viewWidth - dotTotalWidth) / 2).toFloat(), (viewHeight / 2).toFloat(), dotRadius.toFloat(), paint!!)
         }
@@ -89,17 +83,14 @@ class LoadingView @JvmOverloads constructor(context: Context, attrs: AttributeSe
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        Log.d("LoadingView", "onVisibilityChanged$visibility")
-        if (myHandler == null) {
-            return
-        }
+
         if (visibility == View.VISIBLE) {
             //显示的启动动画
-            myHandler!!.removeCallbacksAndMessages(null)
-            myHandler!!.sendEmptyMessage(1)
+            myHandler.removeCallbacksAndMessages(null)
+            myHandler.sendEmptyMessage(1)
         } else {
             //关闭动画
-            myHandler!!.removeCallbacksAndMessages(null)
+            myHandler.removeCallbacksAndMessages(null)
         }
     }
 

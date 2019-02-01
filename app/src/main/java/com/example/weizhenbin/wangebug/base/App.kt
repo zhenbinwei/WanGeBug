@@ -50,7 +50,7 @@ class App : Application() {
         private var activityShow = 0
 
         override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-            Log.d("LifecycleCallback", "onActivityCreated$savedInstanceState")
+          //  Log.d("LifecycleCallback", "onActivityCreated$savedInstanceState")
             activityCount++
             for (appStatusListener in appStatusListeners) {
                 appStatusListener.onActivityCreated(activity, savedInstanceState)
@@ -58,7 +58,7 @@ class App : Application() {
         }
 
         override fun onActivityStarted(activity: Activity?) {
-            Log.d("LifecycleCallback", "onActivityStarted${activity?.javaClass?.simpleName}")
+          //  Log.d("LifecycleCallback", "onActivityStarted${activity?.javaClass?.simpleName}")
             activityShow++
             if (activityShow > 0) {
                 Log.d("LifecycleCallback", "应用处于前台")
@@ -72,21 +72,21 @@ class App : Application() {
         }
 
         override fun onActivityResumed(activity: Activity?) {
-            Log.d("LifecycleCallback", "onActivityResumed" + activity?.javaClass?.simpleName)
+           // Log.d("LifecycleCallback", "onActivityResumed" + activity?.javaClass?.simpleName)
             for (appStatusListener in appStatusListeners) {
                 appStatusListener.onActivityResumed(activity)
             }
         }
 
         override fun onActivityPaused(activity: Activity?) {
-            Log.d("LifecycleCallback", "onActivityPaused" + activity?.javaClass?.simpleName)
+           // Log.d("LifecycleCallback", "onActivityPaused" + activity?.javaClass?.simpleName)
             for (appStatusListener in appStatusListeners) {
                 appStatusListener.onActivityPaused(activity)
             }
         }
 
         override fun onActivityStopped(activity: Activity?) {
-            Log.d("LifecycleCallback", "onActivityStopped" + activity?.javaClass?.simpleName)
+          //  Log.d("LifecycleCallback", "onActivityStopped" + activity?.javaClass?.simpleName)
             activityShow--
             if (activityShow <= 0) {
                 Log.d("LifecycleCallback", "应该即将退出后台")
@@ -107,7 +107,7 @@ class App : Application() {
 
         override fun onActivityDestroyed(activity: Activity?) {
             //对于直接杀进程 并不会调用onActivityDestroyed
-            Log.d("LifecycleCallback", "onActivityDestroyed" + activity?.javaClass?.simpleName)
+          //  Log.d("LifecycleCallback", "onActivityDestroyed" + activity?.javaClass?.simpleName)
             activityCount--
             if (activityCount <= 0) {
                 Log.d("LifecycleCallback", "应用退出")

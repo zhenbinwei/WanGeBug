@@ -9,7 +9,7 @@ import com.example.weizhenbin.wangebug.base.BaseFragment
 import com.example.weizhenbin.wangebug.base.DataResultAdapter
 import com.example.weizhenbin.wangebug.modules.recreation.adapters.YiYuanDataListAdapter
 import com.example.weizhenbin.wangebug.modules.recreation.controllers.JokeController
-import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanPicBean
+import com.example.weizhenbin.wangebug.modules.recreation.entity.YiYuanBSBDJBean
 import java.util.*
 
 /**
@@ -23,7 +23,7 @@ class YiYuanPicFragment : BaseFragment() {
     lateinit var listAdapter: YiYuanDataListAdapter
     internal var page = 1
 
-    internal var contentListBeen: MutableList<YiYuanPicBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> = ArrayList()
+    internal var contentListBeen: MutableList<YiYuanBSBDJBean.ShowapiResBodyBean.PagebeanBean.ContentlistBean> = ArrayList()
 
 
     override val contentViewLayoutId: Int
@@ -63,23 +63,23 @@ class YiYuanPicFragment : BaseFragment() {
     }
 
     private fun getData() {
-        JokeController.getYiYuanPicData(page, object : DataResultAdapter<YiYuanPicBean>() {
+        JokeController.getYiYuanPicData("10",page, object : DataResultAdapter<YiYuanBSBDJBean>() {
 
-            override fun onSuccess(yiYuanPicBean: YiYuanPicBean?) {
-                super.onSuccess(yiYuanPicBean)
+            override fun onSuccess(yiYuanBSBDJBean: YiYuanBSBDJBean?) {
+                super.onSuccess(yiYuanBSBDJBean)
                 srlRefresh.isRefreshing = false
-                if (yiYuanPicBean != null && yiYuanPicBean.showapi_res_code == 0) {
-                    if (yiYuanPicBean.showapi_res_body != null && yiYuanPicBean.showapi_res_body!!.pagebean != null) {
+                if (yiYuanBSBDJBean != null && yiYuanBSBDJBean.showapi_res_code == 0) {
+                    if (yiYuanBSBDJBean.showapi_res_body != null && yiYuanBSBDJBean.showapi_res_body!!.pagebean != null) {
                         if (page == 1) {
                             contentListBeen.clear()
                         }
-                        contentListBeen.addAll(yiYuanPicBean.showapi_res_body!!.pagebean?.contentlist!!)
+                        contentListBeen.addAll(yiYuanBSBDJBean.showapi_res_body!!.pagebean?.contentlist!!)
                         if (page == 1) {
                             listAdapter.setNewData(contentListBeen)
                         } else {
                             listAdapter.notifyDataSetChanged()
                         }
-                        if (yiYuanPicBean.showapi_res_body!!.pagebean?.isLastPage!!) {
+                        if (yiYuanBSBDJBean.showapi_res_body!!.pagebean?.isLastPage!!) {
                             listAdapter.loadMoreEnd()
                         } else {
                             listAdapter.loadMoreComplete()

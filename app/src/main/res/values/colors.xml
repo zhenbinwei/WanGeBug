@@ -7,6 +7,7 @@
     <color name="colorWhite">#fff</color>
     <color name="colorWhite150a">#96ffffff</color>
     <color name="colorWhite100a">#64ffffff</color>
+    <color name="colorWhite30a">#1effffff</color>
     <color name="colorBlack">#000</color>
     <color name="colorBlack40a">#28000000</color>
     <color name="colorBlack100a">#64000000</color>
