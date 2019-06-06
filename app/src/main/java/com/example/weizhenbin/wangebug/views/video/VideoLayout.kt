@@ -32,7 +32,8 @@ class VideoLayout @JvmOverloads constructor(context: Context?, attrs: AttributeS
     private var mediaPlayer: MediaPlayer
     private var surfaceTexture: SurfaceTexture? = null
     private var mSurface: Surface? = null
-    private var path: String = "http://mvideo.spriteapp.cn/video/2018/1211/d64da792-fcfb-11e8-8daa-d4ae5296039d_wpc.mp4"
+   // private var path: String = "http://mvideo.spriteapp.cn/video/2018/1211/d64da792-fcfb-11e8-8daa-d4ae5296039d_wpc.mp4"
+    private var path: String = "http://7xlv47.com1.z0.glb.clouddn.com/xxx004.m3u8"
     private var tvCurrentProgress:TextView
     private var tvTotalProgress:TextView
     private var ivPlayController:ImageView

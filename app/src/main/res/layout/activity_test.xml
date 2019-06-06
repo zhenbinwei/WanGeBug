@@ -34,7 +34,6 @@
     android:id="@+id/video_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone"
     ></com.example.weizhenbin.wangebug.views.video.VideoLayout>
 
     <Button
