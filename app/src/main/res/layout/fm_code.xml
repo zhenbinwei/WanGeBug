@@ -40,6 +40,5 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="start"
         android:background="@color/colorWhite"
-        app:itemBackground="@drawable/click_pressed_white"
         app:menu="@menu/bottom_navigation_items" />
 </RelativeLayout>

@@ -63,7 +63,7 @@ class CodeHomeFragment : BaseFragment() {
                         } else {
                             listAdapter.notifyDataSetChanged()
                         }
-                        if (articleListDataBean.data!!.isOver) {
+                        if (articleListDataBean.data!!.over) {
                             listAdapter.loadMoreEnd()
                         } else {
                             listAdapter.loadMoreComplete()

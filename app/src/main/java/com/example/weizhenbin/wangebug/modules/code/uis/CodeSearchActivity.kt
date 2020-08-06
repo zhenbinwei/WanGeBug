@@ -152,7 +152,7 @@ class CodeSearchActivity : BaseActivity() {
                         } else {
                             listAdapter.notifyDataSetChanged()
                         }
-                        if (t.data!!.isOver) {
+                        if (t.data!!.over) {
                             listAdapter.loadMoreEnd()
                         } else {
                             listAdapter.loadMoreComplete()
@@ -185,7 +185,7 @@ class CodeSearchActivity : BaseActivity() {
         }
         ivClean.setOnClickListener { editText.setText("") }
         rvDataList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 SoftKeyboardTool.hideSoftKeyboard(this@CodeSearchActivity)
             }

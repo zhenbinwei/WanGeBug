@@ -114,7 +114,7 @@ class ProjectListFragment : BaseFragment() {
                         } else {
                             listAdapter!!.notifyDataSetChanged()
                         }
-                        if (projectListDataBean.data!!.isOver) {
+                        if (projectListDataBean.data!!.over) {
                             listAdapter!!.loadMoreEnd()
                         } else {
                             listAdapter!!.loadMoreComplete()

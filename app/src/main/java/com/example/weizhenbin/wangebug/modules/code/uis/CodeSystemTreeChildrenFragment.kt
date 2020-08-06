@@ -26,10 +26,10 @@ class CodeSystemTreeChildrenFragment : BaseFragment() {
      var datasBeen: MutableList<ArticleListDataBean.DataBean.DatasBean> = ArrayList()
      var cid: Int = 0
 
-    override var pageTitle: String? = ""
+  /*  override var pageTitle: String? = ""
         set(value) {
             super.pageTitle = value
-        }
+        }*/
 
 
     override val contentViewLayoutId: Int
@@ -64,7 +64,7 @@ class CodeSystemTreeChildrenFragment : BaseFragment() {
                         } else {
                             listAdapter.notifyDataSetChanged()
                         }
-                        if (t.data!!.isOver) {
+                        if (t.data!!.over) {
                             listAdapter.loadMoreEnd()
                         } else {
                             listAdapter.loadMoreComplete()

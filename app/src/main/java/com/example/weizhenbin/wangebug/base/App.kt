@@ -12,7 +12,6 @@ import com.example.weizhenbin.wangebug.views.floatingwindow.TodoFloatingWindowMa
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.beta.Beta
 import io.objectbox.BoxStore
-import io.objectbox.android.AndroidObjectBrowser
 import java.util.*
 
 /**
@@ -34,7 +33,7 @@ class App : Application() {
 
     private fun initObjectBox() {
         boxStore = MyObjectBox.builder().androidContext(this).build()
-        AndroidObjectBrowser(boxStore).start(this)
+      //  AndroidObjectBrowser(boxStore).start(this)
     }
 
     private fun initBugly() {

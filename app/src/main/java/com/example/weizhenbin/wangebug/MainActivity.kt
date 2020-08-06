@@ -106,32 +106,32 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             when (currentModule) {
                 RECREATION_MODULE -> {
                     if (!recreationFragment!!.isAdded) {
-                        transaction.add(R.id.fl_content, recreationFragment, RecreationFragment::class.java.simpleName)
+                        transaction.add(R.id.fl_content, recreationFragment!!, RecreationFragment::class.java.simpleName)
                     }
-                    transaction.show(recreationFragment)
+                    transaction.show(recreationFragment!!)
                     transaction.commit()
                 }
                 NEWS_MODULE -> {
                     if (!newsFragment!!.isAdded) {
-                        transaction.add(R.id.fl_content, newsFragment, NewsFragment::class.java.simpleName)
+                        transaction.add(R.id.fl_content, newsFragment!!, NewsFragment::class.java.simpleName)
                     }
-                    transaction.show(newsFragment)
+                    transaction.show(newsFragment!!)
                     transaction.commit()
                 }
                 else -> {
                     if (!codeFragment!!.isAdded) {
-                        transaction.add(R.id.fl_content, codeFragment, CodeFragment::class.java.simpleName)
+                        transaction.add(R.id.fl_content, codeFragment!!, CodeFragment::class.java.simpleName)
                     }
-                    transaction.show(codeFragment)
+                    transaction.show(codeFragment!!)
                     transaction.commit()
                 }
             }
 
         } else {
             if (!codeFragment!!.isAdded) {
-                transaction.add(R.id.fl_content, codeFragment, CodeFragment::class.java.simpleName)
+                transaction.add(R.id.fl_content, codeFragment!!, CodeFragment::class.java.simpleName)
             }
-            transaction.show(codeFragment)
+            transaction.show(codeFragment!!)
             transaction.commit()
         }
     }
@@ -144,13 +144,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun hideAllFragment() {
         val transaction = fragmentManager.beginTransaction()
         if (codeFragment != null && codeFragment!!.isAdded) {
-            transaction.hide(codeFragment)
+            transaction.hide(codeFragment!!)
         }
         if (newsFragment != null && newsFragment!!.isAdded) {
-            transaction.hide(newsFragment)
+            transaction.hide(newsFragment!!)
         }
         if (recreationFragment != null && recreationFragment!!.isAdded) {
-            transaction.hide(recreationFragment)
+            transaction.hide(recreationFragment!!)
         }
         transaction.commit()
     }

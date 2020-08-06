@@ -15,7 +15,7 @@ interface IImageLoader {
 
     fun imageLoader(context: Context, imageView: ImageView, url: String, iImageLoadListener: IImageLoadListener?)
 
-    fun imageLoader(context: Context, imageView: ImageView, url: String, imageConfig: ImageConfig?, iImageLoadListener: IImageLoadListener?)
+    fun imageLoader(context: Context, imageView: ImageView, url: String,imageConfig: ImageConfig?, iImageLoadListener: IImageLoadListener?)
 
 
     fun loadBitmap(context: Context, url: String, iImageLoadListener: IImageLoadListener?)

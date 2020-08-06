@@ -26,7 +26,6 @@ abstract class BaseFragment : Fragment() {
     protected abstract val contentViewLayoutId: Int
 
    open var pageTitle: String? = ""
-       get() = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -38,6 +37,7 @@ abstract class BaseFragment : Fragment() {
             initFragment(rootView)
         }
 
+        Log.d("App","当前页面:${this.javaClass.simpleName}")
         return rootView
     }
 

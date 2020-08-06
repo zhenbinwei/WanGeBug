@@ -3,6 +3,7 @@ package com.example.weizhenbin.wangebug.base
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.MotionEvent
 import android.view.WindowManager
 
@@ -18,6 +19,7 @@ abstract class BaseActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
+        Log.d("App","当前页面：${this.javaClass.simpleName}")
     }
 
 
